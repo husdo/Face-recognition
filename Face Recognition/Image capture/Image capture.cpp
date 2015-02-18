@@ -40,7 +40,7 @@ int main(int argc, const char** argv)
 		return -1;
 	bool record = false; // if it's turns true it will start to record files.
 
-	Rect* cut= new Rect(0, 0, 0, 0);
+	Rect* cut= new Rect(0, 0, 0, 0); // the selection rectangle
 	namedWindow("Webcam image", 1);
 	setMouseCallback("Webcam image", CallBackFunc, (void*)cut); // mouse callback with rectangle parameter
 
