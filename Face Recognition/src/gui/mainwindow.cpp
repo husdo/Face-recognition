@@ -93,7 +93,6 @@ QGroupBox* MainWindow::groupImage_creation(){
     cvWidget->setMinimumSize(640,480);
     textResults = new QPlainTextEdit();
     textResults->setMinimumWidth(400);
-    //textResults->setEnabled(false);
     layout->addWidget(cvWidget);
     layout->addWidget(textResults);
     group->setLayout(layout);
