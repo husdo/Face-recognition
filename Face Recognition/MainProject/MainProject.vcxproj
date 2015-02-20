@@ -100,6 +100,7 @@ $(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx</Command>
     <ClInclude Include="include\cvwidget.h" />
     <ClInclude Include="include\dirent.h" />
     <ClInclude Include="include\mainwindow.h" />
+    <ClInclude Include="label_files.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +110,7 @@ $(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx</Command>
     <ClCompile Include="gui\moc_cvwidget.cxx" />
     <ClCompile Include="gui\moc_mainwindow.cxx" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="label_files.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
