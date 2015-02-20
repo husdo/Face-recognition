@@ -56,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(QtDirectory)\include\QtGui;$(QtDirectory)\include\QtWidgets;$(QtDirectory)\include\QtCore;.\include;$(QtDirectory)\include;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QtDirectory)\include\bin;$(QtDirectory)\include\QtANGLE;$(QtDirectory)\include\QtGui;$(QtDirectory)\include\QtWidgets;$(QtDirectory)\include\QtCore;.\include;$(QtDirectory)\include;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -68,6 +68,9 @@
       <Command>$(QtDirectory)\bin\moc include\mainwindow.h -o gui\moc_mainwindow.cxx
 $(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx</Command>
     </PreBuildEvent>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

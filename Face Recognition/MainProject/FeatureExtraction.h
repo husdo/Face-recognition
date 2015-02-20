@@ -12,8 +12,8 @@ private:
 	Image* image;
 
 protected:
-	virtual Mat featureExtraction();
-	
+	virtual Mat featureExtraction(){ return Mat(); }
+
 	FeatureExtraction();
 	~FeatureExtraction();
 public:
