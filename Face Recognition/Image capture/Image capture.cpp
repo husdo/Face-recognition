@@ -24,7 +24,7 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata)
 	{
 		if (x > ((Rect*)userdata)->x){
 			((Rect*)userdata)->width = x - ((Rect*)userdata)->x;
-			((Rect*)userdata)->height = ((Rect*)userdata)->width*1.33333;
+			((Rect*)userdata)->height = ((Rect*)userdata)->width;
 		}
 		else{
 			((Rect*)userdata)->width = 0;
