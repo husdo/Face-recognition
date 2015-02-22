@@ -33,7 +33,8 @@ public:
 	cv::Mat* getGrayImage(unsigned int i);
 	int getLabel(unsigned int i) const;
 
-
+	int dir2label(std::string dir);
+	std::string label2dir(int label);
 };
 
 std::vector<std::string> Images::getDirectory(std::string path, bool directory/* =0 */){
@@ -157,4 +158,12 @@ int Images::getLabel(unsigned int i) const{
 	if (i >= this->size())
 		return NULL;
 	return(labels[i]);
+}
+
+int Images::dir2label(std::string dir){
+	return (directory2label[dir]);
+}
+
+std::string Images::label2dir(int label){
+	return (label2directory[label]);
 }

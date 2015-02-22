@@ -102,6 +102,7 @@ $(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx</Command>
     <ClInclude Include="include\mainwindow.h" />
     <ClInclude Include="label_files.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TestEigenFaces.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classificator.cpp" />
