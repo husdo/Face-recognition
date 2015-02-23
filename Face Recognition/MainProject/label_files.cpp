@@ -18,7 +18,7 @@
 using namespace std;
 using namespace cv;
 
-int extractNb(const string& str)
+inline int extractNb(const string& str)
 {
 	char c;
 	int number;
@@ -28,7 +28,7 @@ int extractNb(const string& str)
 	return number;
 }
 
-bool stringCompare(const string &left, const string &right){
+inline bool stringCompare(const string &left, const string &right){
 	int nbL = extractNb(left);
 	int nbR = extractNb(right);
 	return (nbL < nbR);

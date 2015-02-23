@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "Images.h"
 #include "Facial_Recognizer.h"
-#include "TestEigenFaces.h"
+#include "EigenFaces.h"
 
 
 
@@ -17,8 +17,8 @@ int main(int argc, char** argv)
     MainWindow mainWindow;
     mainWindow.show();
 	return app.exec();*/
-	Images Imgs("ATT_ImgDatabase/");  //test call
-	TestEigenFaces first;
+	Images Imgs("../Debug/ATT_ImgDatabase/");  //test call
+	EigenFaces first;
 	first.training(Imgs);
 	//first.load();
 	first.validation(Imgs,GrayImg);
