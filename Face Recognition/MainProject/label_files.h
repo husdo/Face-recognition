@@ -1,3 +1,6 @@
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif//for strcpy
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,9 +17,23 @@ using namespace std;
 using namespace cv;
 
 /**
+* for folder named like s1,s2,s3, extract the number after the first chracter
+* @param string : string to extract the number from
+* @return integer
+*/
+int extractNb(const string& str);
+/**
+* compare two string (compare two numbers extracted from the strings)
+* @param left : first string
+* @param right : second string
+* @see int extractNb(const string& str);
+* @return bool according to which number is the biggest
+*/
+bool stringCompare(const string &left, const string &right);
+/**
 * call the recursive function to iterate through the training images
 * change the pathImage vector : relative path from visual studio to the image
-* change the label (one label for each folder). 
+* change the label (one label for each folder).
 * ith image has pathImage[i] for path and labels[i] label
 * @param globalPath : string relating to the folder to analyse ex: "../training_set" (no / at the end)
 * @param pathImages pointer to a vector of string containing the paths of images
@@ -43,7 +60,7 @@ void labelTrainingData(string globalPath, vector<string> *pathImages, vector<int
 * @param labels pointer to a vector of int containing the label : one label for each folder
 * @see int testDir(string fchemin);
 */
-void recursSearch(string globalPath, vector<string> *pathImages, vector<int> *labels,int* labelCount);
+void recursSearch(string globalPath, vector<string> *pathImages, vector<int> *labels, int* labelCount);
 /**
 * test if the folder related to a path is a folder or file
 * @param globalPath : string relating to the folder to analyse ex: "../training_set" (no / at the end)
@@ -52,3 +69,9 @@ void recursSearch(string globalPath, vector<string> *pathImages, vector<int> *la
 * @return integer : 0 if it is a directory, 1 otherwise
 */
 int testDir(string globalPath);
+/**
+* give a vector of grayscale image from a vector of paths of images
+* @param pathImages : adress of a vector of paths
+* @param images : adress of a vector of grayscale images (output)
+*/
+void pathsToGreyImages(vector<string> *pathImages, vector<Mat> *images);
