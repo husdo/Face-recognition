@@ -95,6 +95,7 @@ $(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classificator.h" />
+    <ClInclude Include="EigenFaces.h" />
     <ClInclude Include="Facial_Recognizer.h" />
     <ClInclude Include="Images.h" />
     <ClInclude Include="include\cvwidget.h" />

@@ -4,12 +4,20 @@
 #include "cv.h"
 #include "highgui.h"
 #include "dirent.h"
+#include "resultdialogbox.h"
+#include "TestEigenFaces.h"
 
 using namespace cv;
 
 
-MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(0)
+MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(0), webcam(0)
 {
+    // creation of the recognizers
+    recognizers.push_back(new TestEigenFaces());
+	recognizers.push_back(new TestEigenFaces());
+	recognizers.push_back(new TestEigenFaces());
+	recognizers.push_back(new TestEigenFaces());
+
     //creation of the menu
     QMenu* file = menuBar()->addMenu("&file");
     //creation of the different actions
@@ -24,6 +32,9 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     connect(load,SIGNAL(triggered()),this,SLOT(load_classifier())); // load slot
     connect(exit,SIGNAL(triggered()),qApp,SLOT(quit())); //exit
 
+    webcam = new Webcam();
+    connect(webcam,SIGNAL(imageChanged()),this,SLOT(live_webcam()));
+
 
     mainLayout = new QVBoxLayout();
 
@@ -31,19 +42,45 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     QGroupBox* groupPath = groupPath_creation();
     QGroupBox* groupImage = groupImage_creation();
 
+    //Trigger button
+    pictureButton = new QPushButton("Take Picture");
+    //pictureButton->setMaximumWidth(200);
+	pictureButton->setEnabled(false);
+
+    connect(pictureButton,SIGNAL(clicked()),this,SLOT(takePicture()));
+
     mainLayout->addWidget(groupPath);
     mainLayout->addWidget(groupImage);
+    mainLayout->addWidget(pictureButton);
     mainWidget = new QWidget();
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
+
+    if(webcam->isOpened()){
+        webcam->run();
+    }
 }
 
 void MainWindow::save_classifier(){
-
+	QString filename = QFileDialog::getSaveFileName(this,tr("Save Classifier"));
+	if(filename != ""){
+		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
+		current_recognizer->save(filename.toStdString());
+		printMsg("Recognizer saved successfully!");
+	}
+	else
+		printMsg("Failed to save the recognizer!");
 }
 
 void MainWindow::load_classifier(){
-
+	QString filename = QFileDialog::getOpenFileName(this,tr("Save Classifier"));
+	if(filename != ""){
+		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
+		current_recognizer->load(filename.toStdString());
+		printMsg("Recognizer loaded successfully!");
+	}
+	else
+		printMsg("Failed to load the recognizer!");
 }
 
 QGroupBox* MainWindow::groupPath_creation(){
@@ -53,19 +90,32 @@ QGroupBox* MainWindow::groupPath_creation(){
     training_path = new QLineEdit();
     QLabel* training_label = new QLabel("training directory: ");
     validation_path = new QLineEdit();
-    QPushButton* training_pathButton = new QPushButton("...");
+    QPushButton*  training_pathButton = new QPushButton("...");
+    training_pathButton->setObjectName("button");
     training_pathButton->setMaximumWidth(50);
     QLabel* validation_label = new QLabel("validation directory: ");
     QPushButton* validation_pathButton = new QPushButton("...");
+    validation_pathButton->setObjectName("button");
     validation_pathButton->setMaximumWidth(50);
-    QPushButton* trainingButton = new QPushButton("Training");
+    trainingButton = new QPushButton("Training");
     trainingButton->setMaximumWidth(200);
-    QPushButton* validationButton = new QPushButton("Validation");
+    validationButton = new QPushButton("Validation");
     validationButton->setMaximumWidth(200);
+	validationButton->setEnabled(false);
+    QLabel* method_label = new QLabel("method: ");
+    methods_list = new QComboBox();
+    methods_list->addItem("EigenFaces");
+    methods_list->addItem("FiserFaces");
+    methods_list->addItem("Decision tree");
+    methods_list->addItem("CNN");
+    methods_list->setMaximumWidth(200);
+	connect(methods_list,SIGNAL(currentIndexChanged(int)),this,SLOT(method_changed(int)));
 
     //connexions
     connect(training_pathButton,SIGNAL(clicked()),this,SLOT(setTrainingPath()));
     connect(validation_pathButton,SIGNAL(clicked()),this,SLOT(setValidationPath()));
+    connect(training_path,SIGNAL(editingFinished()),this,SLOT(setTrainingPath()));
+    connect(validation_path,SIGNAL(editingFinished()),this,SLOT(setValidationPath()));
     connect(trainingButton,SIGNAL(clicked()),this,SLOT(training()));
     connect(validationButton,SIGNAL(clicked()),this,SLOT(validation()));
 
@@ -79,6 +129,8 @@ QGroupBox* MainWindow::groupPath_creation(){
     pathLayout->addWidget(validation_pathButton,1,2);
     pathLayout->addWidget(trainingButton,0,3);
     pathLayout->addWidget(validationButton,1,3);
+    pathLayout->addWidget(method_label,2,0);
+    pathLayout->addWidget(methods_list,2,1);
     groupPath->setLayout(pathLayout);
 
     return groupPath;
@@ -92,6 +144,7 @@ QGroupBox* MainWindow::groupImage_creation(){
     cvWidget = new CVWidget(this);
     cvWidget->setMinimumSize(640,480);
     textResults = new QPlainTextEdit();
+    textResults->setReadOnly(true);
     textResults->setMinimumWidth(400);
     layout->addWidget(cvWidget);
     layout->addWidget(textResults);
@@ -101,61 +154,73 @@ QGroupBox* MainWindow::groupImage_creation(){
 }
 
 void MainWindow::setTrainingPath(){
-    trainingFolder = QFileDialog::getExistingDirectory(this);
-    if(trainingFolder!="")
-        training_path->setText(trainingFolder);
+    if(sender()->objectName() =="button"){
+        trainingFolder = QFileDialog::getExistingDirectory(this);
+        if(trainingFolder != "")
+            training_path->setText(trainingFolder);
+    }
+    else
+        trainingFolder = training_path->text();
 }
 
 void MainWindow::setValidationPath(){
-    validationFolder = QFileDialog::getExistingDirectory(this);
-    if(validationFolder!="")
-        validation_path->setText(validationFolder);
+    if(sender()->objectName() =="button"){
+        validationFolder = QFileDialog::getExistingDirectory(this);
+        if(validationFolder != "")
+            validation_path->setText(validationFolder);
+    }
+    else
+        validationFolder = validation_path->text();
 }
 
 void MainWindow::live_webcam(){
+
+    cvWidget->showImage(webcam->getImage());
 }
 
 void MainWindow::training(){
     if(trainingFolder!=""){
+		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
+		Images imgs(validationFolder.toStdString());
+		current_recognizer->training(imgs);
+		validationButton->setEnabled(true);
+		pictureButton->setEnabled(true);
         printMsg("Training with folder: "+trainingFolder);
-
-        DIR *dpdf;
-        struct dirent *epdf;
-        int nb=0;
-        Mat src;
-
-        dpdf = opendir(trainingFolder.toStdString().c_str());
-        if (dpdf != NULL){
-            while (epdf = readdir(dpdf)){
-
-                ////////////////////////////////////////////////////////////////////////
-
-                QString filename(trainingFolder+"/");
-
-                filename.append(epdf->d_name);
-                src = imread(filename.toStdString());
-
-                textResults->appendPlainText(epdf->d_name);
-                if(!src.empty()){
-                    cvWidget->showImage(src);
-                    waitKey(0);
-                }
-
-                ///////////////////////////////////////////////////////////////////////
-            }
-        }
     }
     else
         printMsg("Invalid folder");
 }
 
 void MainWindow::validation(){
-    if(validationFolder!="")
+    if(validationFolder!=""){
+		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
+		Images imgs(validationFolder.toStdString());
+		current_recognizer->validation(imgs);
         printMsg("Validation with folder: "+validationFolder);
+	}
     else
         printMsg("Invalid folder");
 }
 
 void MainWindow::printMsg(QString msg){
     textResults->appendPlainText(msg);
+}
+
+void MainWindow::takePicture(){
+    cv::Mat img = webcam->getCroppedImage();
+	Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
+    ResultDialogBox* box = new ResultDialogBox(img,current_recognizer,this);
+    box->exec();
+}
+
+void MainWindow::method_changed(int i){
+	Facial_Recognizer* current_recognizer = recognizers[i];
+	if(current_recognizer->isTrained()){
+		validationButton->setEnabled(true);
+		pictureButton->setEnabled(true);
+	}
+	else{
+		validationButton->setEnabled(false);
+		pictureButton->setEnabled(false);
+	}
 }

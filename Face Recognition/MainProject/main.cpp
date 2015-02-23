@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "Images.h"
 #include "Facial_Recognizer.h"
-#include "TestEigenFaces.h"
+#include "EigenFaces.h"
 
 
 

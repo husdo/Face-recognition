@@ -3,8 +3,13 @@
 
 #include <QtWidgets>
 #include <QVBoxLayout>
+#include <vector>
 
+#include "Facial_Recognizer.h"
 #include "cvwidget.h"
+#include "webcam.h"
+
+using namespace std;
 
 
 class MainWindow : public QMainWindow
@@ -21,10 +26,18 @@ class MainWindow : public QMainWindow
         CVWidget* cvWidget;
         QLineEdit* training_path;
         QLineEdit* validation_path;
+        QComboBox* methods_list;
+		QPushButton* trainingButton;
+		QPushButton* validationButton;
+		QPushButton* pictureButton;
 
         QString trainingFolder;
         QString validationFolder;
         QPlainTextEdit* textResults;
+
+        vector<Facial_Recognizer*> recognizers;
+
+        Webcam* webcam;
 
         QGroupBox* groupPath_creation();
         QGroupBox* groupImage_creation();
@@ -35,8 +48,9 @@ class MainWindow : public QMainWindow
         void load_classifier();
         void setTrainingPath();
         void setValidationPath();
-
+		void method_changed(int);
         void live_webcam();
+        void takePicture();
         void training();
         void validation();
 
