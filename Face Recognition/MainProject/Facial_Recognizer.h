@@ -16,49 +16,6 @@ public:
 
 	Facial_Recognizer();
 	~Facial_Recognizer();
+private:
+    bool trained;
 };
-
-Facial_Recognizer::Facial_Recognizer() {}
-
-Facial_Recognizer::~Facial_Recognizer() {}
-
-std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType type /*= ColorImg*/)
-{
-	int result,label;
-	double confidence;
-	std::map<int,double> CrossValidation;
-	std::map<int,double> Counter;
-	for (unsigned int Iterator = 0; Iterator < InputImages.size(); ++Iterator){
-		label = InputImages.getLabel(Iterator);
-		confidence = 0.0;
-		if (type == ColorImg)
-			result = predict(&confidence,InputImages.getColorImage(Iterator));
-		else
-			result = predict(&confidence, InputImages.getGrayImage(Iterator));
-		
-
-		if (result == label)
-		{
-			CrossValidation[label]++;
-			Counter[label]++;
-		}
-		else
-		{
-			Counter[label]++;
-		}
-
-	}
-	for (unsigned int iter = 0; iter < Counter.size(); ++iter){
-		CrossValidation[iter] /= Counter[iter];
-	}
-
-	std::printf("*****************************************\n");
-	std::printf("** The result of the validation:       **\n");
-	std::printf("*****************************************\n");
-	for (unsigned int iter = 0; iter < Counter.size(); ++iter)
-		std::cout<<InputImages.label2dir(iter)<<": "<<CrossValidation[iter]<<std::endl;
-	std::printf("*****************************************\n");
-
-	return std::vector<double>(0);
-}
-
