@@ -180,12 +180,17 @@ void MainWindow::live_webcam(){
 
 void MainWindow::training(){
     if(trainingFolder!=""){
+        webcam->stop();
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(validationFolder.toStdString());
+		Images imgs(trainingFolder.toStdString());
+		std::vector<cv::Mat> vect_imgs  = imgs.getColorImages();
+		for(int i =0;i<vect_imgs.size();i++)
+            cvWidget->showImage(vect_imgs[i]);
 		current_recognizer->training(imgs);
 		validationButton->setEnabled(true);
 		pictureButton->setEnabled(true);
         printMsg("Training with folder: "+trainingFolder);
+        webcam->start();
     }
     else
         printMsg("Invalid folder");

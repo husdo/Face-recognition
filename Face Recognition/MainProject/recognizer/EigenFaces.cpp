@@ -25,9 +25,11 @@ void EigenFaces::training(Images& InputImages){
 */
 int EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
 {
+    Mat grayImg;
+    cvtColor(InputImage,grayImg,CV_BGR2GRAY);
 	int predictedLabel = -1;
 	(*confidence) = 0.0;
-	Recognizer->predict(InputImage, predictedLabel, (*confidence));
+	Recognizer->predict(grayImg, predictedLabel, (*confidence));
 	return predictedLabel;
 }
 
