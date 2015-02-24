@@ -10,7 +10,7 @@ private:
 
 public:
 	void training(Images& InputImages);
-	int predict(cv::Mat* InputImage);
+	int predict(double* confidence, const cv::Mat& InputImage);
 	void save(std::string path = "") const; // if the path is empty you should save the classifier next to the exe with your own file format
 	void load(std::string path = ""); // if the path is empty you should load the classifier from the default place.
 	TestEigenFaces();
@@ -27,17 +27,12 @@ TestEigenFaces::~TestEigenFaces()
 }
 
 void TestEigenFaces::training(Images& InputImages){
-	std::vector<cv::Mat> TrainImages;
-	for (unsigned int ImageIterator = 0; ImageIterator < InputImages.size(); ++ImageIterator)
-	{
-		TrainImages.push_back(*InputImages.getGrayImage(ImageIterator));
-	}
-	Recognizer->train(TrainImages, InputImages.getLabels());
+	Recognizer->train(InputImages.getGrayImages(), InputImages.getLabels());
 }
 
-int TestEigenFaces::predict(cv::Mat* InputImage)
+int TestEigenFaces::predict(double* confidence, const cv::Mat& InputImage)
 {
-	return (Recognizer->predict(*InputImage));
+	return (Recognizer->predict(InputImage));
 }
 
 void TestEigenFaces::save(std::string path /* = "" */) const

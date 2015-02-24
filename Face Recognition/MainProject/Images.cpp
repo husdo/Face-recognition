@@ -44,27 +44,23 @@ Images::Images(std::string path){
 
 	for (unsigned int DirectoryIterator = 0; DirectoryIterator < files.size(); ++DirectoryIterator)
 	for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
-		cv::Mat* tmpImg = new cv::Mat();
-		*tmpImg = cv::imread(files[DirectoryIterator][FileIterator],CV_8SC3);
+		cv::Mat tmpImg;
+		tmpImg = cv::imread(files[DirectoryIterator][FileIterator],CV_8SC3);
 		ColorImages.push_back(tmpImg);
-		GrayImages.push_back(NULL);
+		GrayImages.push_back(cv::Mat());
 		labels.push_back(DirectoryIterator);
 	}
 }
 
 Images::~Images(){
-	for (unsigned int i = 0; i < ColorImages.size(); i++){
-		delete(ColorImages[i]);
-		delete(GrayImages[i]);
-	}
 
 }
 
 void Images::addImage(cv::Mat& ColorImage, int& label){
-	cv::Mat* tmpImage = new cv::Mat(ColorImage);
-	ColorImage.copyTo(*tmpImage);
+	cv::Mat tmpImage;
+	ColorImage.copyTo(tmpImage);
 	ColorImages.push_back(tmpImage);
-	GrayImages.push_back(NULL);
+	GrayImages.push_back(cv::Mat());
 	labels.push_back(label);
 }
 
@@ -72,19 +68,19 @@ unsigned int Images::size() const{
 	return ColorImages.size();
 }
 
-std::vector<cv::Mat*> Images::getColorImages() const
+std::vector<cv::Mat> Images::getColorImages() const
 {
 	return(ColorImages);
 }
 
-std::vector<cv::Mat*> Images::getGrayImages()
+std::vector<cv::Mat> Images::getGrayImages()
 {
 	if (this->size() == 0)
-		return std::vector<cv::Mat*>(0);
-	if (GrayImages[0] == NULL)
+		return std::vector<cv::Mat>(0);
+	if (GrayImages.empty())
 	{
 		for (unsigned int ImageIterator = 0; ImageIterator < this->size(); ++ImageIterator){
-			cv::cvtColor(*ColorImages[ImageIterator], *GrayImages[ImageIterator], CV_RGBA2GRAY);
+			cv::cvtColor(ColorImages[ImageIterator], GrayImages[ImageIterator], CV_RGBA2GRAY);
 		}
 	}
 
@@ -96,21 +92,19 @@ std::vector<int> Images::getLabels() const
 	return(labels);
 }
 
-cv::Mat* Images::getColorImage(unsigned int i) const{
+cv::Mat Images::getColorImage(unsigned int i) const{
 	if (i >= this->size())
-		return NULL;
+		return cv::Mat();
 	return(ColorImages[i]);
 }
 
-cv::Mat* Images::getGrayImage(unsigned int i){
+cv::Mat Images::getGrayImage(unsigned int i){
 	if (i >= this->size())
-		return NULL;
-	if (GrayImages[0] == NULL)
+		return cv::Mat();
+	if (GrayImages.empty())
 	{
 		for (unsigned int ImageIterator = 0; ImageIterator < this->size(); ++ImageIterator){
-			cv::Mat* tmpImage = new cv::Mat(*ColorImages[ImageIterator]);
-			GrayImages[ImageIterator] = tmpImage;
-			cv::cvtColor(*ColorImages[ImageIterator], *GrayImages[ImageIterator], CV_RGBA2GRAY);
+			cv::cvtColor(ColorImages[ImageIterator], GrayImages[ImageIterator], CV_RGBA2GRAY);
 		}
 	}
 

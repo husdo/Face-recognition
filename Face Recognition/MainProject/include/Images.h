@@ -10,8 +10,8 @@
 class Images
 {
 private:
-	std::vector<cv::Mat*> ColorImages;
-	std::vector<cv::Mat*> GrayImages;
+	std::vector<cv::Mat> ColorImages;
+	std::vector<cv::Mat> GrayImages;
 	std::vector<int> labels;
 	std::map<std::string, int> directory2label;
 	std::map<int, std::string> label2directory;
@@ -28,12 +28,12 @@ public:
 	void addImage(cv::Mat& ColorImage, int& label);
 	unsigned int size() const;
 
-	std::vector<cv::Mat*> getColorImages() const;
-	std::vector<cv::Mat*> getGrayImages();
+	std::vector<cv::Mat> getColorImages() const;
+	std::vector<cv::Mat> getGrayImages();
 	std::vector<int> getLabels() const;
 
-	cv::Mat* getColorImage(unsigned int i) const;
-	cv::Mat* getGrayImage(unsigned int i);
+	cv::Mat getColorImage(unsigned int i) const;
+	cv::Mat getGrayImage(unsigned int i);
 	int getLabel(unsigned int i) const;
 
 	int dir2label(std::string dir);

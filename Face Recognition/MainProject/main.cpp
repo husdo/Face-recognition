@@ -4,6 +4,7 @@
 #include "Images.h"
 #include "Facial_Recognizer.h"
 #include "EigenFaces.h"
+#include "TestEigenFaces.h"
 
 
 
@@ -21,7 +22,7 @@ int main(int argc, char** argv)
     }
     else{
         Images Imgs(argv[1]);  //test call
-        TestEigenFaces first;
+        EigenFaces first;
         first.training(Imgs);
         //first.load();
         first.validation(Imgs,GrayImg);

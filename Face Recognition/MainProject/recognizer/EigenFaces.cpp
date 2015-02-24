@@ -15,12 +15,7 @@ EigenFaces::~EigenFaces()
 }
 
 void EigenFaces::training(Images& InputImages){
-	std::vector<cv::Mat> TrainImages;
-	for (unsigned int ImageIterator = 0; ImageIterator < InputImages.size(); ++ImageIterator)
-	{
-		TrainImages.push_back(*InputImages.getGrayImage(ImageIterator));
-	}
-	Recognizer->train(TrainImages, InputImages.getLabels());
+	Recognizer->train(InputImages.getGrayImages(), InputImages.getLabels());
 }
 /**
 * give a predicted label to an image according to a model
@@ -28,11 +23,11 @@ void EigenFaces::training(Images& InputImages){
 * @param confidence : distance between trained images and new image
 * @param img : face image to analyse
 */
-int EigenFaces::predict(double* confidence, cv::Mat* InputImage)
+int EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
 {
 	int predictedLabel = -1;
 	(*confidence) = 0.0;
-	Recognizer->predict((*InputImage), predictedLabel, (*confidence));
+	Recognizer->predict(InputImage, predictedLabel, (*confidence));
 	return predictedLabel;
 }
 
