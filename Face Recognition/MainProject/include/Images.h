@@ -15,14 +15,14 @@ private:
 	std::vector<int> labels;
 	std::map<std::string, int> directory2label;
 	std::map<int, std::string> label2directory;
-
+	cv::Size ImgSize;
 	std::vector<std::string> getDirectory(std::string path, bool directory=0);
 
 
 
 public:
 	Images();
-	Images(std::string path);
+	Images(std::string path,unsigned int row = 100, unsigned int col = 100);
 	~Images();
 
 	void addImage(cv::Mat& ColorImage, int& label);

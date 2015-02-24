@@ -29,9 +29,12 @@ std::vector<std::string> Images::getDirectory(std::string path, bool directory/*
 }
 
 
-Images::Images(){}
+Images::Images(){
+	ImgSize = cv::Size(100, 100);
+}
 
-Images::Images(std::string path){
+Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col /* = 100 */){
+	ImgSize = cv::Size(col, row);
 	std::vector<std::string> Directories;
 	std::vector<std::vector<std::string> > files;
 	Directories = getDirectory(path, 1);
@@ -48,6 +51,7 @@ Images::Images(std::string path){
 		
 		cv::Mat tmpImg;
 		tmpImg = cv::imread(files[DirectoryIterator][FileIterator],CV_8SC3);
+		resize(tmpImg, tmpImg, ImgSize);
 		ColorImages.push_back(tmpImg);
 		cv::cvtColor(tmpImg, tmpImg, CV_RGBA2GRAY);
 		GrayImages.push_back(tmpImg);
