@@ -180,17 +180,21 @@ void MainWindow::live_webcam(){
 
 void MainWindow::training(){
     if(trainingFolder!=""){
+        printMsg("Training with folder: "+trainingFolder);
         webcam->stop();
+        if(!trainingFolder.endsWith('/'))
+            trainingFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(trainingFolder.toStdString());
+        printMsg("processing...");
+		Images imgs(trainingFolder.toStdString(),200,200);
 		std::vector<cv::Mat> vect_imgs  = imgs.getColorImages();
 		for(int i =0;i<vect_imgs.size();i++)
             cvWidget->showImage(vect_imgs[i]);
 		current_recognizer->training(imgs);
 		validationButton->setEnabled(true);
 		pictureButton->setEnabled(true);
-        printMsg("Training with folder: "+trainingFolder);
         webcam->start();
+        printMsg("Done!");
     }
     else
         printMsg("Invalid folder");
@@ -198,10 +202,14 @@ void MainWindow::training(){
 
 void MainWindow::validation(){
     if(validationFolder!=""){
+        webcam->stop();
+        if(!trainingFolder.endsWith('/'))
+            trainingFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
 		Images imgs(validationFolder.toStdString());
 		current_recognizer->validation(imgs);
         printMsg("Validation with folder: "+validationFolder);
+        webcam->start();
 	}
     else
         printMsg("Invalid folder");
@@ -214,8 +222,8 @@ void MainWindow::printMsg(QString msg){
 void MainWindow::takePicture(){
     cv::Mat img = webcam->getCroppedImage();
 	Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-    ResultDialogBox* box = new ResultDialogBox(img,current_recognizer,this);
-    box->exec();
+    ResultDialogBox box(img,current_recognizer);
+    box.exec();
 }
 
 void MainWindow::method_changed(int i){
