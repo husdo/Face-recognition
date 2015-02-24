@@ -5,7 +5,7 @@ Webcam::Webcam(): videoCapture(0), timer(0), rectangle(0)
     videoCapture = new cv::VideoCapture(0);
     if(videoCapture->isOpened()){
         timer = new QTimer(this);
-        rectangle = new cv::Rect((int)videoCapture->get(CV_CAP_PROP_FRAME_WIDTH)/2-50,(int)videoCapture->get(CV_CAP_PROP_FRAME_HEIGHT)/2-50,92,112);
+        rectangle = new cv::Rect((int)videoCapture->get(CV_CAP_PROP_FRAME_WIDTH)/2-100,(int)videoCapture->get(CV_CAP_PROP_FRAME_HEIGHT)/2-100,200,200);
         connect(timer, SIGNAL(timeout()), this, SLOT(readImage()));
     }
 }

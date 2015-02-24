@@ -17,7 +17,7 @@ public:
 	~FisherFaces();
 
 	void training(Images& InputImages);
-	int predict(double *confidence,const Mat& InputImages);
+	string predict(double *confidence,const Mat& InputImages);
 	void save(std::string path = "");
 	void load(std::string path = "");
 };

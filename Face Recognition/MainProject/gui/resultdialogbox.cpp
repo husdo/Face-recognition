@@ -6,15 +6,15 @@ ResultDialogBox::ResultDialogBox(cv::Mat img, Facial_Recognizer* recognizer, QWi
     //definition of the window
     setWindowFlags(Qt::WindowTitleHint); //title Bar
     setWindowTitle("Recognition"); //title of the window
+
     //setModal(true); //modality
     //layout
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(&image);
     double c;
-	int result = recognizer->predict(&c,img);
-    label = new QLabel("Not recognized"); //if not recognized
+	std::string result = recognizer->predict(&c,img);
+    label = new QLabel(QString::fromStdString(result));
     layout->addWidget(label);
-    setLayout(layout);
-
     image.showImage(img);
+    setLayout(layout);
 }
