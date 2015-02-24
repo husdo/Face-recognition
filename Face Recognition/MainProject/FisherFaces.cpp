@@ -7,28 +7,34 @@ FisherFaces::FisherFaces(int nbComponents, double recognitionThreshold)
 	model = createFisherFaceRecognizer(nbComponents, recognitionThreshold);
 }
 
+FisherFaces::~FisherFaces()
+{}
+
 void FisherFaces::training(Images& InputImages)
 {
+	label2dir = InputImages.getLabel2Dir();
 	model->train(InputImages.getGrayImages(),InputImages.getLabels());
+	trained = true;
 }
 
-int FisherFaces::predict(double *confidence,const Mat& InputImages)
+string FisherFaces::predict(double *confidence,const Mat& InputImages)
 {
 	Mat grayImg;
 	cvtColor(InputImages, grayImg, CV_BGR2GRAY);
-	int predictedLabelFisher = -1;
+	int predictedLabel = -1;
 	*confidence = 0.0;
-	model->predict(grayImg, predictedLabelFisher, *confidence);
-	return predictedLabelFisher;
+	model->predict(grayImg, predictedLabel, *confidence);
+	std::string predictedDirectoryFisher = label2dir[predictedLabel];
+	return predictedDirectoryFisher;
 }
 
-void FisherFaces::save(std::string filePath)
+void FisherFaces::save(std::string path)
 {
-	model->save(filePath);
+	model->save(path);
 }
 
-void FisherFaces::load(std::string filePath)
+void FisherFaces::load(std::string path)
 {
-	model->load(filePath);
+	model->load(path);
 }
 

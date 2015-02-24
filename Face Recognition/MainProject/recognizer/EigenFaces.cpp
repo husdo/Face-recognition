@@ -17,6 +17,7 @@ EigenFaces::~EigenFaces()
 void EigenFaces::training(Images& InputImages){
 	label2dir = InputImages.getLabel2Dir();
 	Recognizer->train(InputImages.getGrayImages(), InputImages.getLabels());
+	trained = true;
 }
 /**
 * give a predicted label to an image according to a model
