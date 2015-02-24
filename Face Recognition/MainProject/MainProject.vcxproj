@@ -95,22 +95,23 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Classificator.h" />
-    <ClInclude Include="EigenFaces.h" />
-    <ClInclude Include="Facial_Recognizer.h" />
-    <ClInclude Include="Images.h" />
+    <ClInclude Include="include\Classificator.h" />
+    <ClInclude Include="include\EigenFaces.h" />
+    <ClInclude Include="include\Facial_Recognizer.h" />
+    <ClInclude Include="include\Images.h" />
     <ClInclude Include="include\cvwidget.h" />
     <ClInclude Include="include\dirent.h" />
     <ClInclude Include="include\mainwindow.h" />
     <ClInclude Include="include\resultdialogbox.h" />
     <ClInclude Include="include\webcam.h" />
-    <ClInclude Include="label_files.h" />
+    <ClInclude Include="include\label_files.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TestEigenFaces.h" />
+    <ClInclude Include="include\TestEigenFaces.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classificator.cpp" />
-    <ClCompile Include="Facial_Recognizer.cpp" />
+    <ClCompile Include="recognizer\Facial_Recognizer.cpp" />
+    <ClCompile Include="recognizer\EigenFaces.cpp" />
     <ClCompile Include="gui\mainwindow.cpp" />
     <ClCompile Include="gui\moc_cvwidget.cxx" />
     <ClCompile Include="gui\moc_mainwindow.cxx" />

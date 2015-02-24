@@ -13,10 +13,10 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 		label = InputImages.getLabel(Iterator);
 
 		if (type == ColorImg)
-			result = predict(InputImages.getColorImage(Iterator));
+			result = predict(0,InputImages.getColorImage(Iterator));
 		else
-			result = predict(InputImages.getGrayImage(Iterator));
-		
+			result = predict(0,InputImages.getGrayImage(Iterator));
+
 
 		if (result == label)
 		{

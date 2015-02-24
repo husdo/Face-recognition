@@ -5,7 +5,7 @@
 #include "highgui.h"
 #include "dirent.h"
 #include "resultdialogbox.h"
-#include "TestEigenFaces.h"
+#include "EigenFaces.h"
 
 using namespace cv;
 
@@ -13,10 +13,10 @@ using namespace cv;
 MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(0), webcam(0)
 {
     // creation of the recognizers
-    recognizers.push_back(new TestEigenFaces());
-	recognizers.push_back(new TestEigenFaces());
-	recognizers.push_back(new TestEigenFaces());
-	recognizers.push_back(new TestEigenFaces());
+    recognizers.push_back(new EigenFaces());
+	recognizers.push_back(new EigenFaces());
+	recognizers.push_back(new EigenFaces());
+	recognizers.push_back(new EigenFaces());
 
     //creation of the menu
     QMenu* file = menuBar()->addMenu("&file");

@@ -10,7 +10,7 @@ ResultDialogBox::ResultDialogBox(cv::Mat img, Facial_Recognizer* recognizer, QWi
     //layout
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(&image);
-	int result = recognizer->predict(&img);
+	int result = recognizer->predict(0,&img);
     label = new QLabel("Not recognized"); //if not recognized
     layout->addWidget(label);
     setLayout(layout);
