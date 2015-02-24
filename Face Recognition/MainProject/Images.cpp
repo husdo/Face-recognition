@@ -37,6 +37,8 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
 	ImgSize = cv::Size(col, row);
 	std::vector<std::string> Directories;
 	std::vector<std::vector<std::string> > files;
+	directory2label["Not recognizable face"] = -1;
+	label2directory[-1] = "Not recognizable face";
 	Directories = getDirectory(path, 1);
 
 	for (unsigned int DirectoryIterator = 0; DirectoryIterator < Directories.size(); ++DirectoryIterator){
