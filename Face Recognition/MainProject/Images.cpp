@@ -119,3 +119,8 @@ int Images::dir2label(std::string dir){
 std::string Images::label2dir(int label){
 	return (label2directory[label]);
 }
+
+std::map<int, std::string> Images::getLabel2Dir() const
+{
+	return label2directory;
+}

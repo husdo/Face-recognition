@@ -15,6 +15,7 @@ EigenFaces::~EigenFaces()
 }
 
 void EigenFaces::training(Images& InputImages){
+	label2dir = InputImages.getLabel2Dir();
 	Recognizer->train(InputImages.getGrayImages(), InputImages.getLabels());
 }
 /**
@@ -23,14 +24,15 @@ void EigenFaces::training(Images& InputImages){
 * @param confidence : distance between trained images and new image
 * @param img : face image to analyse
 */
-int EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
+std::string EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
 {
     Mat grayImg;
     cvtColor(InputImage,grayImg,CV_BGR2GRAY);
 	int predictedLabel = -1;
 	(*confidence) = 0.0;
 	Recognizer->predict(grayImg, predictedLabel, (*confidence));
-	return predictedLabel;
+	std::string predictedDirectory = label2dir[predictedLabel];
+	return predictedDirectory;
 }
 
 void EigenFaces::save(std::string path /* = "" */) const

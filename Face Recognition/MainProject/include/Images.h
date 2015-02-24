@@ -38,6 +38,8 @@ public:
 
 	int dir2label(std::string dir);
 	std::string label2dir(int label);
+
+	std::map<int, std::string> getLabel2Dir() const;
 };
 
 #endif
