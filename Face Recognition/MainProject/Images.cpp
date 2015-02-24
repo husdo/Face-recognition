@@ -44,10 +44,13 @@ Images::Images(std::string path){
 
 	for (unsigned int DirectoryIterator = 0; DirectoryIterator < files.size(); ++DirectoryIterator)
 	for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
+		std::cout << files[DirectoryIterator][FileIterator] << std::endl;
+		
 		cv::Mat tmpImg;
 		tmpImg = cv::imread(files[DirectoryIterator][FileIterator],CV_8SC3);
 		ColorImages.push_back(tmpImg);
-		GrayImages.push_back(cv::Mat());
+		cv::cvtColor(tmpImg, tmpImg, CV_RGBA2GRAY);
+		GrayImages.push_back(tmpImg);
 		labels.push_back(DirectoryIterator);
 	}
 }
@@ -77,12 +80,6 @@ std::vector<cv::Mat> Images::getGrayImages()
 {
 	if (this->size() == 0)
 		return std::vector<cv::Mat>(0);
-	if (GrayImages.empty())
-	{
-		for (unsigned int ImageIterator = 0; ImageIterator < this->size(); ++ImageIterator){
-			cv::cvtColor(ColorImages[ImageIterator], GrayImages[ImageIterator], CV_RGBA2GRAY);
-		}
-	}
 
 	return(GrayImages);
 }
@@ -101,12 +98,6 @@ cv::Mat Images::getColorImage(unsigned int i) const{
 cv::Mat Images::getGrayImage(unsigned int i){
 	if (i >= this->size())
 		return cv::Mat();
-	if (GrayImages.empty())
-	{
-		for (unsigned int ImageIterator = 0; ImageIterator < this->size(); ++ImageIterator){
-			cv::cvtColor(ColorImages[ImageIterator], GrayImages[ImageIterator], CV_RGBA2GRAY);
-		}
-	}
 
 	return(GrayImages[i]);
 }
