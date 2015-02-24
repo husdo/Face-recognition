@@ -95,6 +95,7 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FisherFaces.h" />
     <ClInclude Include="include\Classificator.h" />
     <ClInclude Include="include\EigenFaces.h" />
     <ClInclude Include="include\Facial_Recognizer.h" />
@@ -110,6 +111,7 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classificator.cpp" />
+    <ClCompile Include="FisherFaces.cpp" />
     <ClCompile Include="recognizer\Facial_Recognizer.cpp" />
     <ClCompile Include="recognizer\EigenFaces.cpp" />
     <ClCompile Include="gui\mainwindow.cpp" />
