@@ -9,13 +9,14 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 	std::string result,label;
 	std::map<std::string,double> CrossValidation;
 	std::map<std::string,double> Counter;
+	double confidence=0.0;
 	for (unsigned int Iterator = 0; Iterator < InputImages.size(); ++Iterator){
 		label = InputImages.label2dir(InputImages.getLabel(Iterator));
 
 		if (type == ColorImg)
-			result = predict(0,InputImages.getColorImage(Iterator));
+			result = predict(&confidence, InputImages.getColorImage(Iterator));
 		else
-			result = predict(0,InputImages.getGrayImage(Iterator));
+			result = predict(&confidence,InputImages.getGrayImage(Iterator));
 
 
 		if (std::strcmp(result.c_str(),label.c_str()) == 0)
