@@ -1,4 +1,4 @@
-#include "EigenFaces.h"
+#include "LBPH.h"
 #include <stdexcept>
 #include <iostream>
 /**
@@ -7,17 +7,17 @@
 * @param recognitionThreshold : 0 => nobody is recognized. inf.=> everybody will be
 * recognize as someone. I worked with 1100
 */
-EigenFaces::EigenFaces(int nbComponents, double recognitionThreshold)
+LBPH::LBPH(int radius, int neighbors, int grid_x, int grid_y, double threshold)
 {
-	Recognizer = cv::createEigenFaceRecognizer(nbComponents,recognitionThreshold);
+	Recognizer = cv::createLBPHFaceRecognizer(1, 8, 8, 8, 123.0);
 	trained = false;
 }
 
-EigenFaces::~EigenFaces()
+LBPH::~LBPH()
 {
 }
 
-void EigenFaces::training(Images& InputImages){
+void LBPH::training(Images& InputImages){
 	label2dir = InputImages.getLabel2Dir();
 	Recognizer->train(InputImages.getGrayImages(), InputImages.getLabels());
 	trained = true;
@@ -28,7 +28,7 @@ void EigenFaces::training(Images& InputImages){
 * @param confidence : distance between trained images and new image
 * @param Input images : must be gray images
 */
-std::string EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
+std::string LBPH::predict(double* confidence, const cv::Mat& InputImage)
 {
 	CV_Assert(InputImage.type() == CV_8U);
 	int predictedLabel = -1;
@@ -38,14 +38,14 @@ std::string EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
 	return predictedDirectory;
 }
 
-void EigenFaces::save(std::string path) const
+void LBPH::save(std::string path) const
 {
-	saveMap(path+"mapFile_EigenFace.csv", label2dir);
-	Recognizer->save(path + "Classifier_EigenFace.yml");
+	saveMap(path+"mapFile_LBPH.csv", label2dir);
+	Recognizer->save(path + "Classifier_LBPH.yml");
 }
 
-void EigenFaces::load(std::string path){
-	label2dir = readMapFile(path + "mapFile_EigenFace.csv");
-	Recognizer->load(path + "Classifier_EigenFace.yml");
+void LBPH::load(std::string path){
+	label2dir = readMapFile(path + "mapFile_LBPH.csv");
+	Recognizer->load(path + "Classifier_LBPH.yml");
 	trained = true;
 }

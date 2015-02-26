@@ -102,6 +102,7 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
     <ClInclude Include="include\Images.h" />
     <ClInclude Include="include\cvwidget.h" />
     <ClInclude Include="include\dirent.h" />
+    <ClInclude Include="include\LBPH.h" />
     <ClInclude Include="include\mainwindow.h" />
     <ClInclude Include="include\resultdialogbox.h" />
     <ClInclude Include="include\webcam.h" />
@@ -122,6 +123,7 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
     <ClCompile Include="Images.cpp" />
     <ClCompile Include="label_files.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="recognizer\LBPH.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 void saveMap(std::string path, std::map<int, std::string> map){
 	std::ofstream mapFile;
 	std::map<int, std::string>::iterator iter;
-	mapFile.open(path + "mapFile.csv");
+	mapFile.open(path);
 
 	for (iter = map.begin(); iter != map.end(); ++iter) {
 		mapFile << iter->first;
@@ -117,8 +117,12 @@ void saveMap(std::string path, std::map<int, std::string> map){
 }
 
 std::map<int, std::string> readMapFile(std::string path){
+	struct stat buffer;
+	if (!(stat(path.c_str(), &buffer) == 0))
+		perror("map file does not exist readMapFile label_files.cpp");
+
 	std::map<int, std::string> label2directory;
-	std::ifstream map(path + "mapFile.csv");
+	std::ifstream map(path);
 	std::string line;
 
 	while (getline(map, line))
