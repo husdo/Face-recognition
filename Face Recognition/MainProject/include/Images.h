@@ -13,6 +13,7 @@ private:
 	std::vector<cv::Mat> ColorImages;
 	std::vector<cv::Mat> GrayImages;
 	std::vector<int> labels;
+	std::vector<std::string> fileNames;
 	std::map<std::string, int> directory2label;
 	std::map<int, std::string> label2directory;
 	cv::Size ImgSize;
@@ -35,6 +36,7 @@ public:
 	cv::Mat getColorImage(unsigned int i) const;
 	cv::Mat getGrayImage(unsigned int i);
 	int getLabel(unsigned int i) const;
+	std::string getFileName(unsigned int i) const;
 
 	int dir2label(std::string dir);
 	std::string label2dir(int label);

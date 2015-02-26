@@ -1,6 +1,8 @@
 #include "FisherFaces.h"
 
-FisherFaces::FisherFaces() {}
+FisherFaces::FisherFaces() {
+	model = createFisherFaceRecognizer();
+}
 
 FisherFaces::FisherFaces(int nbComponents, double recognitionThreshold)
 {
@@ -28,7 +30,7 @@ string FisherFaces::predict(double *confidence,const Mat& InputImages)
 	return predictedDirectoryFisher;
 }
 
-void FisherFaces::save(std::string path)
+void FisherFaces::save(std::string path) const
 {
 	model->save(path);
 }

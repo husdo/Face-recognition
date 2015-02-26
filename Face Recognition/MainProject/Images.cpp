@@ -34,6 +34,7 @@ Images::Images(){
 }
 
 Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col /* = 100 */){
+	std::cout << "Image reading process started!\n";
 	ImgSize = cv::Size(col, row);
 	std::vector<std::string> Directories;
 	std::vector<std::vector<std::string> > files;
@@ -49,16 +50,17 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
 
 	for (unsigned int DirectoryIterator = 0; DirectoryIterator < files.size(); ++DirectoryIterator)
 	for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
-		std::cout << files[DirectoryIterator][FileIterator] << std::endl;
-		
+		//std::cout << files[DirectoryIterator][FileIterator] << std::endl;
 		cv::Mat tmpImg;
 		tmpImg = cv::imread(files[DirectoryIterator][FileIterator],CV_8SC3);
 		resize(tmpImg, tmpImg, ImgSize);
 		ColorImages.push_back(tmpImg);
 		cv::cvtColor(tmpImg, tmpImg, CV_RGBA2GRAY);
 		GrayImages.push_back(tmpImg);
+		fileNames.push_back(files[DirectoryIterator][FileIterator]);
 		labels.push_back(DirectoryIterator);
 	}
+	std::cout << "Image reading process ended!\n";
 }
 
 Images::~Images(){
@@ -125,4 +127,9 @@ std::string Images::label2dir(int label){
 std::map<int, std::string> Images::getLabel2Dir() const
 {
 	return label2directory;
+}
+
+std::string Images::getFileName(unsigned int i) const
+{
+	return fileNames[i];
 }
