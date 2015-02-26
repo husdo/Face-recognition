@@ -1,4 +1,6 @@
 #include "EigenFaces.h"
+#include <stdexcept>
+#include <iostream>
 /**
 * create a model
 * @param nbComponent : number of greatest components from the PCA. 20 is usually enough
@@ -23,15 +25,18 @@ void EigenFaces::training(Images& InputImages){
 * give a predicted label to an image according to a model
 * @param predictedLabel : label found by the model
 * @param confidence : distance between trained images and new image
-* @param img : face image to analyse
+* @param Input images : must be gray images
 */
 std::string EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
 {
-    Mat grayImg;
-    cvtColor(InputImage,grayImg,CV_BGR2GRAY);
 	int predictedLabel = -1;
 	(*confidence) = 0.0;
-	Recognizer->predict(grayImg, predictedLabel, (*confidence));
+	try {
+		Recognizer->predict(InputImage, predictedLabel, (*confidence));
+		}
+	catch (const std::invalid_argument& ia) {
+		std::cerr << "Invalid argument: predict function of Eigenface (size of image? grey images?) \n";
+	}
 	std::string predictedDirectory = label2dir[predictedLabel];
 	return predictedDirectory;
 }
