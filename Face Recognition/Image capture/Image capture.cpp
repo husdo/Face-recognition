@@ -56,6 +56,8 @@ int main(int argc, const char** argv)
 		flip(originalFrame, originalFrame, 1); // flip it back
 		
 		rectangle(frame,*cut,Scalar(0, 255, 255),1,8); // draw the rectangle to the picture
+		line(frame, cv::Point(cut->x + cut->width / 2, cut->y), cv::Point(cut->x + cut->width / 2, cut->y + cut->height),Scalar(0,200,0));
+		line(frame, cv::Point(cut->x, cut->y + cut->height*0.4), cv::Point(cut->x + cut->width, cut->y + cut->height*0.4), Scalar(0, 200, 0));
 		if (record)
 		{
 			putText(frame, "RECORD", Point(50, 50), FONT_HERSHEY_DUPLEX, 1, Scalar(0, 0, 255));

@@ -18,6 +18,6 @@ public:
 
 	void training(Images& InputImages);
 	string predict(double *confidence,const Mat& InputImages);
-	void save(std::string path = "");
+	void save(std::string path = "") const;
 	void load(std::string path = "");
 };
