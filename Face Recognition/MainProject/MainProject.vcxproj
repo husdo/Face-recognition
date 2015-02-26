@@ -107,7 +107,6 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
     <ClInclude Include="include\webcam.h" />
     <ClInclude Include="include\label_files.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="include\TestEigenFaces.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classificator.cpp" />

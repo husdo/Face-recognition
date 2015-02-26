@@ -8,7 +8,8 @@
 #include <sys/stat.h>/*test if it is a folder or not*/
 #include <vector>
 #include "opencv2/highgui/highgui.hpp"
-
+#include<iomanip>
+#include<fstream>
 
 using namespace std;
 using namespace cv;
@@ -52,3 +53,6 @@ void recursSearch(string globalPath, vector<string> *pathImages, vector<int> *la
 * @return integer : 0 if it is a directory, 1 otherwise
 */
 int testDir(string globalPath);
+
+void saveMap(std::string path, std::map<int, std::string> map);
+std::map<int, std::string> readMapFile(std::string path);

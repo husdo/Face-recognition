@@ -101,3 +101,35 @@ int main(int argc, char *argv[])
 	return 0;
 }
 */
+
+void saveMap(std::string path, std::map<int, std::string> map){
+	std::ofstream mapFile;
+	std::map<int, std::string>::iterator iter;
+	mapFile.open(path + "mapFile.csv");
+
+	for (iter = map.begin(); iter != map.end(); ++iter) {
+		mapFile << iter->first;
+		mapFile << ";";
+		mapFile << iter->second;
+		mapFile << "\n";
+	}
+	mapFile.close();
+}
+
+std::map<int, std::string> readMapFile(std::string path){
+	std::map<int, std::string> label2directory;
+	std::ifstream map(path + "mapFile.csv");
+	std::string line;
+
+	while (getline(map, line))
+	{
+		std::istringstream ss(line);
+		std::string dir;
+		char c;
+		int label;
+
+		ss >> label >> c >> dir;
+		label2directory[label] = dir;
+	}
+	return label2directory;
+}

@@ -10,6 +10,7 @@
 EigenFaces::EigenFaces(int nbComponents, double recognitionThreshold)
 {
 	Recognizer = cv::createEigenFaceRecognizer(nbComponents,recognitionThreshold);
+	trained = false;
 }
 
 EigenFaces::~EigenFaces()
@@ -29,23 +30,22 @@ void EigenFaces::training(Images& InputImages){
 */
 std::string EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
 {
+	CV_Assert(InputImage.type() == CV_8U);
 	int predictedLabel = -1;
 	(*confidence) = 0.0;
-	try {
-		Recognizer->predict(InputImage, predictedLabel, (*confidence));
-		}
-	catch (const std::invalid_argument& ia) {
-		std::cerr << "Invalid argument: predict function of Eigenface (size of image? grey images?) \n";
-	}
+	Recognizer->predict(InputImage, predictedLabel, (*confidence));
 	std::string predictedDirectory = label2dir[predictedLabel];
 	return predictedDirectory;
 }
 
-void EigenFaces::save(std::string path /* = "" */) const
+void EigenFaces::save(std::string path) const
 {
-	Recognizer->save(path + "Classifier.teg");
+	saveMap("../Debug/Classifier/", label2dir);
+	Recognizer->save(path + "Classifier_EigenFace.yml");
 }
 
-void EigenFaces::load(std::string path /* = "" */){
-	Recognizer->load(path + "Classifier.teg");
+void EigenFaces::load(std::string path){
+	label2dir=readMapFile("../Debug/Classifier/");
+	Recognizer->load(path + "Classifier_EigenFace.yml");
+	trained = true;
 }
