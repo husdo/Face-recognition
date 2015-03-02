@@ -7,6 +7,7 @@
 #include "resultdialogbox.h"
 #include "EigenFaces.h"
 #include "FisherFaces.h"
+#include "LBPH.h"
 
 using namespace cv;
 
@@ -16,7 +17,7 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     // creation of the recognizers
     recognizers.push_back(new EigenFaces());
 	recognizers.push_back(new FisherFaces());
-	recognizers.push_back(new EigenFaces());
+	recognizers.push_back(new LBPH());
 	recognizers.push_back(new EigenFaces());
 
     //creation of the menu
@@ -66,7 +67,7 @@ void MainWindow::save_classifier(){
 	QString filename = QFileDialog::getSaveFileName(this,tr("Save Classifier"));
 	if(filename != ""){
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		current_recognizer->save(filename.toStdString());
+		current_recognizer->save(filename.toUtf8().constData());
 		printMsg("Recognizer saved successfully!");
 	}
 	else
@@ -77,7 +78,9 @@ void MainWindow::load_classifier(){
 	QString filename = QFileDialog::getOpenFileName(this,tr("Save Classifier"));
 	if(filename != ""){
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		current_recognizer->load(filename.toStdString());
+		current_recognizer->load(filename.toUtf8().constData());
+		validationButton->setEnabled(true);
+		pictureButton->setEnabled(true);
 		printMsg("Recognizer loaded successfully!");
 	}
 	else
@@ -107,7 +110,7 @@ QGroupBox* MainWindow::groupPath_creation(){
     methods_list = new QComboBox();
     methods_list->addItem("EigenFaces");
     methods_list->addItem("FisherFaces");
-    methods_list->addItem("Decision tree");
+    methods_list->addItem("LBPH");
     methods_list->addItem("CNN");
     methods_list->setMaximumWidth(200);
 	connect(methods_list,SIGNAL(currentIndexChanged(int)),this,SLOT(method_changed(int)));
@@ -187,7 +190,7 @@ void MainWindow::training(){
             trainingFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
         printMsg("processing...");
-		Images imgs(trainingFolder.toStdString(),200,200);
+		Images imgs(trainingFolder.toUtf8().constData(),200,200);
 		std::vector<cv::Mat> vect_imgs  = imgs.getColorImages();
 		for(int i =0;i<vect_imgs.size();i++)
             cvWidget->showImage(vect_imgs[i]);
@@ -207,10 +210,7 @@ void MainWindow::validation(){
         if(!validationFolder.endsWith('/'))
             validationFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(validationFolder.toStdString(),200,200);
-		std::vector<cv::Mat> vect_imgs  = imgs.getColorImages();
-		for(int i =0;i<vect_imgs.size();i++)
-            cvWidget->showImage(vect_imgs[i]);
+		Images imgs(validationFolder.toUtf8().constData(),200,200);
 		current_recognizer->validation(imgs);
         printMsg("Validation with folder: "+validationFolder);
         webcam->start();
