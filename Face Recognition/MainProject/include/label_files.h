@@ -54,5 +54,15 @@ void recursSearch(string globalPath, vector<string> *pathImages, vector<int> *la
 */
 int testDir(string globalPath);
 
+/**
+* save the map in a .csv file linking labels and files name
+* @param path : path to the csv file
+* @param map : map to save
+*/
 void saveMap(std::string path, std::map<int, std::string> map);
+/**
+* load a map std::map<int, std::string> from a .csv file
+* @param path : path to the csv file containing the informations on the map
+* @return map
+*/
 std::map<int, std::string> readMapFile(std::string path);

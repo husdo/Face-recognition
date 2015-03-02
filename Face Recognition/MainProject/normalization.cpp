@@ -29,22 +29,28 @@ using namespace cv;
 
 
 bool vectCompX(const Rect &a, const Rect &b) {
+	//which rectangle is on the right?
 	return (a.x < b.x);
 }
 bool vectCompWidth(const Rect &a, const Rect &b) {
+	//which rectangle is the widest?
 	return (a.width < b.width);
 }
 bool vectCompHeight(const Rect &a, const Rect &b) {
+	//which rectangle is the tallest?
 	return (a.height < b.height);
 }
 
 Mat rotate(cv::Mat& src, double angle)
 {
+	//output image
 	Mat dst;
 	int len = std::max(src.cols, src.rows);
+	//center of rotation
 	Point2f pt(float(len / 2.), float(len / 2.));
+	//get the rotation matrix
 	Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
-
+	//apply the rotation
 	warpAffine(src, dst, r, cv::Size(len, len));
 	return dst;
 }
@@ -73,14 +79,19 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 	Mat rotatedgray_img;
 	Rect face, l_eye, r_eye, nose, mouth;
 	bool detectedFace = false, detectedEyes = false, detectedVertic = false;
+//rough angle (step of 10° to detect the face, Haar is sensible to rotation)
 	double angle = 0, dx, dy;
+//angle added to align the eyes, or the nose and the mouth
 	double angleDetail = 0;
-
+//get a grey image
 	cvtColor(img, gray_img, CV_BGR2GRAY);
 	equalizeHist(gray_img, gray_img);
 
+// DO rough rotation until a complete face is detected (eyes+face or mouth and nose +face)
 	for (double i = 0; i < 61; i += 10){
+//rotate the initial gray image
 		rotatedgray_img = rotate(gray_img, i);
+//rotate in one way
 		if (detectFace(rotatedgray_img, face, classifiers[0])){
 			detectedFace = true;
 			angle = i;
@@ -88,7 +99,7 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 				(detectedVertic = detectVertic(rotatedgray_img, face, nose, mouth, classifiers[3], classifiers[4])))
 				break;
 		}
-
+//rotate the other way
 		rotatedgray_img = rotate(gray_img, -i);
 		if (detectFace(rotatedgray_img, face, classifiers[0])){
 			detectedFace = true;
@@ -101,12 +112,14 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 
 	if (detectedFace){
 		if (detectedEyes){
+			//angle between the eyes line and the horizontal line
 			dy = ((r_eye.y + double(r_eye.height / 2.0)) - (l_eye.y + double(l_eye.height / 2.0)));
 			dx = (r_eye.x + double(r_eye.width / 2.0)) - (l_eye.x + double(l_eye.width / 2.0));
 			if (abs(dx) > abs(dy))
 				angleDetail = atan(dy / dx);
 		}
 		else if (detectedVertic){
+			//angle between the nose and mouth line and the vertical line
 			dy = ((nose.y + double(nose.height / 2.0)) - (mouth.y + double(mouth.height / 2.0)));
 			dx = (nose.x + double(nose.width / 2.0)) - (mouth.x + double(mouth.width / 2.0));
 			if (abs(dy) > abs(dx))
@@ -124,10 +137,10 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 		resize(rotatedimg, rotatedimg, Size(imageWidth, imageWidth), 0, 0, INTER_LINEAR);
 		return true;
 	}
-	else
+	else // no face detected
 		return false;
 }
-/** @function detectAndDisplay */
+
 bool detectFace(Mat& frame, Rect& face, CascadeClassifier& face_cascade)
 {
 	std::vector<Rect> faces;
@@ -155,6 +168,7 @@ bool detectEyes(Mat& frame, Rect& face, Rect& r_eye, Rect& l_eye, CascadeClassif
 	right_eye_cascade.detectMultiScale(eyeROI, right_eye, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 
 	if (right_eye.size() > 0){
+		//be sure to get the right eye (not get the left eye
 		r_eye = *std::max_element(right_eye.begin(), right_eye.end(), vectCompX);
 		/*Point center(int(face.x + r_eye.x + r_eye.width*0.5), int(face.y + r_eye.y + r_eye.height*0.5));
 		int radius = cvRound((r_eye.width + r_eye.height)*0.25);
@@ -189,6 +203,7 @@ bool detectVertic(Mat& frame, Rect& face, Rect& nose, Rect& mouth, CascadeClassi
 
 	if (noses.size() > 0)
 	{
+		//keep the tallest element
 		nose = *std::max_element(noses.begin(), noses.end(), vectCompHeight);
 		/*Point ptA(int(face.x + nose.x + nose.width*0.5), int(face.y + nose.y - nose.height*0.5));
 		Point ptB(int(face.x + nose.x + nose.width*0.5), int(face.y + nose.y + nose.height*0.5));
@@ -200,6 +215,7 @@ bool detectVertic(Mat& frame, Rect& face, Rect& nose, Rect& mouth, CascadeClassi
 	mouth_cascade.detectMultiScale(mouthROI, mouths, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 
 	if (mouths.size() > 0){
+		//keep the widest element
 		mouth = *std::max_element(mouths.begin(), mouths.end(), vectCompWidth);
 		mouth.y = mouth.y + skipHeight;
 		/*Point center(int(face.x + mouth.x + mouth.width*0.5), int(face.y + mouth.y + mouth.height*0.5));
