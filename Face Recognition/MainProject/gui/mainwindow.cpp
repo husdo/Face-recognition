@@ -6,6 +6,7 @@
 #include "dirent.h"
 #include "resultdialogbox.h"
 #include "EigenFaces.h"
+#include "FisherFaces.h"
 
 using namespace cv;
 
@@ -14,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
 {
     // creation of the recognizers
     recognizers.push_back(new EigenFaces());
-	recognizers.push_back(new EigenFaces());
+	recognizers.push_back(new FisherFaces());
 	recognizers.push_back(new EigenFaces());
 	recognizers.push_back(new EigenFaces());
 
@@ -105,7 +106,7 @@ QGroupBox* MainWindow::groupPath_creation(){
     QLabel* method_label = new QLabel("method: ");
     methods_list = new QComboBox();
     methods_list->addItem("EigenFaces");
-    methods_list->addItem("FiserFaces");
+    methods_list->addItem("FisherFaces");
     methods_list->addItem("Decision tree");
     methods_list->addItem("CNN");
     methods_list->setMaximumWidth(200);
@@ -203,10 +204,13 @@ void MainWindow::training(){
 void MainWindow::validation(){
     if(validationFolder!=""){
         webcam->stop();
-        if(!trainingFolder.endsWith('/'))
-            trainingFolder.append('/');
+        if(!validationFolder.endsWith('/'))
+            validationFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(validationFolder.toStdString());
+		Images imgs(validationFolder.toStdString(),200,200);
+		std::vector<cv::Mat> vect_imgs  = imgs.getColorImages();
+		for(int i =0;i<vect_imgs.size();i++)
+            cvWidget->showImage(vect_imgs[i]);
 		current_recognizer->validation(imgs);
         printMsg("Validation with folder: "+validationFolder);
         webcam->start();
