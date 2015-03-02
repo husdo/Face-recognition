@@ -49,7 +49,7 @@ void recursSearch(string cheminDb, vector<string> *pathImages, vector<int> *labe
 	pathStr=cheminDb+"/"+string(fichierLu->d_name);
 
 	//TEST IF THE FILE EXPLORED IF A FOLDER
-	if (testDir(pathStr) == 0) 
+	if (testDir(pathStr) == 0)
 	{
 		//call the recursive function with an updated label
 		(*labelCount)++;
@@ -75,11 +75,11 @@ int testDir(string pathStr)
 	const char * path = pathStr.c_str();
 	//information about the file/folder
 	struct stat info;
-	
+
 	//get the infos about the file/folder
 	if (stat(path, &info) == -1)
 	{
-		return 1;	
+		return 1;
 	}
 	//test if the file/folder is a folder
 	if (S_ISDIR(info.st_mode)) return 0; //folder
@@ -88,7 +88,7 @@ int testDir(string pathStr)
 
 
 /* EXAMPLE OF USE :
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
 	vector<string> pathImages;
 	vector<int> labels;
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
 	for(int unsigned i=0;i<pathImages.size();i++){
 	std::cout <<pathImages[i]<<"     "<<labels[i]<<"\n";
-	} 
+	}
 
 	return 0;
 }
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 void saveMap(std::string path, std::map<int, std::string> map){
 	std::ofstream mapFile;
 	std::map<int, std::string>::iterator iter;
-	mapFile.open(path);
+	mapFile.open(path.c_str());
 
 	for (iter = map.begin(); iter != map.end(); ++iter) {
 		mapFile << iter->first;
@@ -122,7 +122,7 @@ std::map<int, std::string> readMapFile(std::string path){
 		perror("map file does not exist readMapFile label_files.cpp");
 
 	std::map<int, std::string> label2directory;
-	std::ifstream map(path);
+	std::ifstream map(path.c_str());
 	std::string line;
 
 	while (getline(map, line))
