@@ -103,13 +103,20 @@ int main(int argc, char *argv[])
 */
 
 void saveMap(std::string path, std::map<int, std::string> map){
+	//file in which we will insert all informations
 	std::ofstream mapFile;
+	//itrator which will go through each pair of label+name of file
 	std::map<int, std::string>::iterator iter;
+	//we'll write in classifier folder in a csv file (easier to read)
 	mapFile.open(path.c_str());
 
+	//for each couple we'll write
 	for (iter = map.begin(); iter != map.end(); ++iter) {
+		//label number
 		mapFile << iter->first;
+		//end of cell
 		mapFile << ";";
+		//name of file
 		mapFile << iter->second;
 		mapFile << "\n";
 	}
@@ -117,12 +124,16 @@ void saveMap(std::string path, std::map<int, std::string> map){
 }
 
 std::map<int, std::string> readMapFile(std::string path){
+	//try to read the concerned file
 	struct stat buffer;
 	if (!(stat(path.c_str(), &buffer) == 0))
-		perror("map file does not exist readMapFile label_files.cpp");
+		perror("map file does not exist (readMapFile in label_files.cpp)");
 
+	//map linking label to file name
 	std::map<int, std::string> label2directory;
+	//file to read
 	std::ifstream map(path.c_str());
+	//line buffer to read the file
 	std::string line;
 
 	while (getline(map, line))
@@ -131,8 +142,9 @@ std::map<int, std::string> readMapFile(std::string path){
 		std::string dir;
 		char c;
 		int label;
-
+		//line = label +';' + name_of_file
 		ss >> label >> c >> dir;
+		//update of the map
 		label2directory[label] = dir;
 	}
 	return label2directory;
