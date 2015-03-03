@@ -89,8 +89,8 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 
 	if (detectFace(gray_img, face, classifiers[0])){
 		detectedFace = true;
-		if (!(detectedEyes = detectEyes(rotatedgray_img, face, r_eye, l_eye, classifiers[1], classifiers[2])))
-			(detectedVertic = detectVertic(rotatedgray_img, face, nose, mouth, classifiers[3], classifiers[4]));
+		if (!(detectedEyes = detectEyes(gray_img, face, r_eye, l_eye, classifiers[1], classifiers[2])))
+			(detectedVertic = detectVertic(gray_img, face, nose, mouth, classifiers[3], classifiers[4]));
 	}
 
 // DO rough rotation until a complete face is detected (eyes+face or mouth and nose +face)
@@ -162,7 +162,7 @@ bool quickNormalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& 
 
 	if (detectFace(gray_img, face, classifiers[0])){
 		detectedFace = true;
-		(detectedVertic = detectVertic(rotatedgray_img, face, nose, mouth, classifiers[3], classifiers[4]));
+		(detectedVertic = detectVertic(gray_img, face, nose, mouth, classifiers[3], classifiers[4]));
 	}
 	if (!detectedVertic){
 		for (double i = 0; i < 61; i += 20){
