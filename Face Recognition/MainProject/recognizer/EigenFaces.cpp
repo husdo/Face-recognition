@@ -28,12 +28,17 @@ void EigenFaces::training(Images& InputImages){
 * @param confidence : distance between trained images and new image
 * @param Input images : must be gray images
 */
-std::string EigenFaces::predict(double* confidence, const cv::Mat& InputImage)
+std::string EigenFaces::predict(double* confidence, const cv::Mat& inputImage)
 {
-	CV_Assert(InputImage.type() == CV_8U);
 	int predictedLabel = -1;
 	(*confidence) = 0.0;
-	Recognizer->predict(InputImage, predictedLabel, (*confidence));
+	Mat gray_Img;
+	if (inputImage.type() == CV_8U)
+		gray_Img = inputImage;
+	else
+		cvtColor(inputImage, gray_Img, CV_BGR2GRAY);
+	
+	Recognizer->predict(gray_Img, predictedLabel, (*confidence));
 	std::string predictedDirectory = label2dir[predictedLabel];
 	return predictedDirectory;
 }
