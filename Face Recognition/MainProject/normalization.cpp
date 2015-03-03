@@ -140,7 +140,63 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 	else // no face detected
 		return false;
 }
+bool quickNormalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotatedimg, int imageWidth){
+	Mat gray_img;
+	Mat rotatedgray_img;
+	Rect face, nose, mouth;
+	bool detectedFace = false, detectedVertic = false;
+	//rough angle (step of 10° to detect the face, Haar is sensible to rotation)
+	double angle = 0, dx, dy;
+	//angle added to align the eyes, or the nose and the mouth
+	double angleDetail = 0;
+	//get a grey image
+	cvtColor(img, gray_img, CV_BGR2GRAY);
+	equalizeHist(gray_img, gray_img);
 
+	// DO rough rotation until a complete face is detected (eyes+face or mouth and nose +face)
+	for (double i = 0; i < 61; i += 10){
+		//rotate the initial gray image
+		rotatedgray_img = rotate(gray_img, i);
+		//rotate in one way
+		if (detectFace(rotatedgray_img, face, classifiers[0])){
+			detectedFace = true;
+			angle = i;
+			if ((detectedVertic = detectVertic(rotatedgray_img, face, nose, mouth, classifiers[3], classifiers[4])))
+				break;
+		}
+		//rotate the other way
+		rotatedgray_img = rotate(gray_img, -i);
+		if (detectFace(rotatedgray_img, face, classifiers[0])){
+			detectedFace = true;
+			angle = -i;
+			if ((detectedVertic = detectVertic(rotatedgray_img, face, nose, mouth, classifiers[3], classifiers[4])))
+				break;
+		}
+	}
+
+	if (detectedFace){
+		if (detectedVertic){
+			//angle between the nose and mouth line and the vertical line
+			dy = ((nose.y + double(nose.height / 2.0)) - (mouth.y + double(mouth.height / 2.0)));
+			dx = (nose.x + double(nose.width / 2.0)) - (mouth.x + double(mouth.width / 2.0));
+			if (abs(dy) > abs(dx))
+				angleDetail = -atan(dx / dy);
+		}
+
+		rotatedgray_img = rotate(gray_img, angle + angleDetail * 180 / 3.14);
+		detectFace(rotatedgray_img, face, classifiers[0]);
+		rotatedimg = rotate(img, angle + angleDetail * 180 / 3.14);
+		/*face.x = face.x + int(0.1*face.width);
+		face.width = int(0.8*face.width);
+		face.y = face.y + int(0.15*face.height);
+		face.height = int(0.8*face.height);*/
+		rotatedimg(face).copyTo(rotatedimg);
+		resize(rotatedimg, rotatedimg, Size(imageWidth, imageWidth), 0, 0, INTER_LINEAR);
+		return true;
+	}
+	else // no face detected
+		return false;
+}
 bool detectFace(Mat& frame, Rect& face, CascadeClassifier& face_cascade)
 {
 	std::vector<Rect> faces;

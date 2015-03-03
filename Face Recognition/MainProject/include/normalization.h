@@ -62,6 +62,11 @@ bool initiateNormalization(std::vector<CascadeClassifier>& classifiers, string p
 */
 bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& normalized_img,int imageWidth);
 /**
+* normalize only with the nose and mouth
+* @see bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& normalized_img,int imageWidth);
+*/
+bool quickNormalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& normalized_img, int imageWidth);
+/**
 * detect the face in the image
 * @param frame : the image to analyze
 * @param face : rectangle (output) in which is the face
