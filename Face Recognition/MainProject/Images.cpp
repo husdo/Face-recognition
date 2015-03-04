@@ -60,14 +60,12 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
 //		imshow("normalized image", normalizedimg);
 //		waitKey();
 		resize(tmpImg, tmpImg, ImgSize);
-		std::cout << tmpImg.size() << " " << ImgSize;
-		if (tmpImg.size() == ImgSize){
-			ColorImages.push_back(tmpImg);
-			cv::cvtColor(tmpImg, tmpImg, CV_RGBA2GRAY);
-			GrayImages.push_back(tmpImg);
-			fileNames.push_back(files[DirectoryIterator][FileIterator]);
-			labels.push_back(DirectoryIterator);
-		}
+		ColorImages.push_back(tmpImg);
+		cv::cvtColor(tmpImg, tmpImg, CV_RGBA2GRAY);
+		GrayImages.push_back(tmpImg);
+		fileNames.push_back(files[DirectoryIterator][FileIterator]);
+		labels.push_back(DirectoryIterator);
+		
 	}
 	std::cout << "Image reading process ended!\n";
 }
