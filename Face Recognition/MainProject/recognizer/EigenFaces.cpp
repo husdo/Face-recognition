@@ -45,12 +45,60 @@ std::string EigenFaces::predict(double* confidence, const cv::Mat& inputImage)
 
 void EigenFaces::save(std::string path) const
 {
-	saveMap(path+"mapFile_EigenFace.csv", label2dir);
-	Recognizer->save(path + "Classifier_EigenFace.yml");
+	saveMap(path+"model_EigenFace.txt", label2dir);
+	Recognizer->save(path + "tempEigenFace.yml");
+	std::ifstream ifile((path + "tempEigenFace.yml").c_str(), std::ios::in);
+	std::ofstream ofile((path + "model_EigenFace.txt").c_str(), std::ios::out | std::ios::app);
+
+	//check to see that it exists:
+	if (!ifile.is_open()) {
+		perror("file not found (save method in Eigenfaces)");
+	}
+	else {
+		ofile << ifile.rdbuf();
+	}
+
+	ifile.close();
+	ofile.close();
+
+	if (remove((path + "tempEigenFace.yml").c_str()) != 0)
+		perror("Error deleting file");
 }
 
 void EigenFaces::load(std::string path){
-	label2dir = readMapFile(path + "mapFile_EigenFace.csv");
-	Recognizer->load(path + "Classifier_EigenFace.yml");
+	struct stat buffer;
+	if (!(stat(path.c_str(), &buffer) == 0))
+		perror("model file does not exist load in Eigenface.cpp)");
+	std::ifstream containerFile(path.c_str());
+
+	std::ofstream labelFile("./tempLabelFile.csv");
+	std::ofstream modelFile("./tempModelFile.yml");
+
+	std::string line;
+	
+	getline(containerFile, line);
+	std::istringstream ss(line);
+	int nbLines;
+	ss >> nbLines;
+
+	for (int i = 0; i < nbLines; i++){
+		getline(containerFile, line);
+		labelFile << line << "\n";
+	}
+	while (getline(containerFile, line))
+	{
+		modelFile << line << "\n";
+	}
+	containerFile.close();
+	labelFile.close();
+	modelFile.close();
+
+	label2dir = readMapFile("./tempLabelFile.csv");
+	Recognizer->load("./tempModelFile.yml");
+
+	if (remove("./tempLabelFile.csv") != 0)
+		perror("Error deleting file");
+	if (remove("./tempModelFile.yml") != 0)
+		perror("Error deleting file");
 	trained = true;
 }
