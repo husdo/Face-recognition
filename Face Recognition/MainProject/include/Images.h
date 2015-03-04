@@ -18,12 +18,13 @@ private:
 	std::map<int, std::string> label2directory;
 	cv::Size ImgSize;
 	std::vector<std::string> getDirectory(std::string path, bool directory=0);
+	std::vector<cv::CascadeClassifier> classifiers;
 
 
 
 public:
 	Images();
-	Images(std::string path,unsigned int row = 100, unsigned int col = 100);
+	Images(std::string path,unsigned int row = 100, unsigned int col = 100, bool normalization = true);
 	~Images();
 
 	void addImage(cv::Mat& ColorImage, int& label);
