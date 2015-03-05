@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 		string path = "ATT_ImgDatabase/";
         Images Imgs(argv[1]);  //test call
 		Images Imgs2(argv[2]);
-        FisherFaces first;
+        EigenFaces first;
 		std::cout << "Training started!\n";
         first.training(Imgs);
 		std::cout << "Training ended!\n";

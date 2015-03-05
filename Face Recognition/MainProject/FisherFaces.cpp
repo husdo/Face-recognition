@@ -32,11 +32,18 @@ string FisherFaces::predict(double *confidence,const Mat& InputImages)
 
 void FisherFaces::save(std::string path) const
 {
-	model->save(path);
+	saveMap(path + "Map.txt", label2dir);
+	model->save(path+".yml");
+	ifstream ifile((path + ".yml").c_str(), ios::in);
+	ofstream ofile((path + "Map.txt").c_str(), ios::out | ios::app);
+
+	ifile.close();
+	ofile.close();
 }
 
 void FisherFaces::load(std::string path)
 {
 	model->load(path);
+	trained = true;
 }
 
