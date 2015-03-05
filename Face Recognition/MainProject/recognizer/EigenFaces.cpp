@@ -12,7 +12,7 @@ EigenFaces::EigenFaces(int nbComponents, double recognitionThreshold)
 	Recognizer = cv::createEigenFaceRecognizer(nbComponents,recognitionThreshold);
 	trained = false;
 }
-
+//nothing
 EigenFaces::~EigenFaces()
 {
 }
