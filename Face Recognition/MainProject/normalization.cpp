@@ -22,12 +22,6 @@ using namespace cv;
 }*/
 
 
-
-
-
-
-
-
 bool vectCompRightEye(const Rect &a, const Rect &b) {
 	if (abs(a.x - b.x)>max(a.x, b.x)*0.4)
 		return (a.x < b.x);
@@ -103,7 +97,7 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 
 // DO rough rotation until a complete face is detected (eyes+face or mouth and nose +face)
 	if ((!detectedEyes) && (!detectedVertic)){
-		for (double i = 0; i < 61; i += 10){
+		for (double i = 5; i < 30; i += 8){
 			//rotate the initial gray image
 			rotatedgray_img = rotate(gray_img, i);
 			//rotate in one way
@@ -172,7 +166,7 @@ bool quickNormalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& 
 		(detectedVertic = detectVertic(gray_img, face, nose, mouth, classifiers[3], classifiers[4]));
 	}
 	if (!detectedVertic){
-		for (double i = 0; i < 61; i += 20){
+		for (double i = 5; i < 30; i += 8){
 			rotatedgray_img = rotate(gray_img, i);
 			if (detectFace(rotatedgray_img, face, classifiers[0])){
 				detectedFace = true;
