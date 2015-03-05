@@ -1,4 +1,5 @@
 #include "Facial_Recognizer.h"
+#include "label_files.h"
 #include "opencv2/core/core.hpp"
 #include "opencv2/contrib/contrib.hpp"
 #include "opencv2/highgui/highgui.hpp"
@@ -18,6 +19,6 @@ public:
 
 	void training(Images& InputImages);
 	string predict(double *confidence, const Mat& InputImages);
-	void save(std::string path = "") const;
-	void load(std::string path = "");
+	void save(std::string path) const;
+	void load(std::string path);
 };
