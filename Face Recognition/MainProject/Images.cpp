@@ -48,15 +48,25 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
 		label2directory[DirectoryIterator] = Directories[DirectoryIterator];
 		files.push_back(getDirectory(path + Directories[DirectoryIterator] + "/"));
 	}
-
+	unsigned int imageSaveIterator = 0;
 	for (unsigned int DirectoryIterator = 0; DirectoryIterator < files.size(); ++DirectoryIterator)
 	for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
-		std::cout << files.size() << "/" << DirectoryIterator+1 << " " << files[DirectoryIterator].size() << "/" << FileIterator+1 << std::endl;
+		std::cout << files.size() << "/" << DirectoryIterator + 1 << " " << files[DirectoryIterator].size() << "/" << FileIterator + 1 << std::endl;
 		//std::cout << files[DirectoryIterator][FileIterator] << std::endl;
-		cv::Mat tmpImg,normalizedimg;
-		tmpImg = cv::imread(files[DirectoryIterator][FileIterator],CV_8SC3);
-//		imshow("original image", tmpImg);
-		normalize(tmpImg, classifiers, normalizedimg, row);
+		if (normalization){
+
+		}
+		cv::Mat tmpImg, normalizedimg;
+		tmpImg = cv::imread(files[DirectoryIterator][FileIterator], CV_8SC3);
+		//		imshow("original image", tmpImg);
+		if (normalization){
+			normalize(tmpImg, classifiers, normalizedimg, row);
+			tmpImg = normalizedimg;
+			std::vector<int> params;
+			params.push_back(IMWRITE_PNG_COMPRESSION);
+			params.push_back(9);
+			cv::imwrite("NormalizedImgs/" + std::to_string(++imageSaveIterator) + ".png", normalizedimg, params);
+		}
 //		imshow("normalized image", normalizedimg);
 //		waitKey();
 		resize(tmpImg, tmpImg, ImgSize);
