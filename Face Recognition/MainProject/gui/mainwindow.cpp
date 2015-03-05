@@ -21,13 +21,13 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
 	recognizers.push_back(new EigenFaces());
 
     //creation of the menu
-    QMenu* file = menuBar()->addMenu("&file");
+    QMenu* file = menuBar()->addMenu("&File");
     //creation of the different actions
-    QAction* save = new QAction("&save classifier",this);
+    QAction* save = new QAction("&Save Classifier",this);
     file->addAction(save);
-    QAction* load = new QAction("&load classifier",this);
+    QAction* load = new QAction("&Load Classifier",this);
     file->addAction(load);
-    QAction* exit = new QAction("&exit",this);
+    QAction* exit = new QAction("&Exit",this);
     file->addAction(exit);
     //signal/slot linking
     connect(save,SIGNAL(triggered()),this,SLOT(save_classifier())); // save slot
@@ -188,8 +188,8 @@ void MainWindow::training(){
         webcam->stop();
         if(!trainingFolder.endsWith('/'))
             trainingFolder.append('/');
+		printMsg("processing...");
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-        printMsg("processing...");
 		Images imgs(trainingFolder.toUtf8().constData(),200,200);
 		std::vector<cv::Mat> vect_imgs  = imgs.getColorImages();
 		for(int i =0;i<vect_imgs.size();i++)
