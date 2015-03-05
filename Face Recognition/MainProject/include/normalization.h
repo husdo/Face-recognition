@@ -14,7 +14,8 @@ using namespace cv;
 * @param b : second rectangle
 * @return boolean : true if b is the most on the right
 */
-static bool vectCompX(const Rect &a, const Rect &b);
+static bool vectCompRightEye(const Rect &a, const Rect &b);
+static bool vectCompLeftEye(const Rect &a, const Rect &b);
 /**
 * compare two rectangles according to their width (true if b has the biggest width)
 * @param a : first rectangle

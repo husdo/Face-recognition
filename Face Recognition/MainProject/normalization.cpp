@@ -28,9 +28,17 @@ using namespace cv;
 
 
 
-bool vectCompX(const Rect &a, const Rect &b) {
-	//which rectangle is on the right?
-	return (a.x < b.x);
+bool vectCompRightEye(const Rect &a, const Rect &b) {
+	if (abs(a.x - b.x)>max(a.x, b.x)*0.4)
+		return (a.x < b.x);
+	else
+		return (a.y < b.y);
+}
+bool vectCompLeftEye(const Rect &a, const Rect &b) {
+	if (abs(a.x - b.x)>max(a.x, b.x)*0.4)
+		return (a.x > b.x);
+	else
+		return (a.y < b.y);
 }
 bool vectCompWidth(const Rect &a, const Rect &b) {
 	//which rectangle is the widest?
@@ -229,7 +237,7 @@ bool detectEyes(Mat& frame, Rect& face, Rect& r_eye, Rect& l_eye, CascadeClassif
 
 	if (right_eye.size() > 0){
 		//be sure to get the right eye (not get the left eye
-		r_eye = *std::max_element(right_eye.begin(), right_eye.end(), vectCompX);
+		r_eye = *std::max_element(right_eye.begin(), right_eye.end(), vectCompRightEye);
 		/*Point center(int(face.x + r_eye.x + r_eye.width*0.5), int(face.y + r_eye.y + r_eye.height*0.5));
 		int radius = cvRound((r_eye.width + r_eye.height)*0.25);
 		circle(frame, center, radius, Scalar(0, 0, 255), 4, 8, 0);*/
@@ -240,7 +248,7 @@ bool detectEyes(Mat& frame, Rect& face, Rect& r_eye, Rect& l_eye, CascadeClassif
 	left_eye_cascade.detectMultiScale(eyeROI, left_eye, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 
 	if (left_eye.size() > 0){
-		l_eye = *std::min_element(left_eye.begin(), left_eye.end(), vectCompX);
+		l_eye = *std::max_element(left_eye.begin(), left_eye.end(), vectCompLeftEye);
 		/*Point center(int(face.x + l_eye.x + l_eye.width*0.5), int(face.y + l_eye.y + l_eye.height*0.5));
 		int radius = cvRound((l_eye.width + l_eye.height)*0.25);
 		circle(frame, center, radius, Scalar(0, 0, 255), 4, 8, 0);*/
