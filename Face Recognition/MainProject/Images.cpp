@@ -32,6 +32,7 @@ std::vector<std::string> Images::getDirectory(std::string path, bool directory/*
 
 Images::Images(){
 	ImgSize = cv::Size(100, 100);
+	initiateNormalization(classifiers, "haarcascades/");
 }
 
 Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */){
@@ -84,9 +85,15 @@ Images::~Images(){
 
 }
 
-void Images::addImage(cv::Mat& ColorImage, int& label){
-	cv::Mat tmpImage;
-	ColorImage.copyTo(tmpImage);
+void Images::addImage(cv::Mat& ColorImage, int& label, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */){
+	cv::Mat tmpImage,normalizedimg;
+	if (normalization){
+		normalize(ColorImage, classifiers, normalizedimg, row);
+		tmpImage = normalizedimg;
+	}
+	else
+		ColorImage.copyTo(tmpImage);
+
 	ColorImages.push_back(tmpImage);
 	GrayImages.push_back(cv::Mat());
 	labels.push_back(label);
