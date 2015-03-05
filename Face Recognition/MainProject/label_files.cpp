@@ -110,6 +110,9 @@ void saveMap(std::string path, std::map<int, std::string> map){
 	//we'll write in classifier folder in a csv file (easier to read)
 	mapFile.open(path.c_str());
 
+	mapFile << map.size();
+	mapFile << "\n";
+
 	//for each couple we'll write
 	for (iter = map.begin(); iter != map.end(); ++iter) {
 		//label number
