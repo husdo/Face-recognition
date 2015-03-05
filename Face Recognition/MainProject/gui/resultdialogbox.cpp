@@ -11,10 +11,10 @@ ResultDialogBox::ResultDialogBox(cv::Mat img, Facial_Recognizer* recognizer, QWi
     //layout
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(&image);
-    double c;
+    double c=0;
 	std::string result = recognizer->predict(&c,img);
-    label = new QLabel(QString::fromStdString(result));
+    label = new QLabel(QString::fromStdString(result.c_str())+" | confidence level: "+QString::number(c));
     layout->addWidget(label);
     image.showImage(img);
-    setLayout(layout);
+    setLayout(layout); //comment
 }
