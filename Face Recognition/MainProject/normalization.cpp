@@ -142,7 +142,6 @@ bool normalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& rotat
 		face.y = face.y + int(0.15*face.height);
 		face.height = int(0.8*face.height);*/
 		rotatedimg(face).copyTo(rotatedimg);
-		resize(rotatedimg, rotatedimg, Size(imageWidth, imageWidth), 0, 0, INTER_LINEAR);
 		return true;
 	}
 	else // no face detected
@@ -197,7 +196,6 @@ bool quickNormalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& 
 		face.y = face.y + int(0.15*face.height);
 		face.height = int(0.8*face.height);*/
 		rotatedimg(face).copyTo(rotatedimg);
-		cv::resize(rotatedimg, rotatedimg, Size(imageWidth, imageWidth), 0, 0, INTER_LINEAR);
 		return true;
 	}
 	else

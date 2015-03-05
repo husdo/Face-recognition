@@ -32,6 +32,7 @@ std::vector<std::string> Images::getDirectory(std::string path, bool directory/*
 
 Images::Images(){
 	ImgSize = cv::Size(100, 100);
+	initiateNormalization(classifiers, "haarcascades/");
 }
 
 Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */){
@@ -48,15 +49,25 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
 		label2directory[DirectoryIterator] = Directories[DirectoryIterator];
 		files.push_back(getDirectory(path + Directories[DirectoryIterator] + "/"));
 	}
-
+	unsigned int imageSaveIterator = 0;
 	for (unsigned int DirectoryIterator = 0; DirectoryIterator < files.size(); ++DirectoryIterator)
 	for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
-		std::cout << files.size() << "/" << DirectoryIterator+1 << " " << files[DirectoryIterator].size() << "/" << FileIterator+1 << std::endl;
+		std::cout << files.size() << "/" << DirectoryIterator + 1 << " " << files[DirectoryIterator].size() << "/" << FileIterator + 1 << std::endl;
 		//std::cout << files[DirectoryIterator][FileIterator] << std::endl;
-		cv::Mat tmpImg,normalizedimg;
-		tmpImg = cv::imread(files[DirectoryIterator][FileIterator],CV_8SC3);
-//		imshow("original image", tmpImg);
-		normalize(tmpImg, classifiers, normalizedimg, row);
+		if (normalization){
+
+		}
+		cv::Mat tmpImg, normalizedimg;
+		tmpImg = cv::imread(files[DirectoryIterator][FileIterator], CV_8SC3);
+		//		imshow("original image", tmpImg);
+		if (normalization){
+			normalize(tmpImg, classifiers, normalizedimg, row);
+			tmpImg = normalizedimg;
+			std::vector<int> params;
+			params.push_back(IMWRITE_PNG_COMPRESSION);
+			params.push_back(9);
+			cv::imwrite("NormalizedImgs/" + std::to_string(++imageSaveIterator) + ".png", normalizedimg, params);
+		}
 //		imshow("normalized image", normalizedimg);
 //		waitKey();
 		resize(tmpImg, tmpImg, ImgSize);
@@ -74,9 +85,15 @@ Images::~Images(){
 
 }
 
-void Images::addImage(cv::Mat& ColorImage, int& label){
-	cv::Mat tmpImage;
-	ColorImage.copyTo(tmpImage);
+void Images::addImage(cv::Mat& ColorImage, int& label, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */){
+	cv::Mat tmpImage,normalizedimg;
+	if (normalization){
+		normalize(ColorImage, classifiers, normalizedimg, row);
+		tmpImage = normalizedimg;
+	}
+	else
+		ColorImage.copyTo(tmpImage);
+
 	ColorImages.push_back(tmpImage);
 	GrayImages.push_back(cv::Mat());
 	labels.push_back(label);
