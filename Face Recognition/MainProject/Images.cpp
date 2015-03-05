@@ -54,21 +54,20 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
 	for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
 		std::cout << files.size() << "/" << DirectoryIterator + 1 << " " << files[DirectoryIterator].size() << "/" << FileIterator + 1 << std::endl;
 		//std::cout << files[DirectoryIterator][FileIterator] << std::endl;
-		if (normalization){
-
-		}
 		cv::Mat tmpImg, normalizedimg;
 		tmpImg = cv::imread(files[DirectoryIterator][FileIterator], CV_8SC3);
 		//		imshow("original image", tmpImg);
 		if (normalization){
-			normalize(tmpImg, classifiers, normalizedimg, row);
-			tmpImg = normalizedimg;
-			std::vector<int> params;
-			params.push_back(IMWRITE_PNG_COMPRESSION);
-			params.push_back(9);
-			cv::imwrite("NormalizedImgs/" + std::to_string(++imageSaveIterator) + ".png", normalizedimg, params);
+			bool normaizationSucceed = normalize(tmpImg, classifiers, normalizedimg, row);
+			std::cout << tmpImg.size().height << " " << normalizedimg.size().height << ":" << (double)normalizedimg.size().height / (double)tmpImg.size().height << " " << normaizationSucceed << std::endl;
+			if ((double)normalizedimg.size().height / (double)tmpImg.size().height > 0.5 && normaizationSucceed){
+				tmpImg = normalizedimg;
+				std::vector<int> params;
+				params.push_back(IMWRITE_PNG_COMPRESSION);
+				params.push_back(9);
+				cv::imwrite("NormalizedImgs/" + std::to_string(++imageSaveIterator) + ".png", normalizedimg, params);
+			}
 		}
-//		imshow("normalized image", normalizedimg);
 //		waitKey();
 		resize(tmpImg, tmpImg, ImgSize);
 		ColorImages.push_back(tmpImg);

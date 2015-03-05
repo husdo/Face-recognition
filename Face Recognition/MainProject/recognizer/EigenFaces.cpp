@@ -13,6 +13,12 @@ EigenFaces::EigenFaces(int nbComponents, double recognitionThreshold)
 	trained = false;
 }
 
+EigenFaces::EigenFaces()
+{
+	Recognizer = cv::createEigenFaceRecognizer();
+	trained = false;
+}
+
 EigenFaces::~EigenFaces()
 {
 }

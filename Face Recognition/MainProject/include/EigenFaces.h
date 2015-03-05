@@ -20,6 +20,7 @@ public:
 	std::string predict(double* confidence, const cv::Mat& InputImage);
 	void save(std::string path = "") const; // if the path is empty you should save the classifier next to the exe with your own file format
 	void load(std::string path = ""); // if the path is empty you should load the classifier from the default place.
-	EigenFaces(int nbComponents=20, double recognitionThreshold=1100);
+	EigenFaces();
+	EigenFaces(int nbComponents, double recognitionThreshold);
 	~EigenFaces();
 };
