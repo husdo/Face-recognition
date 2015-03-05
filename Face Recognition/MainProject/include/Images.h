@@ -27,7 +27,7 @@ public:
 	Images(std::string path,unsigned int row = 100, unsigned int col = 100, bool normalization = true);
 	~Images();
 
-	void addImage(cv::Mat& ColorImage, int& label);
+	void addImage(cv::Mat& ColorImage, int& label, unsigned int row = 100, unsigned int col = 100 , bool normalization = true );
 	unsigned int size() const;
 
 	std::vector<cv::Mat> getColorImages() const;
