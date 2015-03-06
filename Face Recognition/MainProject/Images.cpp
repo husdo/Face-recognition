@@ -32,10 +32,10 @@ std::vector<std::string> Images::getDirectory(std::string path, bool directory/*
 
 Images::Images(){
 	ImgSize = cv::Size(100, 100);
-	initiateNormalization(classifiers, "haarcascades/");
+	initiateNormalization(classifiers, "Debug/haarcascades/");
 }
 
-Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */){
+Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */, QProgressBar* bar){
 	std::cout << "Image reading process started!\n";
 	ImgSize = cv::Size(col, row);
 	std::vector<std::string> Directories;
@@ -50,32 +50,40 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
 		files.push_back(getDirectory(path + Directories[DirectoryIterator] + "/"));
 	}
 	unsigned int imageSaveIterator = 0;
-	for (unsigned int DirectoryIterator = 0; DirectoryIterator < files.size(); ++DirectoryIterator)
-	for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
-		std::cout << files.size() << "/" << DirectoryIterator + 1 << " " << files[DirectoryIterator].size() << "/" << FileIterator + 1 << std::endl;
-		//std::cout << files[DirectoryIterator][FileIterator] << std::endl;
-		cv::Mat tmpImg, normalizedimg;
-		tmpImg = cv::imread(files[DirectoryIterator][FileIterator], CV_8SC3);
-		//		imshow("original image", tmpImg);
-		if (normalization){
-			bool normaizationSucceed = normalize(tmpImg, classifiers, normalizedimg, row);
-			std::cout << tmpImg.size().height << " " << normalizedimg.size().height << ":" << (double)normalizedimg.size().height / (double)tmpImg.size().height << " " << normaizationSucceed << std::endl;
-			if ((double)normalizedimg.size().height / (double)tmpImg.size().height > 0.5 && normaizationSucceed){
-				tmpImg = normalizedimg;
-				std::vector<int> params;
-				params.push_back(IMWRITE_PNG_COMPRESSION);
-				params.push_back(9);
-				cv::imwrite("NormalizedImgs/" + std::to_string(++imageSaveIterator) + ".png", normalizedimg, params);
-			}
-		}
-//		waitKey();
-		resize(tmpImg, tmpImg, ImgSize);
-		ColorImages.push_back(tmpImg);
-		cv::cvtColor(tmpImg, tmpImg, CV_RGBA2GRAY);
-		GrayImages.push_back(tmpImg);
-		fileNames.push_back(files[DirectoryIterator][FileIterator]);
-		labels.push_back(DirectoryIterator);
-		
+	for (unsigned int DirectoryIterator = 0; DirectoryIterator < files.size(); ++DirectoryIterator){
+        if(bar){
+            bar->setRange(0,files[DirectoryIterator].size());
+            bar->reset();
+        }
+        for (unsigned int FileIterator = 0; FileIterator < files[DirectoryIterator].size(); ++FileIterator){
+            if(bar)
+                bar->setValue(FileIterator + 1);
+            else
+                std::cout << files.size() << "/" << DirectoryIterator + 1 << " " << files[DirectoryIterator].size() << "/" << FileIterator + 1 << std::endl;
+            //std::cout << files[DirectoryIterator][FileIterator] << std::endl;
+            cv::Mat tmpImg, normalizedimg;
+            tmpImg = cv::imread(files[DirectoryIterator][FileIterator], CV_8SC3);
+            //		imshow("original image", tmpImg);
+            if (normalization){
+                bool normaizationSucceed = normalize(tmpImg, classifiers, normalizedimg, row);
+                std::cout << tmpImg.size().height << " " << normalizedimg.size().height << ":" << (double)normalizedimg.size().height / (double)tmpImg.size().height << " " << normaizationSucceed << std::endl;
+                if ((double)normalizedimg.size().height / (double)tmpImg.size().height > 0.5 && normaizationSucceed){
+                    tmpImg = normalizedimg;
+                    std::vector<int> params;
+                    params.push_back(IMWRITE_PNG_COMPRESSION);
+                    params.push_back(9);
+                    cv::imwrite("NormalizedImgs/" + std::to_string(++imageSaveIterator) + ".png", normalizedimg, params);
+                }
+            }
+    //		waitKey();
+            resize(tmpImg, tmpImg, ImgSize);
+            ColorImages.push_back(tmpImg);
+            cv::cvtColor(tmpImg, tmpImg, CV_RGBA2GRAY);
+            GrayImages.push_back(tmpImg);
+            fileNames.push_back(files[DirectoryIterator][FileIterator]);
+            labels.push_back(DirectoryIterator);
+        }
+
 	}
 	std::cout << "Image reading process ended!\n";
 }

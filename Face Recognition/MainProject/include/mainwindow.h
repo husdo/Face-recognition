@@ -34,6 +34,7 @@ class MainWindow : public QMainWindow
         QString trainingFolder;
         QString validationFolder;
         QPlainTextEdit* textResults;
+        QProgressBar* bar;
 
         vector<Facial_Recognizer*> recognizers;
 
