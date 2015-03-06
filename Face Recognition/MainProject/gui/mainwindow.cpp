@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QAction>
+#include <QThread>
 #include "cv.h"
 #include "highgui.h"
 #include "dirent.h"
@@ -8,6 +9,7 @@
 #include "EigenFaces.h"
 #include "FisherFaces.h"
 #include "LBPH.h"
+//#include "executionthread.h"
 
 using namespace cv;
 
@@ -46,14 +48,24 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
 
     //Trigger button
     pictureButton = new QPushButton("Take Picture");
-    //pictureButton->setMaximumWidth(200);
+    pictureButton->setMinimumWidth(200);
 	pictureButton->setEnabled(false);
 
     connect(pictureButton,SIGNAL(clicked()),this,SLOT(takePicture()));
 
+    bar = new QProgressBar(this);
+    bar->setRange(0,100);
+	QLabel* imagesLabel = new QLabel("Loading Images:");
+    QHBoxLayout* bottomLayout = new QHBoxLayout();
+    bottomLayout->addWidget(pictureButton);
+    bottomLayout->addWidget(imagesLabel);
+    bottomLayout->addWidget(bar);
+    QWidget* bottomWidget = new QWidget();
+    bottomWidget->setLayout(bottomLayout);
+
     mainLayout->addWidget(groupPath);
     mainLayout->addWidget(groupImage);
-    mainLayout->addWidget(pictureButton);
+    mainLayout->addWidget(bottomWidget);
     mainWidget = new QWidget();
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
@@ -184,19 +196,18 @@ void MainWindow::live_webcam(){
 
 void MainWindow::training(){
     if(trainingFolder!=""){
-        printMsg("Training with folder: "+trainingFolder);
+        printMsg("Training with folder: "+trainingFolder->);
         webcam->stop();
         if(!trainingFolder.endsWith('/'))
             trainingFolder.append('/');
-		printMsg("processing...");
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(trainingFolder.toUtf8().constData(),200,200);
-		std::vector<cv::Mat> vect_imgs  = imgs.getColorImages();
-		for(int i =0;i<vect_imgs.size();i++)
-            cvWidget->showImage(vect_imgs[i]);
+		Images imgs(trainingFolder.toUtf8().constData(),200,200,false,bar);
+		printMsg("Images loaded");
+		printMsg("Learning...");
 		current_recognizer->training(imgs);
 		validationButton->setEnabled(true);
 		pictureButton->setEnabled(true);
+		bar->reset();
         webcam->start();
         printMsg("Done!");
     }
@@ -210,7 +221,7 @@ void MainWindow::validation(){
         if(!validationFolder.endsWith('/'))
             validationFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(validationFolder.toUtf8().constData(),200,200);
+		Images imgs(validationFolder.toUtf8().constData(),200,200,true);
 		current_recognizer->validation(imgs);
         printMsg("Validation with folder: "+validationFolder);
         webcam->start();
@@ -221,6 +232,7 @@ void MainWindow::validation(){
 
 void MainWindow::printMsg(QString msg){
     textResults->appendPlainText(msg);
+    textResults->repaint();
 }
 
 void MainWindow::takePicture(){
