@@ -32,7 +32,7 @@ std::vector<std::string> Images::getDirectory(std::string path, bool directory/*
 
 Images::Images(){
 	ImgSize = cv::Size(100, 100);
-	initiateNormalization(classifiers, "Debug/haarcascades/");
+	initiateNormalization(classifiers, "haarcascades/");
 }
 
 Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */, QProgressBar* bar){
