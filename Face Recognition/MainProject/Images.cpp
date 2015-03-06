@@ -93,6 +93,7 @@ Images::~Images(){
 }
 
 void Images::addImage(cv::Mat& ColorImage, int& label, unsigned int row /* = 100 */, unsigned int col /* = 100 */, bool normalization /* = true */){
+	ImgSize = cv::Size(col, row);
 	cv::Mat tmpImage,normalizedimg;
 	if (normalization){
 		normalize(ColorImage, classifiers, normalizedimg, row);
@@ -100,7 +101,7 @@ void Images::addImage(cv::Mat& ColorImage, int& label, unsigned int row /* = 100
 	}
 	else
 		ColorImage.copyTo(tmpImage);
-
+    resize(tmpImage, tmpImage, ImgSize);
 	ColorImages.push_back(tmpImage);
 	GrayImages.push_back(cv::Mat());
 	labels.push_back(label);

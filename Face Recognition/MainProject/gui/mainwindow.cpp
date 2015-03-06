@@ -48,15 +48,18 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
 
     //Trigger button
     pictureButton = new QPushButton("Take Picture");
-    pictureButton->setMinimumWidth(640);
+    pictureButton->setMinimumWidth(500);
 	pictureButton->setEnabled(false);
 
     connect(pictureButton,SIGNAL(clicked()),this,SLOT(takePicture()));
 
     bar = new QProgressBar(this);
     bar->setRange(0,100);
+    checkBox = new QCheckBox("normalization",this);
+    checkBox->setChecked(true);
 	QLabel* imagesLabel = new QLabel("Loading Images:");
     QHBoxLayout* bottomLayout = new QHBoxLayout();
+    bottomLayout->addWidget(checkBox);
     bottomLayout->addWidget(pictureButton);
     bottomLayout->addWidget(imagesLabel);
     bottomLayout->addWidget(bar);
@@ -201,8 +204,7 @@ void MainWindow::training(){
         if(!trainingFolder.endsWith('/'))
             trainingFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		printMsg("start loading");
-		Images imgs(trainingFolder.toStdString(),200,200,true,bar);
+		Images imgs(trainingFolder.toStdString(),100,100,checkBox->isChecked(),bar);
 		printMsg("Images loaded");
 		printMsg("Learning(Can take a while)...");
 		current_recognizer->training(imgs);
@@ -222,7 +224,7 @@ void MainWindow::validation(){
         if(!validationFolder.endsWith('/'))
             validationFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(validationFolder.toUtf8().constData(),200,200,true,bar);
+		Images imgs(validationFolder.toUtf8().constData(),100,100,checkBox->isChecked(),bar);
 		printMsg("Images loaded");
 		printMsg("Running the test...");
 		current_recognizer->validation(imgs);
@@ -239,8 +241,11 @@ void MainWindow::printMsg(QString msg){
 
 void MainWindow::takePicture(){
     cv::Mat img = webcam->getCroppedImage();
+    Images imgs;
+    int label =0;
+    imgs.addImage(img,label,100,100,checkBox->isChecked());
 	Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-    ResultDialogBox box(img,current_recognizer);
+    ResultDialogBox box(imgs,current_recognizer);
     box.exec();
 }
 

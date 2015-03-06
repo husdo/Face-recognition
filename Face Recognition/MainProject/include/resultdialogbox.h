@@ -9,7 +9,7 @@
 class ResultDialogBox : public QDialog
 {
     public:
-        ResultDialogBox(cv::Mat img, Facial_Recognizer* recognizer, QWidget* parent=0);
+        ResultDialogBox(const Images& img, Facial_Recognizer* recognizer, QWidget* parent=0);
     private:
         CVWidget image;
         QLabel* label;
