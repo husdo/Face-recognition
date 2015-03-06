@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
 
     //Trigger button
     pictureButton = new QPushButton("Take Picture");
-    pictureButton->setMinimumWidth(200);
+    pictureButton->setMinimumWidth(640);
 	pictureButton->setEnabled(false);
 
     connect(pictureButton,SIGNAL(clicked()),this,SLOT(takePicture()));
@@ -196,19 +196,20 @@ void MainWindow::live_webcam(){
 
 void MainWindow::training(){
     if(trainingFolder!=""){
-        printMsg("Training with folder: "+trainingFolder->);
+        printMsg("Training with folder: "+trainingFolder);
         webcam->stop();
         if(!trainingFolder.endsWith('/'))
             trainingFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(trainingFolder.toUtf8().constData(),200,200,false,bar);
+		printMsg("start loading");
+		Images imgs(trainingFolder.toStdString(),200,200,true,bar);
 		printMsg("Images loaded");
-		printMsg("Learning...");
+		printMsg("Learning(Can take a while)...");
 		current_recognizer->training(imgs);
 		validationButton->setEnabled(true);
 		pictureButton->setEnabled(true);
 		bar->reset();
-        webcam->start();
+		webcam->start();
         printMsg("Done!");
     }
     else
@@ -217,14 +218,15 @@ void MainWindow::training(){
 
 void MainWindow::validation(){
     if(validationFolder!=""){
-        webcam->stop();
+        printMsg("Validation with folder: "+validationFolder);
         if(!validationFolder.endsWith('/'))
             validationFolder.append('/');
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-		Images imgs(validationFolder.toUtf8().constData(),200,200,true);
+		Images imgs(validationFolder.toUtf8().constData(),200,200,true,bar);
+		printMsg("Images loaded");
+		printMsg("Running the test...");
 		current_recognizer->validation(imgs);
-        printMsg("Validation with folder: "+validationFolder);
-        webcam->start();
+		bar->reset();
 	}
     else
         printMsg("Invalid folder");
