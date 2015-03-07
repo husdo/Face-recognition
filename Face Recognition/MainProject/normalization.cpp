@@ -156,7 +156,6 @@ bool quickNormalize(Mat& img, std::vector<CascadeClassifier>& classifiers, Mat& 
 	bool detectedFace = false, detectedVertic = false;
 	double angle = 0, dx, dy;
 	double angleDetail = 0;
-	double time;
 
 	cvtColor(img, gray_img, CV_BGR2GRAY);
 	equalizeHist(gray_img, gray_img);
