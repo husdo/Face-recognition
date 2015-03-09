@@ -38,19 +38,28 @@ int main(int argc, const char** argv)
 	VideoCapture cap(0); // open the default camera
 	if (!cap.isOpened())  // check if we succeeded
 		return -1;
-	bool record = false; // if it's turns true it will start to record files.
+	int record = 0; // if it's turns true it will start to record files.
 
 	Rect* cut= new Rect(0, 0, 0, 0); // the selection rectangle
 	namedWindow("Webcam image", 1);
 	setMouseCallback("Webcam image", CallBackFunc, (void*)cut); // mouse callback with rectangle parameter
 
 	int imageCounter = 0;
+	bool succesfulSave = false;
 
 	while (1)
 	{
+
+
 		Mat frame, originalFrame; 
 		cap.retrieve(frame); 
 		cap >> frame; // get a new frame from camera
+
+		if (cut->x + cut->width > frame.size().width || cut->y + cut->height > frame.size().height){
+			cut->width = 0;
+			cut->height = 0;
+		}
+
 		flip(frame, frame, 1); // flip the frame horizontally for better user experience
 		frame(*cut).copyTo(originalFrame); // cut the rectangle out
 		flip(originalFrame, originalFrame, 1); // flip it back
@@ -60,15 +69,27 @@ int main(int argc, const char** argv)
 		line(frame, cv::Point(cut->x, cut->y + cut->height*0.4), cv::Point(cut->x + cut->width, cut->y + cut->height*0.4), Scalar(0, 200, 0));
 		if (record)
 		{
-			putText(frame, "RECORD", Point(50, 50), FONT_HERSHEY_DUPLEX, 1, Scalar(0, 0, 255));
-			imwrite("images/"+std::to_string(++imageCounter)+".png",originalFrame);
+			if (record == 5){
+				succesfulSave = imwrite("images/" + std::to_string(++imageCounter) + ".png", originalFrame);
+				if (succesfulSave)
+					cv::imshow("Last Saved", originalFrame);
+			}
+
+			if (succesfulSave)
+				putText(frame, "PICTURE RECORDED", Point(50, 100), FONT_HERSHEY_DUPLEX, 1, Scalar(0, 0, 255));
+			else
+				putText(frame, "SAVE ERROR", Point(50, 100), FONT_HERSHEY_DUPLEX, 1, Scalar(0, 0, 255));			
+			record--;
+
 		}
-		imshow("Webcam image", frame);
+		putText(frame, "Press Space to Capture picture!", Point(20, 20), FONT_HERSHEY_COMPLEX_SMALL, 1, Scalar(0, 255, 255));
+		putText(frame, "Press Esc to Exit!", Point(20, 50), FONT_HERSHEY_COMPLEX_SMALL, 1, Scalar(0, 255, 255));
+		cv::imshow("Webcam image", frame);
 		int Key = waitKey(30);
 		if (Key == 27) // escape key
 			break; // exit the code
 		if (Key == 32) // space key
-			record = !record; // start / stop recording
+			record = 5; 
 	}
 	// the camera will be closed automatically in VideoCapture destructor
 	return 0;
