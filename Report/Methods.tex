@@ -1,3 +1,7 @@
+\subsection{Normalization}
+Preprocessing of the image is needed in order to have a good recognition. We'll use for this purpose equalized gray images. The first thing is to detect the face. We use Haar features to detect it. However, Haar will only recognize not rotated face. If we do not recognize a face, the face will be rotated and the same process will be used. Once a face is detected we'll use again Haar features to detect the eyes or the mouth and nose. The angle remaining to have the eyes or nose and mouth aligned is then used to have these features aligned. The face is then cropped to the dimensions of the face detected by Haar features and resize to a specified size, so that every picture has the same size.
+
+
 \subsection{Fisher method}
 \begin{figure}
 	\centering		
@@ -32,3 +36,45 @@ y_C
 \end{array}\right)
 \label{equ:Alap_egyenlet}
 \end{equation}
+
+\subsection{Eigenfaces method}
+
+The Eigenfaces method is based on a principal components analysis from a training set of images. To get those, each normalized image is translated into a vector. The principal components will be then determined : They have the highest eigenvalue in the diagonalized correlation matrix (made out of the image and the mean values of the training set). After selecting the principals components (first eigenvectors called eigenfaces in this case), each image can be then be approximated with those weighed eigenfaces :
+\begin{equation}
+x \approx  \hat{x} = \bar{x} + E_{x} * W \textrm{, where } 
+\end{equation}
+$x$ = vector representing the image,\\
+$\hat{x}$ = approximated vector,\\
+$\bar{x}$ = mean values of the vector during training,\\
+$E_{x}$ = Matrix of eigenfaces (principal components),\\
+$W$ = Matrix of weights of eigenfaces\\
+
+$W$ is particular to each image and is calculated to minimize the distance between $x$ and $\bar{x}$:
+\begin{equation}
+W = E_{x}^T (x-\bar{x}) 
+\end{equation}
+
+The face recognized will be then the one in the training having its weight matrix $W$ the closest to the weight matrix of the current face analyzed. 
+
+\subsection{Local Binary Pattern Histogram}
+
+The local binary pattern histogram method uses the local feature of the face. First, the image is sliced into squares.
+To avoid problems of scale, The neighbours of a pixel analysed will be the ones on a circle with a varying radius and this pixel as center.
+The intensity of the central pixel is then compared to the ones of its neighbours. (higher values become 1, lower ones become 0).
+We then compute the new value of the central pixel, being the sum of powers of two combined with the value of neighbor taken clockwise. The point is to spot particular patterns of neighbor such as edges, lines, corner, flat areas.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=2.5in]{rsrc/LBPH1.jpg}
+\caption{Analysing the local structure}
+\label{Local Structure}
+\end{figure}
+
+The histograms are then added (and not merged) for each part of the image. The resulting vector is then compared to the vectors obtained during the training. A fixed number of the closest vectors to the resulting vector is chosen and the person assigned to the greater number of these vector will be associated with the initial image.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=2.5in]{rsrc/LBPH2.png}
+\caption{Adding histograms (source : http://what-when-how.com/face-recognition/)}
+\label{Adding histograms}
+\end{figure}
