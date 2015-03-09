@@ -19,12 +19,16 @@ void Webcam::setImage(cv::Mat image){
     img = image;
 }
 
-cv::Mat Webcam::getImage() const{
+cv::Mat Webcam::getImage(bool rect){
     QMutexLocker locker(&mutex);
-    return img;
+    cv::Mat copy = img.clone();
+    if(rect){
+            cv::rectangle(copy,cvPoint(rectangle->x-1,rectangle->y-1),cvPoint(rectangle->x+rectangle->width+1,rectangle->y+rectangle->height+1),cvScalar(0,255,0));
+    }
+    return copy;
 }
 
-cv::Mat Webcam::getCroppedImage() const{
+cv::Mat Webcam::getCroppedImage(){
     cv::Mat img = getImage();
     cv::Mat croppedImg(img,*rectangle);
     return croppedImg;
@@ -33,7 +37,6 @@ cv::Mat Webcam::getCroppedImage() const{
 void Webcam::readImage(){
     cv::Mat src;
     videoCapture->read(src);
-    cv::rectangle(src,cvPoint(rectangle->x-1,rectangle->y-1),cvPoint(rectangle->x+rectangle->width+1,rectangle->y+rectangle->height+1),cvScalar(0,255,0));
     setImage(src);
     //imshow("output",src);
     emit imageChanged();

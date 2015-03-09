@@ -13,6 +13,8 @@
 
 using namespace cv;
 
+void imageCaptureLoop(Webcam& webcam,QString foldername);
+
 
 MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(0), webcam(0)
 {
@@ -29,11 +31,14 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     file->addAction(save);
     QAction* load = new QAction("&Load Classifier",this);
     file->addAction(load);
+    QAction* captureImgs = new QAction("&Capture Images",this);
+    file->addAction(captureImgs);
     QAction* exit = new QAction("&Exit",this);
     file->addAction(exit);
     //signal/slot linking
     connect(save,SIGNAL(triggered()),this,SLOT(save_classifier())); // save slot
     connect(load,SIGNAL(triggered()),this,SLOT(load_classifier())); // load slot
+    connect(captureImgs,SIGNAL(triggered()),this,SLOT(start_imageCapture())); // load slot
     connect(exit,SIGNAL(triggered()),qApp,SLOT(quit())); //exit
 
     webcam = new Webcam();
@@ -100,6 +105,10 @@ void MainWindow::load_classifier(){
 	}
 	else
 		printMsg("Failed to load the recognizer!");
+}
+
+void MainWindow::start_imageCapture(){
+    imageCaptureLoop(*webcam,QFileDialog::getExistingDirectory(this));
 }
 
 QGroupBox* MainWindow::groupPath_creation(){
@@ -194,7 +203,7 @@ void MainWindow::setValidationPath(){
 
 void MainWindow::live_webcam(){
 
-    cvWidget->showImage(webcam->getImage());
+    cvWidget->showImage(webcam->getImage(true));
 }
 
 void MainWindow::training(){
