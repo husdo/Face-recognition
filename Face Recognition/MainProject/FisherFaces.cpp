@@ -19,13 +19,17 @@ void FisherFaces::training(Images& InputImages)
 	trained = true;
 }
 
-string FisherFaces::predict(double *confidence,const Mat& InputImages)
+string FisherFaces::predict(double *confidence,const Mat& InputImage)
 {
-	Mat grayImg;
-	cvtColor(InputImages, grayImg, CV_BGR2GRAY);
 	int predictedLabel = -1;
-	*confidence = 0.0;
-	model->predict(grayImg, predictedLabel, *confidence);
+	(*confidence) = 0.0;
+	Mat gray_Img;
+	if (InputImage.type() == CV_8U)
+		gray_Img = InputImage;
+	else
+		cvtColor(InputImage, gray_Img, CV_BGR2GRAY);
+	equalizeHist(gray_Img, gray_Img);
+	model->predict(gray_Img, predictedLabel, *confidence);
 	std::string predictedDirectoryFisher = label2dir[predictedLabel];
 	return predictedDirectoryFisher;
 }

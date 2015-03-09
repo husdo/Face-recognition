@@ -43,7 +43,7 @@ std::string EigenFaces::predict(double* confidence, const cv::Mat& inputImage)
 		gray_Img = inputImage;
 	else
 		cvtColor(inputImage, gray_Img, CV_BGR2GRAY);
-	
+
 	Recognizer->predict(gray_Img, predictedLabel, (*confidence));
 	std::string predictedDirectory = label2dir[predictedLabel];
 	return predictedDirectory;

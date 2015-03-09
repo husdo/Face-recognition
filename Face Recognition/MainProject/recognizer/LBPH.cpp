@@ -37,7 +37,7 @@ std::string LBPH::predict(double* confidence, const cv::Mat& inputImage)
 		gray_Img = inputImage;
 	else
 		cvtColor(inputImage, gray_Img, CV_BGR2GRAY);
-
+	equalizeHist(gray_Img, gray_Img);
 	Recognizer->predict(gray_Img, predictedLabel, (*confidence));
 	std::string predictedDirectory = label2dir[predictedLabel];
 	return predictedDirectory;
