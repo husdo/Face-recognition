@@ -13,8 +13,8 @@ class Webcam : public QThread
     Q_OBJECT
     public:
         Webcam();
-        cv::Mat getImage() const;
-        cv::Mat getCroppedImage() const;
+        cv::Mat getImage(bool rect=false);
+        cv::Mat getCroppedImage();
         bool isOpened() const;
         void run();
         void start();

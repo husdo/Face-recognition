@@ -48,6 +48,7 @@ class MainWindow : public QMainWindow
     private slots:
         void save_classifier();
         void load_classifier();
+        void start_imageCapture();
         void setTrainingPath();
         void setValidationPath();
 		void method_changed(int);
