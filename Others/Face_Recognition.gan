@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2015-02-02" view-index="0" gantt-divider-location="200" resource-divider-location="300" version="2.7" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2015-02-16" view-index="0" gantt-divider-location="200" resource-divider-location="300" version="2.7" locale="fr">
     <description/>
-    <view zooming-state="default:5" id="gantt-chart">
+    <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd3" name="Nom" width="54" order="0"/>
-        <field id="tpd4" name="Date de début" width="22" order="1"/>
+        <field id="tpd4" name="Date de début" width="23" order="1"/>
         <field id="tpd5" name="Date de fin" width="22" order="2"/>
         <option id="taskLabelUp" value="name"/>
         <option id="taskLabelRight" value="resources"/>
@@ -45,9 +45,14 @@
         <task id="10" name="Preliminary work on Fisherfaces" color="#8cb6ce" meeting="false" start="2015-02-18" duration="3" complete="0" expand="true"/>
         <task id="11" name="Preliminary work on Haar Cascades" color="#8cb6ce" meeting="false" start="2015-02-18" duration="3" complete="0" expand="true"/>
         <task id="18" name="Meeting" color="#00cc00" meeting="true" start="2015-02-20" duration="0" complete="0" expand="true"/>
+        <task id="21" name="Normalisation using Haar feature based cascade" color="#8cb6ce" meeting="false" start="2015-02-20" duration="7" complete="0" expand="true"/>
+        <task id="31" name="Meeting" color="#00cc00" meeting="true" start="2015-03-05" duration="0" complete="0" expand="true"/>
+        <task id="26" name="Saving, Loading of classifiers" color="#8cb6ce" meeting="false" start="2015-03-05" duration="3" complete="0" expand="true"/>
         <task id="12" name="Neural Network" color="#8cb6ce" meeting="false" start="2015-02-23" duration="3" complete="0" expand="true"/>
         <task id="13" name="Classifiers" color="#8cb6ce" meeting="false" start="2015-02-23" duration="3" complete="0" expand="true"/>
-        <task id="14" name="Presentation" color="#ff0000" meeting="true" start="2015-03-06" duration="0" complete="0" expand="true"/>
+        <task id="23" name="Meeting" color="#00cc00" meeting="true" start="2015-03-09" duration="0" complete="0" expand="true"/>
+        <task id="34" name="Report writing" color="#8cb6ce" meeting="false" start="2015-03-09" duration="6" complete="0" expand="true"/>
+        <task id="14" name="Presentation" color="#ff0000" meeting="true" start="2015-03-20" duration="0" complete="0" expand="true"/>
         <task id="15" name="Report" color="#ff0000" meeting="true" start="2015-04-03" duration="0" complete="0" expand="true"/>
     </tasks>
     <resources>
@@ -60,19 +65,24 @@
     <allocations>
         <allocation task-id="0" resource-id="0" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="9" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="12" resource-id="0" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="22" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="0" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="26" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="0" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="7" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="13" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="19" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="0" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="8" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="12" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="0" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="10" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="0" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="11" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
     </allocations>
     <vacations/>
     <taskdisplaycolumns>
@@ -86,9 +96,9 @@
         <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd8" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
-        <displaycolumn property-id="tpd3" order="0" width="107" visible="true"/>
-        <displaycolumn property-id="tpd4" order="1" width="45" visible="true"/>
-        <displaycolumn property-id="tpd5" order="2" width="44" visible="true"/>
+        <displaycolumn property-id="tpd3" order="0" width="98" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="42" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="41" visible="true"/>
     </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>
