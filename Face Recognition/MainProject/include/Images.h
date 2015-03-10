@@ -5,8 +5,6 @@
 #include "cv.h"
 #include "dirent.h"
 #include <vector>
-#include <highgui.h> // open cv GUI include file
-#include <QProgressBar>
 
 class Images
 {
@@ -25,7 +23,7 @@ private:
 
 public:
 	Images();
-	Images(std::string path,unsigned int row = 100, unsigned int col = 100, bool normalization = true, QProgressBar* bar=0);
+	Images(std::string path,unsigned int row = 100, unsigned int col = 100, bool normalization = true);
 	~Images();
 
 	void addImage(cv::Mat& ColorImage, int& label, unsigned int row = 100, unsigned int col = 100 , bool normalization = true );
