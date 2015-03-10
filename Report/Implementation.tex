@@ -1,1 +1,38 @@
-The implementation goes here.
+\subsection{The Graphical User Interface}
+
+To make our program simple and easy to use, we have created a Graphical User Interface(GUI). To do so we have used the Qt library and because it can 
+generate problems on some computers, the program can also be run without GUI by specifying the training and testing folders in the command line.
+The GUI is divided into 3 main parts: the main window, the result dialogBox and the ImageCapture program.
+
+\subsubsection{The main window}
+
+It is the first window to appear when the program is executed. It contains the following functionalities:
+\begin{itemize}
+ \item A menu to load and save classifiers in a file (the classifier selected in the list of methods will be used) and to run the ImageCapture 
+program.
+
+\item A path selection tool to specify where is are the training and validation folders. The paths can be modified directly from the text inputs or 
+by browsing it using the "..." button.
+
+\item A widget displaying the image retrieved from the webcam. A Rectangle has been added to help the user to center his face on the picture.
+\item An output console embedded in the window.
+\item A normalization checkbox to apply the normalization on the images or not
+\item A progressBar to make sure that the program is still running while loading the images (unfortunately it was not possible to do the same for the 
+training).
+\end{itemize}
+
+\subsubsection{The result dialogBox}
+When a new picture is taken by the user, a new result window is created. This dialogBox call the predict function from the selected classifier and 
+display the results to the user(image, predicted label and confidence level).
+
+\subsubsection{The ImageCapture program}
+- Drag'n Drop square
+- Big cross for alignment
+- Space Bar to record
+
+\subsubsection{The Webcam object}
+
+\subsection{Dataset seperation}
+
+We have broken down our initial dataset into 2 folders: a training folder and a testing one.
+
