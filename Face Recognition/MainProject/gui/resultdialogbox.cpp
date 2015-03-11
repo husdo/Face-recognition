@@ -26,7 +26,7 @@ ResultDialogBox::ResultDialogBox(const Images& img, Facial_Recognizer* recognize
 	}
 
 	std::string result = recognizer->predict(&c,img.getColorImage(0));
-    label = new QLabel(QString::fromUtf8(result.c_str())+" | confidence level: "+QString::number(percent,'f',1));
+    label = new QLabel(QString::fromUtf8(result.c_str())+" | confidence level: "+QString::number(percent,'f',1)+"%");
     layout->addWidget(label);
     image.showImage(img.getColorImage(0));
     setLayout(layout); //comment
