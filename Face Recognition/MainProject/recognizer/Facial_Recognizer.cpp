@@ -20,7 +20,7 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 		else
 			result = predict(&confidence,InputImages.getGrayImage(Iterator));
 
-		std::cout << InputImages.getLabel(Iterator) << " "<<result << std::endl;
+		//std::cout << InputImages.getLabel(Iterator) << " "<<result << std::endl;
 		if (std::strcmp(result.c_str(),label.c_str()) == 0)
 		{
 			CrossValidation[label]++;
