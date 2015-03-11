@@ -34,6 +34,24 @@ string FisherFaces::predict(double *confidence,const Mat& InputImage)
 	return predictedDirectoryFisher;
 }
 
+void FisherFaces::showFisher()
+{
+	Mat eigenvalues = model->getMat("eigenvalues");
+	Mat W = model->getMat("eigenvectors");
+	Mat mean = model->getMat("mean");
+
+	for (int i = 0; i < min(16, W.cols); i++){
+		Mat ev = W.col(i).clone();
+		Mat grayscale;
+		cvtColor(ev, grayscale, CV_BGR2GRAY);
+		Mat cgrayscale;
+		applyColorMap(grayscale, cgrayscale, COLORMAP_BONE);
+
+		namedWindow("FisherFace", CV_WINDOW_AUTOSIZE);
+		imshow("FisherFace", cgrayscale);
+	}
+}
+
 void FisherFaces::save(std::string path) const
 {
 	try{
