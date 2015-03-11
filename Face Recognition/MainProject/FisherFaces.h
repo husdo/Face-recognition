@@ -19,6 +19,7 @@ public:
 
 	void training(Images& InputImages);
 	string predict(double *confidence, const Mat& InputImages);
+	void showFisher();
 	void save(std::string path) const;
 	void load(std::string path);
 };
