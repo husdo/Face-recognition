@@ -32,7 +32,10 @@ display the results to the user(image, predicted label and confidence level).
 
 \subsubsection{The Webcam object}
 
+
+
 \subsection{Dataset}
+
 \subsubsection{Databases used}
 During the project, we used different databases :
 \begin{itemize}
@@ -51,7 +54,7 @@ Dataset used for training :
 \end{itemize}
 We firstly tried to do a little database with only three people selected from the group. We wanted to have the faces exposed to different illuminations and in front of different background to avoid a recognition valid only under certain conditions. The process was to make different faces (smiling, opening the mouth...) in different places. A video was then taken while moving the face and the computer in a partially lighted room in order to get different illuminations. 
 
-We have broken down our initial dataset into two folders: a training folder and a testing one. Firstly, we respected a 80\%, 20\% repartition between the training and validation dataset. However, there was too many images for each person in the training dataset and we experienced overfitting. Indeed, if the training and validation test was the same, results were good. If we took other images for the validation, the results could be less efficient than a random choice ($<$30\% in the first database), or recognize a type of illumination instead of a person.
+We have broken down our initial dataset into two folders: a training folder and a testing one. Firstly, we respected a 80\%, 20\% repartition between the training and validation dataset. However, there were too many images for each person in the training dataset and we experienced overfitting. Indeed, if the training and validation test was the same, results were good. If we took other images for the validation, the results could be less efficient than a random choice ($<$30\% in the first database), or recognize a type of illumination instead of a person.
 
 The most efficient training set was approximately 10 images taken in different conditions. 
 
@@ -60,8 +63,9 @@ It is known that Eigenfaces and Fisherfaces were sensible to rotation. To maximi
 
 To improve our results, we also try to equalize the histogram of the gray image before the analyze of it. As there was no improvement of recognition and as it took some processing time, we stopped the equalization.
 
-\subsection{Methods}
-\subsection{Testing parameters}
-
-\subsection{Loading and Saving}
+\subsection{Loading and Saving of models}
 To have an easier loading of the model through the GUI interface, there is only one file to load. It is a merge of two files : An xml file representing the model itself and a csv file representing the linking between labels (integer) and names associated.
+
+
+\subsection{Methods and Testing parameters}
+
