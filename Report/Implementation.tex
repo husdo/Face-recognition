@@ -61,6 +61,18 @@ It is known that Eigenfaces and Fisherfaces were sensible to rotation. To maximi
 To improve our results, we also try to equalize the histogram of the gray image before the analyze of it. As there was no improvement of recognition and as it took some processing time, we stopped the equalization.
 
 \subsection{Methods}
+
+To implement the methods we created three base class. The image handler(images.h), the recognizer (Facial\_Recogniser.h) and the normalizer (normalizer.h).
+\begin{itemize}
+	\item The $Images$ class encapsulate the images. It can read from a folder or it's possible to add only a $Mat$ file with label. It also contains the labels for the pictures.
+	
+	\item The $Facial\_Recognizer$ is a base class. It has multiple virtual functions to make the interfaces universal. These functions are: train, load, save and predict. It has a validation part witch test the classifier with a set of images and save the result of the validation into cvs file.
+	
+	\item normalizer.h
+	The normalizer just read the original image and gives back the normalised one. If the normalization fails the original picture will be stored.
+	
+\end{itemize}
+
 \subsection{Testing parameters}
 
 \subsection{Loading and Saving}
