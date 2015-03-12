@@ -23,45 +23,9 @@ The cascade is then trained. Adaboost is used for this purpose on positive image
 \end{figure}
 However, Haar will only recognize not rotated face. If we do not recognize a face, the face will be rotated and the same Haar process will be used. Once a face is detected we'll use again Haar features to detect the eyes or the mouth and nose. The angle remaining to have the eyes or nose and mouth aligned is then used to have these features aligned. The face is then cropped to the dimensions of the face detected by Haar features and resize to a specified size, so that every picture has the same size.
 
-
-\subsection{Fisher method}
-\begin{figure}
-	\centering		
-	\includegraphics[width = 0.4\textwidth]{rsrc/LDA_basic.png}
-	\caption{Az LDA algoritmus által megvizsgált szórások. The source of the image: \cite{LDA}}
-	\label{fig:LDA abrazolas}
-\end{figure}
-
-Ha $ m $ dimenziós vektorokat szeretnék leképezni egy $ C $-dimenziós térbe akkor azt a következő módon tehetem meg.
-\begin{equation}
-y = w^Tx \textrm{, where } 
-\end{equation}
-\begin{equation}
-x = \left(
-\begin{array}{ccc}
-x_1\\
-\vdots\\
-x_m
-\end{array} \right)
-w=\left(
-\begin{array}{ccc}
-w_{1,1} \dots w_{1,C}\\
-\vdots \ddots \vdots\\
-w_{m,1} \dots w_{m,C}
-\end{array}
-\right)
-y = \left(
-\begin{array}{ccc}
-y_1\\
-\vdots\\
-y_C
-\end{array}\right)
-\label{equ:Alap_egyenlet}
-\end{equation}
-
 \subsection{Eigenfaces method}
 
-The Eigenfaces method is based on a principal components analysis from a training set of images. To get those, each normalized image is translated into a vector. The principal components will be then determined : They have the highest eigenvalue in the diagonalized correlation matrix (made out of the image and the mean values of the training set). After selecting the principals components (first eigenvectors called eigenfaces in this case), each image can be then be approximated with those weighed eigenfaces :
+The Eigenfaces method is based on a principal components analysis from a training set of images. To get those, each normalized image is translated into a vector. The principal components will be then determined : They have the highest eigenvalue in the diagonalized correlation matrix (made out of the image and the mean values of the training set). After selecting the principal components (first eigenvectors called eigenfaces in this case), each image can be then be approximated with those weighed eigenfaces :
 \begin{equation}
 x \approx  \hat{x} = \bar{x} + E_{x} * W \textrm{, where } 
 \end{equation}
@@ -78,9 +42,23 @@ W = E_{x}^T (x-\bar{x})
 
 The face recognized will be then the one in the training having its weight matrix $W$ the closest to the weight matrix of the current face analyzed. 
 
+\subsection{Fisherfaces method}
+
+The Fisherfaces method is an improved version of the Eigenfaces method that uses Linear Discriminant Analysis (LDA) rather than Principle Component Analysis (PCA) to find features that maximise the variance in the data. The problem with PCA is that it can consider variances in each picture, such as changing light sources as principle components and therefore not actually contain discriminating information about each face. To prevent this, Fisher's LDA method maximises the ratio of between-class scatter 
+\begin{equation}
+\sum\limits_{i=1}^{c}N_{i}(\mu_{i}-\mu)(\mu_{i}-\mu)^T
+\end{equation}
+and within-class scatter.
+\begin{equation}
+\sum\limits_{i=1}^{c}\sum\limits_{x_{j}\epsilon X_{i}}^{}(x_{j}-\mu_{i})(x_{j}-\mu_{i})^T
+\end{equation}
+Similar classes(faces) should therefore group together and dissimilar classes should be far away from each other.
+Fisherfaces should produce less errors than the Eigenfaces method and also be better at recognising faces in varying lighting conditions and different facial expressions.
+
+
 \subsection{Local Binary Pattern Histogram}
 
-The local binary pattern histogram method uses the local feature of the face. First, the image is sliced into squares.
+The local binary pattern histogram metandhod uses the local feature of the face. First, the image is sliced into squares.
 To avoid problems of scale, The neighbours of a pixel analysed will be the ones on a circle with a varying radius and this pixel as center.
 The intensity of the central pixel is then compared to the ones of its neighbours. (higher values become 1, lower ones become 0).
 We then compute the new value of the central pixel, being the sum of powers of two combined with the value of neighbor taken clockwise. The point is to spot particular patterns of neighbor such as edges, lines, corner, flat areas.
