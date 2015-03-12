@@ -1,11 +1,9 @@
 #include "Facial_Recognizer.h"
-//#include <cv.h>
-
-//#include "label_files.h"
-#include "opencv2/core/core.hpp"
-#include "opencv2/contrib/contrib.hpp"
-#include "opencv2/highgui/highgui.hpp"
-
+#include "EigenFaces.h"
+#include "FisherFaces.h"
+#include "LBPH.h"
+//#include <stdexcept>
+#include <iostream>
 
 using namespace cv;
 

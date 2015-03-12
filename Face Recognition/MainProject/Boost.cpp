@@ -1,9 +1,4 @@
 #include "Boost.h"
-#include "EigenFaces.h"
-#include "FisherFaces.h"
-#include "LBPH.h"
-#include <stdexcept>
-#include <iostream>
 
 using namespace std;
 
@@ -39,7 +34,7 @@ void Boost::training(Images& InputImages){
 
 std::string Boost::predict(double* confidence, const cv::Mat& inputImage){
 
-	
+	return 0;
 }
 
 void Boost::save(std::string path) const{

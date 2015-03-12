@@ -1,10 +1,5 @@
 #pragma once
 #include "Facial_Recognizer.h"
-#include "label_files.h"
-#include <cv.h>
-#include "opencv2/core/core.hpp"
-#include "opencv2/contrib/contrib.hpp"
-#include "opencv2/highgui/highgui.hpp"
 
 using namespace cv;
 using namespace std;
