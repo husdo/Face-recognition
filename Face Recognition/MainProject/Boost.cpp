@@ -23,7 +23,7 @@ Boost::~Boost(){
 
 void Boost::training(Images& InputImages){
 
-	label2dir = InputImages.getLabel2Dir();
+	//label2dir = InputImages.getLabel2Dir();
 	std::cout << "Training started, be patient!\n";
 	fisherfaces.training(InputImages);
 	std::cout << "FisherFaces finished.\n";
@@ -38,22 +38,8 @@ void Boost::training(Images& InputImages){
 }
 
 std::string Boost::predict(double* confidence, const cv::Mat& inputImage){
-	vector<int> predictedLabel(3, -1);
-	vector<double> conf(3, 0.0);
-	vector<string> prediction(3, "");
-	prediction[0] = eigenfaces.predict(&conf[0], inputImage);
-	prediction[1] = fisherfaces.predict(&conf[1], inputImage);
-	prediction[2] = lbph.predict(&conf[2], inputImage);
 
-	if (strcmp(prediction[0].c_str(), prediction[1].c_str()) == 0)
-		return prediction[0];
-
-	if (strcmp(prediction[0].c_str(), prediction[2].c_str()) == 0)
-		return prediction[0];
-
-	if (strcmp(prediction[1].c_str(), prediction[2].c_str()) == 0)
-		return prediction[1];
-	return prediction[1];
+	
 }
 
 void Boost::save(std::string path) const{
