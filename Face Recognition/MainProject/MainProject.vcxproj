@@ -46,7 +46,9 @@
     <IncludePath>C:\OpenCV2.4.9\build\include\opencv2;C:\OpenCV2.4.9\build\include\opencv;C:\OpenCV2.4.9\build\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\OpenCV2.4.9\build\include\opencv2;C:\OpenCV2.4.9\build\include\opencv;C:\OpenCV2.4.9\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenCV2.4.9\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -56,7 +58,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(QtDirectory)\include\bin;$(QtDirectory)\include\QtANGLE;$(QtDirectory)\include\QtGui;$(QtDirectory)\include\QtWidgets;$(QtDirectory)\include\QtCore;.\include;$(QtDirectory)\include;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\include;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -65,9 +67,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PreBuildEvent>
-      <Command>$(QtDirectory)\bin\moc include\mainwindow.h -o gui\moc_mainwindow.cxx
-$(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx
-$(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -79,51 +80,45 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>.\include;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opencv_calib3d249.lib;opencv_contrib249.lib;opencv_core249.lib;opencv_features2d249.lib;opencv_flann249d.lib;opencv_highgui249.lib;opencv_imgproc249.lib;opencv_legacy249.lib;opencv_ml249.lib;opencv_nonfree249.lib;opencv_objdetect249.lib;opencv_photo249.lib;opencv_stitching249.lib;opencv_ts249.lib;opencv_video249.lib;opencv_videostab249.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CombinedClassifier.h" />
     <ClInclude Include="FisherFaces.h" />
-    <ClInclude Include="include\Classificator.h" />
     <ClInclude Include="include\EigenFaces.h" />
     <ClInclude Include="include\Facial_Recognizer.h" />
-    <ClInclude Include="include\Images.h" />
-    <ClInclude Include="include\cvwidget.h" />
     <ClInclude Include="include\dirent.h" />
+    <ClInclude Include="include\Images.h" />
     <ClInclude Include="include\LBPH.h" />
-    <ClInclude Include="include\mainwindow.h" />
     <ClInclude Include="include\normalization.h" />
-    <ClInclude Include="include\resultdialogbox.h" />
-    <ClInclude Include="include\webcam.h" />
     <ClInclude Include="include\label_files.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Classificator.cpp" />
+    <ClCompile Include="CombinedClassifier.cpp" />
     <ClCompile Include="FisherFaces.cpp" />
-    <ClCompile Include="gui\imagecapture.cpp" />
+    <ClCompile Include="Images.cpp" />
     <ClCompile Include="normalization.cpp" />
     <ClCompile Include="recognizer\Facial_Recognizer.cpp" />
     <ClCompile Include="recognizer\EigenFaces.cpp" />
-    <ClCompile Include="gui\mainwindow.cpp" />
-    <ClCompile Include="gui\moc_cvwidget.cxx" />
-    <ClCompile Include="gui\moc_mainwindow.cxx" />
-    <ClCompile Include="gui\moc_webcam.cxx" />
-    <ClCompile Include="gui\resultdialogbox.cpp" />
-    <ClCompile Include="gui\webcam.cpp" />
-    <ClCompile Include="Images.cpp" />
     <ClCompile Include="label_files.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="recognizer\LBPH.cpp" />
