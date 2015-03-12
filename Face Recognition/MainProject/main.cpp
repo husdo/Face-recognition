@@ -1,3 +1,5 @@
+#include <mainwindow.h>
+#include <QApplication>
 //#include <Windows.h>
 #include "Images.h"
 #include "Facial_Recognizer.h"
@@ -14,11 +16,17 @@
 int main(int argc, char** argv)
 {
     
-		string path = "FirstDatabase/Train/";
-		string path2 = "FirstDatabase/Test/";
 
-        Images Imgs(path,100,100);  //test call
-		Images Imgs2(path2,100,100);
+    if(argc == 1){
+		QApplication app(argc, argv);
+        MainWindow mainWindow;
+        mainWindow.show();
+        return app.exec();
+    }
+    else{
+		string path = "ATT_ImgDatabase_Separated/";
+        Images Imgs(argv[1],100,100);  //test call
+		Images Imgs2(argv[2],100,100);
         EigenFaces first;
 		std::cout << "Training started!\n";
         first.training(Imgs);
@@ -26,7 +34,7 @@ int main(int argc, char** argv)
         //first.load();
 		first.validation(Imgs2,GrayImg);
         //std::cout<<first.predict(Imgs.getGrayImage(0));
-
+    }
 	return 0;
 
 }
