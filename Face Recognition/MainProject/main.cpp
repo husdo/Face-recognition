@@ -8,6 +8,7 @@
 #include "FisherFaces.h"
 #include "LBPH.h"
 #include "CombinedClassifier.h"
+#include "Boost.h"
 
 
 
