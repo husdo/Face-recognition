@@ -8,7 +8,9 @@
 #include "resultdialogbox.h"
 #include "EigenFaces.h"
 #include "FisherFaces.h"
+//#include "LBPH.h"
 #include "LBPH.h"
+
 //#include "executionthread.h"
 
 using namespace cv;
@@ -22,6 +24,7 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     recognizers.push_back(new EigenFaces());
 	recognizers.push_back(new FisherFaces());
 	recognizers.push_back(new LBPH());
+	recognizers.push_back(new EigenFaces());
 	recognizers.push_back(new EigenFaces());
 
     //creation of the menu
@@ -135,7 +138,8 @@ QGroupBox* MainWindow::groupPath_creation(){
     methods_list->addItem("EigenFaces");
     methods_list->addItem("FisherFaces");
     methods_list->addItem("LBPH");
-    methods_list->addItem("CNN");
+	methods_list->addItem("CNN");
+	methods_list->addItem(">>Boost<<");
     methods_list->setMaximumWidth(200);
 	connect(methods_list,SIGNAL(currentIndexChanged(int)),this,SLOT(method_changed(int)));
 

@@ -7,6 +7,8 @@
 #include "TestEigenFaces.h"
 #include "FisherFaces.h"
 #include "LBPH.h"
+#include "CombinedClassifier.h"
+#include "Boost.h"
 
 
 
@@ -27,7 +29,7 @@ int main(int argc, char** argv)
 		string path = "ATT_ImgDatabase_Separated/";
         Images Imgs(argv[1],100,100);  //test call
 		Images Imgs2(argv[2],100,100);
-        EigenFaces first;
+        CombinedClassifier first;
 		std::cout << "Training started!\n";
         first.training(Imgs);
 		std::cout << "Training ended!\n";

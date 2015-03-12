@@ -1,13 +1,4 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
-#include <iostream>
-#include <dirent.h> /* iterate through a folder*/
-#include <sys/types.h>/* for folders*/
-#include <sys/stat.h>/*test if it is a folder or not*/
-#include <vector>
-#include "opencv2/highgui/highgui.hpp"
 #include "label_files.h"
 
 using namespace std;
