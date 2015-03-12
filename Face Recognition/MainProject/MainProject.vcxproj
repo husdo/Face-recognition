@@ -101,6 +101,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CombinedClassifier.h" />
     <ClInclude Include="FisherFaces.h" />
     <ClInclude Include="include\EigenFaces.h" />
     <ClInclude Include="include\Facial_Recognizer.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CombinedClassifier.cpp" />
     <ClCompile Include="FisherFaces.cpp" />
     <ClCompile Include="Images.cpp" />
     <ClCompile Include="normalization.cpp" />

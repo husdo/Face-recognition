@@ -1,3 +1,7 @@
+
+#ifndef FISHERFACES_H
+#define FISHERFACES_H
+
 #include "Facial_Recognizer.h"
 #include "label_files.h"
 #include "opencv2/core/core.hpp"
@@ -22,3 +26,5 @@ public:
 	void save(std::string path) const;
 	void load(std::string path);
 };
+
+#endif
