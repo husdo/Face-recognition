@@ -8,10 +8,8 @@
 #include "resultdialogbox.h"
 #include "EigenFaces.h"
 #include "FisherFaces.h"
-//#include "LBPH.h"
+#include "CombinedClassifier.h"
 #include "LBPH.h"
-
-//#include "executionthread.h"
 
 using namespace cv;
 
@@ -253,12 +251,8 @@ void MainWindow::printMsg(QString msg){
 }
 
 void MainWindow::takePicture(){
-    cv::Mat img = webcam->getCroppedImage();
-    Images imgs;
-    int label =0;
-    imgs.addImage(img,label,100,100,checkBox->isChecked());
 	Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
-    ResultDialogBox box(imgs,current_recognizer);
+    ResultDialogBox box(webcam,current_recognizer,checkBox->isChecked());
     box.exec();
 }
 

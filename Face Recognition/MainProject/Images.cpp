@@ -66,7 +66,6 @@ Images::Images(std::string path, unsigned int row /* = 100 */, unsigned int col 
             //		imshow("original image", tmpImg);
             if (normalization){
                 bool normaizationSucceed = normalize(tmpImg, classifiers, normalizedimg, row);
-                std::cout << tmpImg.size().height << " " << normalizedimg.size().height << ":" << (double)normalizedimg.size().height / (double)tmpImg.size().height << " " << normaizationSucceed << std::endl;
                 if ((double)normalizedimg.size().height / (double)tmpImg.size().height > 0.5 && normaizationSucceed){
                     tmpImg = normalizedimg;
                     std::vector<int> params;
@@ -96,8 +95,11 @@ void Images::addImage(cv::Mat& ColorImage, int& label, unsigned int row /* = 100
 	ImgSize = cv::Size(col, row);
 	cv::Mat tmpImage,normalizedimg;
 	if (normalization){
-		normalize(ColorImage, classifiers, normalizedimg, row);
-		tmpImage = normalizedimg;
+		bool normalizationSucceed = normalize(ColorImage, classifiers, normalizedimg, row);
+        if ((double)normalizedimg.size().height / (double)ColorImage.size().height > 0.5 && normalizationSucceed)
+            normalizedimg.copyTo(tmpImage);
+        else
+            ColorImage.copyTo(tmpImage);
 	}
 	else
 		ColorImage.copyTo(tmpImage);
