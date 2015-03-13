@@ -18,9 +18,11 @@ public:
 	virtual std::string predict(double* confidence, const cv::Mat& InputImage) = 0;
 	virtual void save(std::string path = "") const = 0; // if the path is empty you should save the classifier next to the exe with your own file format
 	virtual void load(std::string path = "") = 0; // if the path is empty you should load the classifier from the default place.
-	Facial_Recognizer();
+    void print(std::string message) const;
+	Facial_Recognizer(QObject* parent=0);
 	~Facial_Recognizer();
 protected:
     bool trained;
+    QObject* window;
 	std::map<int, std::string> label2dir;
 };

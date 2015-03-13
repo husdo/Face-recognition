@@ -13,8 +13,8 @@ private:
 	Ptr<FaceRecognizer> model;
 
 public:
-	FisherFaces();
-	FisherFaces(int nbComponents, double recognitionThreshold);
+	FisherFaces(QObject* parent=0);
+	FisherFaces(int nbComponents, double recognitionThreshold, QObject* parent=0);
 	~FisherFaces();
 
 	void training(Images& InputImages);
