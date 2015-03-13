@@ -45,9 +45,9 @@ During the project, we used different databases :
 Dataset used for training :
 \begin{itemize}
  \item 3 persons, 100 pictures for each from 1 take.  
-\item 3 persons, 100 pictures for each from 3 take.
-\item 3 persons, 10 pictures for each from 3 take.
-\item 5 persons, 10 pictures for each from 5 take.
+\item 3 persons, 100 pictures for each from 1 take.
+\item 3 persons, 10 pictures for each from 2 takes.
+\item 5 persons, 10 pictures for each from at least 4 takes.
 \end{itemize}
 We firstly tried to do a little database with only three people selected from the group. We wanted to have the faces exposed to different illuminations and in front of different background to avoid a recognition valid only under certain conditions. The process was to make different faces (smiling, opening the mouth...) in different places. A video was then taken while moving the face and the computer in a partially lighted room in order to get different illuminations. 
 
@@ -56,7 +56,7 @@ We have broken down our initial dataset into two folders: a training folder and 
 The most efficient training set was approximately 10 images taken in different conditions. 
 
 \subsection{Preprocessing}
-It is known that Eigenfaces and Fisherfaces were sensible to rotation. To maximize the recognition, a preprocessing of the faces was made and consisted in getting a centered, straight head in a known size image. However the Haar detection can take up to 1 second, and the rotation and cropping on the initial colour image up to 0.3 seconds. (The colour image was kept in order to use the colour on other methods not yet implemented in the project). The time of processing prevent doing some real time recognition. The recognition with normalization of the images on a 3 person database jumped from 21\% to 89\% of recognized face.
+It is known that Eigenfaces and Fisherfaces were sensible to rotation. To maximize the recognition, a preprocessing of the faces was made and consisted in getting a centered, straight head in a known size image. However the Haar detection can take up to 1 second, and the rotation and cropping on the initial color image up to 0.3 seconds. (The color image was kept in order to use the color on other methods not yet implemented in the project). The time of processing prevent doing some real time recognition. The recognition with normalization of the images on a 3 person database jumped from 21\% to 89\% of recognized face.
 
 To improve our results, we also try to equalize the histogram of the gray image before the analyze of it. As there was no improvement of recognition and as it took some processing time, we stopped the equalization.
 
@@ -69,7 +69,7 @@ To implement the methods we created three base class. The image handler(images.h
 	\item The $Facial\_Recognizer$ is a base class. It has multiple virtual functions to make the interfaces universal. These functions are: train, load, save and predict. It has a validation part witch test the classifier with a set of images and save the result of the validation into cvs file.
 	
 	\item normalizer.h
-	The normalizer just read the original image and gives back the normalised one. If the normalization fails the original picture will be stored.
+	The normalizer just read the original image and gives back the normalized one. If the normalization fails the original picture will be stored.
 	
 \end{itemize}
 
