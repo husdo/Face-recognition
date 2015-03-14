@@ -44,7 +44,7 @@ The face recognized will be then the one in the training having its weight matri
 
 \subsection{Fisherfaces method}
 
-The Fisherfaces method is an improved version of the Eigenfaces method that uses Linear Discriminant Analysis (LDA) rather than Principle Component Analysis (PCA) to find features that maximise the variance in the data. The problem with PCA is that it can consider variances in each picture, such as changing light sources as principle components and therefore it does not actually contain discriminating information about each face. To prevent this, Fisher's LDA method maximises the ratio of between-class scatter 
+The Fisherfaces method is an improved version of the Eigenfaces method that uses Linear Discriminant Analysis (LDA) rather than Principle Component Analysis (PCA) to find features that maximise the variance in the data. The problem with PCA is that it can consider variances in each picture, such as changing light sources as principle components and therefore not actually contain discriminating information about each face. To prevent this, Fisher's LDA method maximises the ratio of between-class scatter 
 \begin{equation}
 	\sum\limits_{i=1}^{c}N_{i}(\mu_{i}-\mu)(\mu_{i}-\mu)^T
 \end{equation}
@@ -52,8 +52,8 @@ and within-class scatter.
 \begin{equation}
 	\sum\limits_{i=1}^{c}\sum\limits_{x_{j}\epsilon X_{i}}^{}(x_{j}-\mu_{i})(x_{j}-\mu_{i})^T
 \end{equation}
-Similar classes (faces) should therefore group together and dissimilar classes should be far away from each other.
-Fisherfaces should produce lower errors than the Eigenfaces method and also be better at recognising faces in varying lighting conditions and different facial expressions.\cite{Eigenfaces_vs_fisherfaces}
+Similar classes(faces) should therefore group together and dissimilar classes should be far away from each other.
+Fisherfaces should produce lower errors than the Eigenfaces method and also be better at recognising faces in varying lighting conditions and different facial expressions.
 
 \subsection{Local Binary Pattern Histogram}
 
