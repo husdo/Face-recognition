@@ -13,27 +13,27 @@ class Webcam : public QThread
     Q_OBJECT
     public:
         Webcam();
-        cv::Mat getImage(bool rect=false);
+        //getters
+        cv::Mat getImage(bool rect=false); // if rect=true display the green rectangle
         cv::Mat getCroppedImage();
         bool isOpened() const;
-        void run();
-        void start();
-        void stop();
-    protected:
-    private:
-        mutable QMutex mutex;
-        cv::Mat img;
-        cv::VideoCapture* videoCapture;
-        QTimer* timer;
-        cv::Rect* rectangle;
+        void run(); // to start the thread
 
+    private:
+        mutable QMutex mutex; // mutex to avoid conflicts
+        cv::Mat img; // image retrieve
+        cv::VideoCapture* videoCapture; //webcam stream
+        QTimer* timer; // timer to retrieve images continously
+        cv::Rect* rectangle; // Rectangle to crop the image
+
+        //settter
         void setImage(cv::Mat image);
 
     private slots:
-        void readImage();
+        void readImage(); // slot called by the timer to retrieve an image from the camera stream
 
     signals:
-        void imageChanged();
+        void imageChanged(); //signal to update the main window
 };
 
 #endif // WEBCAM_H

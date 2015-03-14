@@ -1,4 +1,8 @@
-/* http://develnoter.blogspot.co.uk/2012/05/integrating-opencv-in-qt-gui.html */
+/* The code used was found at: http://develnoter.blogspot.co.uk/2012/05/integrating-opencv-in-qt-gui.html
+    The class is used to display an OpenCV Image (cv::Mat) into a Qt widget (QWidget).
+    It is a link between the OpenCV and Qt librairies
+
+*/
 
 #ifndef CVWIDGET_H
 #define CVWIDGET_H

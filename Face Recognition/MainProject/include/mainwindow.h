@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
         void printMsg(QString msg);
 
     private:
+        //GUI attributes
         QVBoxLayout* mainLayout;
         QWidget* mainWidget;
         CVWidget* cvWidget;
@@ -30,30 +31,42 @@ class MainWindow : public QMainWindow
 		QPushButton* trainingButton;
 		QPushButton* validationButton;
 		QPushButton* pictureButton;
-
-        QString trainingFolder;
-        QString validationFolder;
-        QPlainTextEdit* textResults;
+		QPlainTextEdit* textResults;
         QProgressBar* bar;
         QCheckBox* checkBox;
 
-        vector<Facial_Recognizer*> recognizers;
+        //Paths attributes
+        QString trainingFolder;
+        QString validationFolder;
 
-        Webcam* webcam;
 
+        vector<Facial_Recognizer*> recognizers; // list of recognizers
+
+        Webcam* webcam; // webcam object
+
+        //GroupBoxes
         QGroupBox* groupPath_creation();
         QGroupBox* groupImage_creation();
 
 
     private slots:
+
+        //Menu slots
         void save_classifier();
         void load_classifier();
         void start_imageCapture();
-        void setTrainingPath();
-        void setValidationPath();
-		void method_changed(int);
-        void live_webcam();
-        void takePicture();
+
+        //Path modification
+        void setTrainingPath(); // called when the path is modified
+        void setValidationPath(); // called when the path is modified
+
+		void method_changed(int); //called when the method list is modified
+
+        void live_webcam(); //called by the webcam each time a frame is retrieved
+
+        void takePicture(); // called by the pictureButton
+
+        //traing / validation functions
         void training();
         void validation();
 

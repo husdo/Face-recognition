@@ -15,15 +15,15 @@ class ResultDialogBox : public QDialog
     public:
         ResultDialogBox(Webcam* webcam, Facial_Recognizer* recognizer, bool norm, QWidget* parent=0);
     private:
-        CVWidget image;
-        QLabel* label;
-        Webcam* m_webcam;
-        Facial_Recognizer* m_recognizer;
-        bool normalization;
-        QTimer* timer;
+        CVWidget image; // image taken
+        QLabel* label; // text to be displayed (name of the person and confidence level)
+        Webcam* m_webcam; //webcam object to take a picture
+        Facial_Recognizer* m_recognizer; //recognizer to predict
+        bool normalization;  //normalization enabled or not
+        QTimer* timer; // timer to make a live
 
     private slots:
-        void takePicture();
+        void takePictures(); // function called by the timer
 };
 
 #endif // RESULTDIALOGBOX_H
