@@ -5,9 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -23,7 +31,20 @@
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
@@ -36,7 +57,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -45,7 +72,15 @@
     <LibraryPath>C:\OpenCV2.4.9\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>C:\OpenCV2.4.9\build\include\opencv2;C:\OpenCV2.4.9\build\include\opencv;C:\OpenCV2.4.9\build\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>C:\OpenCV2.4.9\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenCV2.4.9\build\include\opencv2;C:\OpenCV2.4.9\build\include\opencv;C:\OpenCV2.4.9\build\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -54,7 +89,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(QtDirectory)\include\bin;$(QtDirectory)\include\QtANGLE;$(QtDirectory)\include\QtGui;$(QtDirectory)\include\QtWidgets;$(QtDirectory)\include\QtCore;.\include;$(QtDirectory)\include;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -67,7 +102,32 @@
     <PreBuildEvent>
       <Command>$(QtDirectory)\bin\moc include\mainwindow.h -o gui\moc_mainwindow.cxx
 $(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx
-$(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
+$(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx
+$(QtDirectory)\bin\moc include\resultdialogbox.h -o gui\moc_resultdialogbox.cxx</Command>
+    </PreBuildEvent>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(QtDirectory)\include\bin;$(QtDirectory)\include\QtANGLE;$(QtDirectory)\include\QtGui;$(QtDirectory)\include\QtWidgets;$(QtDirectory)\include\QtCore;.\include;$(QtDirectory)\include;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opencv_calib3d249d.lib;opencv_contrib249d.lib;opencv_core249d.lib;opencv_features2d249d.lib;opencv_flann249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;opencv_legacy249d.lib;opencv_ml249d.lib;opencv_nonfree249d.lib;opencv_objdetect249d.lib;opencv_photo249d.lib;opencv_stitching249d.lib;opencv_ts249d.lib;opencv_video249d.lib;opencv_videostab249d.lib;$(QtDirectory)\lib\Qt5Cored.lib;$(QtDirectory)\lib\Qt5Guid.lib;$(QtDirectory)\lib\Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>$(QtDirectory)\bin\moc include\mainwindow.h -o gui\moc_mainwindow.cxx
+$(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx
+$(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx
 $(QtDirectory)\bin\moc include\resultdialogbox.h -o gui\moc_resultdialogbox.cxx</Command>
     </PreBuildEvent>
     <ProjectReference>
@@ -82,14 +142,36 @@ $(QtDirectory)\bin\moc include\resultdialogbox.h -o gui\moc_resultdialogbox.cxx<
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(QtDirectory)\include\bin;$(QtDirectory)\include\QtANGLE;$(QtDirectory)\include\QtGui;$(QtDirectory)\include\QtWidgets;$(QtDirectory)\include\QtCore;.\include;$(QtDirectory)\include;$(OpenCVDirectory)\include\opencv;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(OpenCVDirectory)\x86\vc12\lib\opencv_contrib249.lib;$(OpenCVDirectory)\x86\vc12\lib\opencv_core249.lib;$(OpenCVDirectory)\x86\vc12\lib\opencv_highgui249.lib;$(OpenCVDirectory)\x86\vc12\lib\opencv_imgproc249.lib;$(OpenCVDirectory)\x86\vc12\lib\opencv_nonfree249.lib;$(OpenCVDirectory)\x86\vc12\lib\opencv_objdetect249.lib;$(QtDirectory)\lib\Qt5Core.lib;$(QtDirectory)\lib\Qt5Gui.lib;$(QtDirectory)\lib\Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(QtDirectory)\include\bin;$(QtDirectory)\include\QtANGLE;$(QtDirectory)\include\QtGui;$(QtDirectory)\include\QtWidgets;$(QtDirectory)\include\QtCore;.\include;$(QtDirectory)\include;$(OpenCVDirectory)\include\opencv;$(OpenCVDirectory)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(OpenCVDirectory)\x64\vc12\lib\opencv_contrib249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_core249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_highgui249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_imgproc249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_nonfree249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_objdetect249.lib;$(QtDirectory)\lib\Qt5Core.lib;$(QtDirectory)\lib\Qt5Gui.lib;$(QtDirectory)\lib\Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
