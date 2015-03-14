@@ -7,7 +7,7 @@
 * @param recognitionThreshold : 0 => nobody is recognized. inf.=> everybody will be
 * recognize as someone. I worked with 1100
 */
-LBPH::LBPH(int radius, int neighbors, int grid_x, int grid_y, double threshold)
+LBPH::LBPH(QObject* parent, int radius, int neighbors, int grid_x, int grid_y, double threshold) : Facial_Recognizer(parent)
 {
 	Recognizer = cv::createLBPHFaceRecognizer(1, 8, 8, 8, 123.0);
 	trained = false;
@@ -60,7 +60,7 @@ void LBPH::save(std::string path) const
 	try{
 		std::string extension = ".lbp";
 		if (path.substr(path.length() - 4) != extension){
-			perror(("(saving) false name. must end with" + extension).c_str());
+			print(("(saving) false name. must end with" + extension).c_str());
 			return;
 		}
 
@@ -71,7 +71,7 @@ void LBPH::save(std::string path) const
 
 		//check to see that it exists:
 		if (!ifile.is_open()) {
-			perror("file not found (save method in Eigenfaces)");
+			print("file not found (save method in Eigenfaces)");
 		}
 		else {
 			ofile << ifile.rdbuf();
@@ -81,10 +81,12 @@ void LBPH::save(std::string path) const
 		ofile.close();
 
 		if (remove("./tempModel.yml") != 0)
-			perror("Error deleting file");
+			print("Error deleting file");
+
+        print("Recognizer saved successfully!");
 	}
 	catch (std::exception){
-		std::cout << "Problem while saving the model";
+		print("Problem while saving the model");
 	}
 }
 
@@ -93,11 +95,11 @@ void LBPH::load(std::string path){
 	std::string extension = ".lbp";
 	try{
 		if (path.substr(path.length() - 4) != extension){
-			perror(("(loading) false name.must end with" + extension).c_str());
+			print(("(loading) false name.must end with" + extension).c_str());
 			return;
 		}
 		if (!(stat(path.c_str(), &buffer) == 0)){
-			perror("model file does not exist (loading)");
+			print("model file does not exist (loading)");
 			return;
 		}
 		std::ifstream containerFile(path.c_str());
@@ -128,12 +130,13 @@ void LBPH::load(std::string path){
 		Recognizer->load("./tempModelFile.yml");
 
 		if (remove("./tempLabelFile.csv") != 0)
-			perror("Error deleting temporary file");
+			print("Error deleting temporary file");
 		if (remove("./tempModelFile.yml") != 0)
-			perror("Error deleting temporary file");
+			print("Error deleting temporary file");
 		trained = true;
+		print("Recognizer loaded successfully!");
 	}
 	catch (std::exception){
-		std::cout << "Problem while loading the model";
+		print("Problem while loading the model");
 	}
 }

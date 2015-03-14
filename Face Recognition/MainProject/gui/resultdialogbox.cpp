@@ -17,7 +17,7 @@ ResultDialogBox::ResultDialogBox(Webcam* webcam, Facial_Recognizer* recognizer, 
     setLayout(layout); //comment
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(takePicture()));
-    timer->start(500);
+    timer->start(300);
 }
 
 void ResultDialogBox::takePicture(){

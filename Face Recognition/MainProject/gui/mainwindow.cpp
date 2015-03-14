@@ -2,6 +2,7 @@
 
 #include <QAction>
 #include <QThread>
+#include <typeinfo>
 #include "cv.h"
 #include "highgui.h"
 #include "dirent.h"
@@ -19,11 +20,11 @@ void imageCaptureLoop(Webcam& webcam,QString foldername);
 MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(0), webcam(0)
 {
     // creation of the recognizers
-    recognizers.push_back(new EigenFaces());
-	recognizers.push_back(new FisherFaces());
-	recognizers.push_back(new LBPH());
-	recognizers.push_back(new EigenFaces());
-	recognizers.push_back(new EigenFaces());
+    recognizers.push_back(new EigenFaces(this));
+	recognizers.push_back(new FisherFaces(this));
+	recognizers.push_back(new LBPH(this));
+	recognizers.push_back(new EigenFaces(this));
+	recognizers.push_back(new CombinedClassifier());
 
     //creation of the menu
     QMenu* file = menuBar()->addMenu("&File");
@@ -53,7 +54,7 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     QGroupBox* groupImage = groupImage_creation();
 
     //Trigger button
-    pictureButton = new QPushButton("Take Picture");
+    pictureButton = new QPushButton("Take Pictures");
     pictureButton->setMinimumWidth(500);
 	pictureButton->setEnabled(false);
 
@@ -85,9 +86,21 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
 }
 
 void MainWindow::save_classifier(){
-	QString filename = QFileDialog::getSaveFileName(this,tr("Save Classifier"));
+    Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
+    if(!current_recognizer->isTrained()){
+        printMsg("Classifier not trained. Cannot be saved!");
+        return;
+    }
+    QString filter("Classifier (*.eig *.fis *.lbp)");
+    string type = typeid(*current_recognizer).name();
+    if(type == "10EigenFaces")
+        filter = "EigenFaces classifier (*.eig)";
+     if(type == "11FisherFaces")
+        filter = "FisherFaces classifier (*.fis)";
+     if(type == "4LBPH")
+        filter = "LBPH classifier (*.lbp)";
+	QString filename = QFileDialog::getSaveFileName(this,tr("Save Classifier"),QString(),filter);
 	if(filename != ""){
-		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
 		current_recognizer->save(filename.toUtf8().constData());
 		printMsg("Recognizer saved successfully!");
 	}
@@ -96,13 +109,12 @@ void MainWindow::save_classifier(){
 }
 
 void MainWindow::load_classifier(){
-	QString filename = QFileDialog::getOpenFileName(this,tr("Save Classifier"));
+	QString filename = QFileDialog::getOpenFileName(this,"load Classifier",QString(),"Classifier (*.eig *.fis *.lbp)");
 	if(filename != ""){
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()];
 		current_recognizer->load(filename.toUtf8().constData());
 		validationButton->setEnabled(true);
 		pictureButton->setEnabled(true);
-		printMsg("Recognizer loaded successfully!");
 	}
 	else
 		printMsg("Failed to load the recognizer!");

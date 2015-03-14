@@ -1,7 +1,9 @@
 #include "Facial_Recognizer.h"
+#include "mainwindow.h"
 #include <fstream>
+#include <sstream>
 
-Facial_Recognizer::Facial_Recognizer() : trained(false) {}
+Facial_Recognizer::Facial_Recognizer(QObject* parent) : trained(false), window(parent) {}
 
 Facial_Recognizer::~Facial_Recognizer() {}
 
@@ -15,9 +17,9 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 	std::map<std::string,double> Counter;
 	double confidence=0.0;
 	for (unsigned int Iterator = 0; Iterator < InputImages.size(); ++Iterator){
-		
+
 		label = InputImages.label2dir(InputImages.getLabel(Iterator));
-		
+
 		if (type == ColorImg)
 			result = predict(&confidence, InputImages.getColorImage(Iterator));
 		else
@@ -43,20 +45,32 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 	}
 	fullResult /= CrossValidation.size();
 
-	std::cout << "*****************************************\n";
-	std::cout << "** The result of the validation:       **\n";
-	std::cout << "*****************************************\n";
+	print("*****************************************");
+	print("** The result of the validation:       **");
+	print("*****************************************");
 	for (std::map<std::string, double>::iterator it = Counter.begin(); it != Counter.end(); it++){
-		std::cout << (it->first) << ": " << CrossValidation[it->first] << std::endl;
+        stringstream ss;
+		ss << (it->first) << ": " << CrossValidation[it->first];
+		print(ss.str());
 		resultFileOut << (it->first) << ";" << CrossValidation[it->first] << std::endl;
 	}
-	std::cout << "*****************************************\n";
-	std::cout << "**Full Result: " << fullResult << "\t\t****"<< std::endl;
+	print("*****************************************");
+	stringstream ss;
+	ss << "**Full Result: " << fullResult << "\t\t****";
+	print(ss.str());
 	resultFileOut << "Full Result;" << fullResult << std::endl;
-	std::cout << "*****************************************\n";
-	
+	print("*****************************************");
+
 	std::cout << "General validation process ended.\n";
 
 	return std::vector<double>(0);
 }
 
+void Facial_Recognizer::print(std::string message) const{
+	    if(window!=0){
+            QString msg = QString::fromUtf8(message.c_str());
+            static_cast<MainWindow*>(window)->printMsg(msg);
+        }
+        else
+            std::cout << message << std::endl;
+	}

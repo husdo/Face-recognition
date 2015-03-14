@@ -68,6 +68,7 @@
       <Command>$(QtDirectory)\bin\moc include\mainwindow.h -o gui\moc_mainwindow.cxx
 $(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx
 $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
+$(QtDirectory)\bin\moc include\resultdialogbox.h -o gui\moc_resultdialogbox.cxx</Command>
     </PreBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -95,9 +96,10 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CombinedClassifier.h" />
-    <ClInclude Include="FisherFaces.h" />
+    <ClInclude Include="include\CombinedClassifier.h" />
+    <ClInclude Include="include\FisherFaces.h" />
     <ClInclude Include="include\EigenFaces.h" />
+    <ClInclude Include="include\Boost.h" />
     <ClInclude Include="include\Facial_Recognizer.h" />
     <ClInclude Include="include\Images.h" />
     <ClInclude Include="include\cvwidget.h" />
@@ -111,16 +113,18 @@ $(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx</Command>
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CombinedClassifier.cpp" />
-    <ClCompile Include="FisherFaces.cpp" />
+    <ClCompile Include="recognizer\CombinedClassifier.cpp" />
+    <ClCompile Include="recognizer\FisherFaces.cpp" />
     <ClCompile Include="gui\imagecapture.cpp" />
     <ClCompile Include="normalization.cpp" />
     <ClCompile Include="recognizer\Facial_Recognizer.cpp" />
     <ClCompile Include="recognizer\EigenFaces.cpp" />
+    <ClCompile Include="recognizer\Boost.cpp" />
     <ClCompile Include="gui\mainwindow.cpp" />
     <ClCompile Include="gui\moc_cvwidget.cxx" />
     <ClCompile Include="gui\moc_mainwindow.cxx" />
     <ClCompile Include="gui\moc_webcam.cxx" />
+    <ClCompile Include="gui\moc_resultdialogbox.cxx" />
     <ClCompile Include="gui\resultdialogbox.cpp" />
     <ClCompile Include="gui\webcam.cpp" />
     <ClCompile Include="Images.cpp" />

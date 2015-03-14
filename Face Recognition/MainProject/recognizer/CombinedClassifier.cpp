@@ -4,7 +4,7 @@ CombinedClassifier::CombinedClassifier(int nbComponents, double recognitionThres
 {
 	EigenRecognizer = EigenFaces(nbComponents, recognitionThreshold);
 	FisherRecognizer = FisherFaces(nbComponents, recognitionThreshold);
-	LBPHRecognizer = LBPH(nbComponents, recognitionThreshold);
+	LBPHRecognizer = LBPH(0,nbComponents, recognitionThreshold);
 	trained = false;
 }
 
@@ -40,7 +40,7 @@ std::string CombinedClassifier::predict(double* confidence, const cv::Mat& input
 
 	if (strcmp(prediction[0].c_str(), prediction[1].c_str()) == 0)
 		return prediction[0];
-	
+
 	if (strcmp(prediction[0].c_str(), prediction[2].c_str()) == 0)
 		return prediction[0];
 
