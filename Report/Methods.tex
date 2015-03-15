@@ -46,6 +46,15 @@ We then compute the new value of the central pixel, being the sum of powers of t
 The histograms are then added (and not merged) for each part of the image. The resulting vector is then compared to the vectors obtained during the training. A fixed number of the closest vectors to the resulting vector is chosen and the person assigned to the greater number of these vector will be associated with the initial image.
 
 
-\subsection{RBF and Convolutional NeuralNetwork}
+\subsection{Advanced methods}
 
-NeuralNetwork stuff here
+The previous methods use global representation and consider the image as a whole. They are called holistic methods. But today more advanced methods 
+have been developed like stated in \cite{literature_review} and \cite{FR_survey}.
+During the project we have worked on two of these methods.
+\subsubsection{Neural Network}
+As shown by M. J. Er \cite{RBF_NN} Neural Network can be used to recognize faces. This require a previous feature extraction to initialize the 
+network. Convolutional Neural Network (biologically-inspired Multilayer perceptron) are also popular for face recognition \cite{CNN}. We have 
+therefore tried to create a Neural Network based on these methods but there is currently no specific libraries for face recognition using Neural 
+Network and we didn't manage to create our own Neural Network classifier within the deadline.
+
+\subsubsection{classifiers combination}
