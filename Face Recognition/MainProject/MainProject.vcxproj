@@ -173,6 +173,12 @@ $(QtDirectory)\bin\moc include\resultdialogbox.h -o gui\moc_resultdialogbox.cxx<
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>$(OpenCVDirectory)\x64\vc12\lib\opencv_contrib249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_core249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_highgui249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_imgproc249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_nonfree249.lib;$(OpenCVDirectory)\x64\vc12\lib\opencv_objdetect249.lib;$(QtDirectory)\lib\Qt5Core.lib;$(QtDirectory)\lib\Qt5Gui.lib;$(QtDirectory)\lib\Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>$(QtDirectory)\bin\moc include\mainwindow.h -o gui\moc_mainwindow.cxx
+$(QtDirectory)\bin\moc include\cvwidget.h -o gui\moc_cvwidget.cxx
+$(QtDirectory)\bin\moc include\webcam.h -o gui\moc_webcam.cxx
+$(QtDirectory)\bin\moc include\resultdialogbox.h -o gui\moc_resultdialogbox.cxx</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
