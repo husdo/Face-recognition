@@ -1,7 +1,7 @@
 \subsection{The Graphical User Interface}
 
-To make our program simple and easy to use, we have created a Graphical User Interface(GUI). To do so we have used the Qt library and because it can 
-generate problems on some computers, the program can also be run without GUI by specifying the training and testing folders in the command line.
+To make our program simple and easy to use, we have created a Graphical User Interface(GUI). To do so we have used the Qt library but the program can 
+still be run without GUI by specifying the training and testing folders in the command line.
 The GUI is divided into 3 main parts: the main window, the result dialogBox and the ImageCapture program.
 
 \subsubsection{The main window}
@@ -11,26 +11,36 @@ It is the first window to appear when the program is executed. It contains the f
  \item A menu to load and save classifiers in a file (the classifier selected in the list of methods will be used) and to run the ImageCapture 
 program.
 
-\item A path selection tool to specify where is are the training and validation folders. The paths can be modified directly from the text inputs or 
+\item A path selection tool to specify where are the training and validation folders. The paths can be modified directly from the text inputs or 
 by browsing it using the "..." button.
 
-\item A widget displaying the image retrieved from the webcam. A Rectangle has been added to help the user to center his face on the picture.
+\item A live preview widget displaying the image retrieved from the camera. A Rectangle is added to help the user to center his face on the 
+picture.
 \item An output console embedded in the window.
-\item A normalization checkbox to apply the normalization on the images or not
+\item A normalization checkbox to apply the normalization on the images or not.
 \item A progressBar to make sure that the program is still running while loading the images (unfortunately it was not possible to do the same for the 
-training).
+training process).
 \end{itemize}
 
 \subsubsection{The result dialogBox}
-When a new picture is taken by the user, a new result window is created. This dialogBox call the predict function from the selected classifier and 
-display the results to the user(image, predicted label and confidence level).
+When a new picture is taken by the user, a result window is created. This dialogBox call the predict function from the selected classifier and 
+display the results to the user (image, predicted label and confidence level).
 
 \subsubsection{The ImageCapture program}
-- Drag'n Drop square
-- Big cross for alignment
-- Space Bar to record
+To create our own database easly we have created a short OpenCV program to take pictures. Unlike the main program, we use the OpenCV highGUI instead 
+of the Qt library to display the images. By clicking and draging the mouse we create a square in the image. This square define the part of the image 
+that will be recorded. With this feature, the user can easily adapt the size and the position of the image to match his face. We have also added a 
+big cross in the square so that the user can align his eyes with his nose and mouth.
+Finally, when the space bar is pressed the picture inside the square is saved to the specified folder.
 
 \subsubsection{The Webcam object}
+During the execution different parts of the program need to acces the images taken by the camera of the user(live preview, ImageCapture, 
+resultDialogBox,...). Sometimes this need to be done simultaneously so to avoid any conflict we have created an object named "Webcam". This object 
+uses the Qt "QThread" and "QMutex" classes to create a stream from the camera and retrieving the images in a new thread. Thus this code is executed 
+in the same time as the main program and the images retrieved from the camera can be accessed at any time and simultaneously without any risk of 
+conflict (thanks to the mutex).
+The use of the thread also allow us the use the main program (for training and validation) even if the user don't have any camera or if there is a 
+problem with it. Without the thread the program would stop as soon as a problem with the camera occur.
 
 \subsection{Dataset}
 \subsubsection{Databases used}
