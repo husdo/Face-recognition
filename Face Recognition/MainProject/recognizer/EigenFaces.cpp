@@ -1,6 +1,4 @@
 #include "EigenFaces.h"
-#include <stdexcept>
-#include <iostream>
 /**
 * create a model
 * @param nbComponent : number of greatest components from the PCA. 20 is usually enough
