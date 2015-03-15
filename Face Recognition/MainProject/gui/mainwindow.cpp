@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     bar->setRange(0,100); //percentage
     checkBox = new QCheckBox("normalization",this); // checkbox for the normalization
     checkBox->setChecked(true);
-	QLabel* imagesLabel = new QLabel("Loading Images:");
+	QLabel* imagesLabel = new QLabel("Partial progress:");
     QHBoxLayout* bottomLayout = new QHBoxLayout();
     bottomLayout->addWidget(checkBox);
     bottomLayout->addWidget(pictureButton);
