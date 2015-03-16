@@ -40,9 +40,13 @@ std::string CombinedClassifier::predict(double* confidence, const cv::Mat& input
 	prediction[2] = LBPHRecognizer.predict(&conf[2], inputImage);
 	
 	//real confidence not distance
-	mapConfidence[prediction[0]] += 1 - conf[0] / 4225;
-	mapConfidence[prediction[1]] += 1 - conf[1] / 1239;
-	mapConfidence[prediction[2]] += 1 - conf[2] / 101;
+	double tmpConf;
+	if (1 - conf[0] / 4225 < 0) tmpConf = 0; else tmpConf = 1 - conf[0] / 4225;
+	mapConfidence[prediction[0]] += tmpConf;
+	if (1 - conf[1] / 1239 < 0) tmpConf = 0; else tmpConf = 1 - conf[1] / 1239;
+	mapConfidence[prediction[1]] += tmpConf;
+	if (1 - conf[2] / 101 < 0) tmpConf = 0; else tmpConf = 1 - conf[2] / 101;
+	mapConfidence[prediction[2]] += tmpConf;
 
 	string bestPrediction = mapConfidence.begin()->first;
 	double maxConfidence = mapConfidence.begin()->second;
@@ -57,7 +61,7 @@ std::string CombinedClassifier::predict(double* confidence, const cv::Mat& input
 		}
 	}
 
-	if (maxConfidence>0.6)
+	if (maxConfidence>0.3)
 		return bestPrediction;
 	else
 		return "Not recognizable face";
