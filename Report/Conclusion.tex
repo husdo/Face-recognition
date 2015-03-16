@@ -2,5 +2,6 @@ Face Regnition is a complex and popular problem with a large domain of applicati
 2000's. During this project we have used the OpenCV FaceRecognition module to create different Recognizers. We have then developed a graphical user 
 interface to train and test the recognizers easily but also to take pictures from the camera and to predict the name of the person in front of the 
 it. We have finally created a database of our faces and tested the different methods with it and with official databases. We came to the 
-following results. EigenFaces > FisherFaces > LBPH (to be detailed). But more interesting, if we combine the different classifiers and make a 
-decision rule based on the result of each classifier we obtain a more robust recongizer.
+following results: between the 3 methods EigenFaces, FisherFaces and Local Binary Pattern Histogram, the FisherFaces method seems to get the best 
+results with 90.80\% of good recognition on our database. But more interesting, if we combine the different classifiers and make a 
+decision rule based on the result of all of them we obtain a more robust recognizer (97\% in total).
