@@ -8,7 +8,6 @@
 #include "FisherFaces.h"
 #include "LBPH.h"
 #include "CombinedClassifier.h"
-#include "Boost.h"
 
 
 
@@ -17,7 +16,7 @@
 
 int main(int argc, char** argv)
 {
-    
+
 
     if(argc == 1){
 		QApplication app(argc, argv);

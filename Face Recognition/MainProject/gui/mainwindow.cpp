@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget* parent): mainLayout(0), mainWidget(0), cvWidget(
     recognizers.push_back(new EigenFaces(this));
 	recognizers.push_back(new FisherFaces(this));
 	recognizers.push_back(new LBPH(this));
-	recognizers.push_back(new CombinedClassifier());
+	recognizers.push_back(new CombinedClassifier(this));
 
     //creation of the menu
     QMenu* file = menuBar()->addMenu("&File");
