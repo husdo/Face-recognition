@@ -4,7 +4,7 @@
 ResultDialogBox::ResultDialogBox(Webcam* webcam, Facial_Recognizer* recognizer, bool norm, QWidget* parent) : QDialog(parent), image(0), label(0), m_webcam(webcam), normalization(norm), m_recognizer(recognizer)
 {
     setWindowTitle("Recognition"); //title of the window
-	setMinimumSize(200,50);
+	setMinimumSize(400,150);
     label = new QLabel("");
     // layout of the window
     QVBoxLayout* layout = new QVBoxLayout();

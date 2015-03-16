@@ -92,14 +92,17 @@ void MainWindow::save_classifier(){
         printMsg("Classifier not trained. Cannot be saved!");
         return;
     }
-    QString filter("Classifier (*.eig *.fis *.lbp)");
+    QString filter("Classifier (*.eig *.fis *.lbp *.com)");
     string type = typeid(*current_recognizer).name(); // depending on the type of the recognizer we want a particular extension
+    std::cout << type << endl;
     if(type == "10EigenFaces")
         filter = "EigenFaces classifier (*.eig)";
      if(type == "11FisherFaces")
         filter = "FisherFaces classifier (*.fis)";
      if(type == "4LBPH")
         filter = "LBPH classifier (*.lbp)";
+    if(type == "18CombinedClassifier")
+        filter = "Combined classifier (*.com)";
 	QString filename = QFileDialog::getSaveFileName(this,tr("Save Classifier"),QString(),filter); // DialogBox for saving
 	if(filename != ""){
 		current_recognizer->save(filename.toUtf8().constData()); //calling the save function of the recognizer
@@ -109,7 +112,7 @@ void MainWindow::save_classifier(){
 }
 
 void MainWindow::load_classifier(){
-	QString filename = QFileDialog::getOpenFileName(this,"load Classifier",QString(),"Classifier (*.eig *.fis *.lbp)"); //DialogBox for loading
+	QString filename = QFileDialog::getOpenFileName(this,"load Classifier",QString(),"Classifier (*.eig *.fis *.lbp *.com)"); //DialogBox for loading
 	if(filename != ""){
 		Facial_Recognizer* current_recognizer = recognizers[methods_list->currentIndex()]; // get the recognizer selected
 		current_recognizer->load(filename.toUtf8().constData()); //calling the load function
@@ -149,7 +152,7 @@ QGroupBox* MainWindow::groupPath_creation(){
     methods_list->addItem("EigenFaces");
     methods_list->addItem("FisherFaces");
     methods_list->addItem("LBPH");
-	methods_list->addItem("Boost");
+	methods_list->addItem("Combination");
     methods_list->setMaximumWidth(200);
 	connect(methods_list,SIGNAL(currentIndexChanged(int)),this,SLOT(method_changed(int)));
 
