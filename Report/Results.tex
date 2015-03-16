@@ -30,4 +30,28 @@ The results for the combined classifier:
 	\title{Combined classifier validation result}
 \end{table}
 
-The results shows that the combined classifier has 7\% better result than the fisher faces method. The reason is the usage of the boosting. We combined 3 independent method to achieve a better solution than any of it. An other important difference is that the Fisher and the eigenface method did not use threshold for the decision. Because of that if an unknown face would be tried to classify the method would return one of the known label in any circumstances. The combined classifier result shows that the unknown person (Andris) 73\% classified as not recognizable face.
+The results shows that the combined classifier has 7\% better result than the fisher faces method. The reason is the usage of the boosting. We combined 3 independent method to achieve a better solution than any of it. An other important difference is that the Fisher and the Eigen face method did not use threshold for the decision. Because of that if an unknown face would be tried to classify the method would return one of the known label in any circumstances. The combined classifier result shows that the unknown person (Andris) 73\% classified as not recognizable face.
+
+As we mentioned in the \ref{Implementation:preprocessing} chapter we applied preprocessing to the pictures before the training and testing. To validate the previous assumption that this method improve a lot on the algorithm, we tested the combined classifier for the same dataset without preprocessing.
+
+\begin{table}[h]
+	\begin{tabular}{ll}
+		\multicolumn{1}{l|}{** Classification Rate:                **} &         \\ \hline
+		\multicolumn{1}{l|}{Adrian}                                    & 54.96\% \\
+		\multicolumn{1}{l|}{Axel}                                      & 71.43\% \\
+		\multicolumn{1}{l|}{Carole}                                    & 96.48\% \\
+		\multicolumn{1}{l|}{Domi}                                      & 59.89\% \\
+		\multicolumn{1}{l|}{Gareth}                                    & 88.41\% \\
+		\multicolumn{1}{l|}{Full Result}                               & 74.23\% \\
+		&         \\
+		\multicolumn{1}{l|}{** Unsuccesful classification:         **} &         \\ \hline
+		\multicolumn{1}{l|}{Adrian:}                                   & 8.26\%  \\
+		\multicolumn{1}{l|}{Axel:}                                     & 16.42\% \\
+		\multicolumn{1}{l|}{Carole:}                                   & 10.18\% \\
+		\multicolumn{1}{l|}{Domi:}                                     & 14.22\% \\
+		\multicolumn{1}{l|}{Gareth:}                                   & 4.17\%  \\ \hline
+		\multicolumn{1}{l|}{Andris}                                    & 53.22\%
+	\end{tabular}
+\end{table}
+
+ The table shows without preprocessing the recognition rate decreased 23\% while the unknown face (Andris) unsuccessful recognition rate decrease 20\%. We can say that the normalization process for the images witch has a 5-10\% margin around the face makes a serious improvement.
