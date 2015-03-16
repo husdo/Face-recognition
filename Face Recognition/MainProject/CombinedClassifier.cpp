@@ -61,7 +61,7 @@ std::string CombinedClassifier::predict(double* confidence, const cv::Mat& input
 		}
 	}
 
-	if (maxConfidence>0.3)
+	if (maxConfidence>0.6)
 		return bestPrediction;
 	else
 		return "Not recognizable face";
