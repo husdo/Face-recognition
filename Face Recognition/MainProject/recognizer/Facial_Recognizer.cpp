@@ -13,9 +13,11 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 	std::string result,label;
 	std::ofstream fileOut("validation.csv");
 	std::ofstream resultFileOut("result.csv");
-	std::map<std::string,double> CrossValidation;
-	std::map<std::string,double> Counter;
-	double confidence=0.0;
+	std::map<std::string, double> CrossValidation;
+	std::map<std::string, double> UnsuccesfurRecognization;
+	std::map<std::string, double> Counter;
+	std::map<std::string, double> NotRecognizableCounter; 
+	double confidence = 0.0;
 	for (unsigned int Iterator = 0; Iterator < InputImages.size(); ++Iterator){
 
 		label = InputImages.label2dir(InputImages.getLabel(Iterator));
@@ -24,13 +26,17 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 			result = predict(&confidence, InputImages.getColorImage(Iterator));
 		else
 			//std::cout << Iterator;
-			result = predict(&confidence,InputImages.getGrayImage(Iterator));
-		fileOut << InputImages.getFileName(Iterator) << ";" << result << "; " << (std::strcmp(result.c_str(), label.c_str()) == 0) << "; " << confidence << "; " << std::endl;
+			result = predict(&confidence, InputImages.getGrayImage(Iterator));
+		fileOut << InputImages.getFileName(Iterator) << "; " << (std::strcmp(result.c_str(), label.c_str()) == 0) << ";" << result << "; " << confidence << "; " << std::endl;
 		//std::cout << InputImages.getLabel(Iterator) << " "<<result << std::endl;
-		if (std::strcmp(result.c_str(),label.c_str()) == 0)
+		if (std::strcmp(result.c_str(), label.c_str()) == 0)
 		{
 			CrossValidation[label]++;
 			Counter[label]++;
+		}
+		else if (std::strcmp(result.c_str(), "Not recognizable face") == 0)
+		{
+			NotRecognizableCounter[label]++;
 		}
 		else
 		{
@@ -39,14 +45,19 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 
 	}
 	double fullResult = 0;
-	for (std::map<std::string, double>::iterator it = Counter.begin(); it != Counter.end();it++){
+	for (std::map<std::string, double>::iterator it = Counter.begin(); it != Counter.end(); it++){
 		CrossValidation[it->first] /= it->second;
 		fullResult += CrossValidation[it->first];
+		UnsuccesfurRecognization[it->first] = NotRecognizableCounter[it->first] / (NotRecognizableCounter[it->first] + Counter[it->first]);
+
 	}
 	fullResult /= CrossValidation.size();
 
 	print("*****************************************");
 	print("** The result of the validation:       **");
+	print("*****************************************");
+	print("** Classification Rate:                **");
+	resultFileOut << "** Classification Rate:                **\n";
 	print("*****************************************");
 	for (std::map<std::string, double>::iterator it = Counter.begin(); it != Counter.end(); it++){
         stringstream ss;
@@ -60,6 +71,17 @@ std::vector<double> Facial_Recognizer::validation(Images& InputImages, ImgType t
 	print(ss.str());
 	resultFileOut << "Full Result;" << fullResult << std::endl;
 	print("*****************************************");
+	print("*****************************************");
+	print("** Unsuccesful classification : **");
+	resultFileOut << "** Unsuccesful classification:         **\n";
+	print("*****************************************");
+	for (std::map<std::string, double>::iterator it = Counter.begin(); it != Counter.end(); it++){
+		stringstream ss;
+		ss << (it->first) << ": " << UnsuccesfurRecognization[it->first] << std::endl;
+		print(ss.str());
+		resultFileOut << (it->first) << ": " << UnsuccesfurRecognization[it->first] << std::endl;
+	}
+
 
 	std::cout << "General validation process ended.\n";
 
