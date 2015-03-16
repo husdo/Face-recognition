@@ -66,11 +66,13 @@ We have broken down our initial dataset into two folders: a training folder and 
 The most efficient training set was approximately 10-15 images taken in different conditions. 
 
 \subsection{Preprocessing}
+\label{Implementation:preprocessing}
 It is known that Eigenfaces and Fisherfaces were sensible to rotation. To maximize the recognition, a preprocessing of the faces was made and consisted in getting a centered, straight head in a known size image. However the Haar detection can take up to 1 second, and the rotation and cropping on the initial color image up to 0.3 seconds. (The color image was kept in order to use the color on other methods not yet implemented in the project). The time of processing prevent doing some real time recognition. The recognition with normalization of the images on a 3 person database jumped from 21\% to 89\% of recognized face.
 
 To improve our results, we also try to equalize the histogram of the gray image before the analyze of it. As there was no improvement of recognition and as it took some processing time, we stopped the equalization.
 
 \subsection{Methods}
+\subsubsection{Structure of the code}
 
 To implement the methods we created three base class. The image handler(images.h), the recognizer (Facial\_Recogniser.h) and the normalizer (normalizer.h).
 \begin{itemize}
