@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2015-02-16" view-index="0" gantt-divider-location="200" resource-divider-location="300" version="2.7" locale="fr">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2015-02-10" view-index="0" gantt-divider-location="200" resource-divider-location="300" version="2.7" locale="fr">
     <description/>
     <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd3" name="Nom" width="54" order="0"/>
@@ -40,7 +40,7 @@
         <task id="19" name="Capture training images from webcam" color="#8cb6ce" meeting="false" start="2015-02-13" duration="4" complete="0" expand="true"/>
         <task id="16" name="Meeting" color="#00cc00" meeting="true" start="2015-02-18" duration="0" complete="0" expand="true"/>
         <task id="7" name="Main classes" color="#8cb6ce" meeting="false" start="2015-02-18" duration="3" complete="0" expand="true"/>
-        <task id="8" name="Interface, main window" color="#8cb6ce" meeting="false" start="2015-02-18" duration="3" complete="0" expand="true"/>
+        <task id="8" name="Interface, main window" color="#8cb6ce" meeting="false" start="2015-02-18" duration="19" complete="0" expand="true"/>
         <task id="9" name="Preliminary work on Eigenfaces + Label images from folder" color="#8cb6ce" meeting="false" start="2015-02-18" duration="3" complete="0" expand="true"/>
         <task id="10" name="Preliminary work on Fisherfaces" color="#8cb6ce" meeting="false" start="2015-02-18" duration="3" complete="0" expand="true"/>
         <task id="11" name="Preliminary work on Haar Cascades" color="#8cb6ce" meeting="false" start="2015-02-18" duration="3" complete="0" expand="true"/>
@@ -48,9 +48,10 @@
         <task id="21" name="Normalisation using Haar feature based cascade" color="#8cb6ce" meeting="false" start="2015-02-20" duration="7" complete="0" expand="true"/>
         <task id="31" name="Meeting" color="#00cc00" meeting="true" start="2015-03-05" duration="0" complete="0" expand="true"/>
         <task id="26" name="Saving, Loading of classifiers" color="#8cb6ce" meeting="false" start="2015-03-05" duration="3" complete="0" expand="true"/>
-        <task id="12" name="Neural Network" color="#8cb6ce" meeting="false" start="2015-02-23" duration="3" complete="0" expand="true"/>
+        <task id="12" name="Neural Network" color="#8cb6ce" meeting="false" start="2015-03-03" duration="8" complete="0" expand="true"/>
         <task id="13" name="Classifiers" color="#8cb6ce" meeting="false" start="2015-02-23" duration="3" complete="0" expand="true"/>
         <task id="23" name="Meeting" color="#00cc00" meeting="true" start="2015-03-09" duration="0" complete="0" expand="true"/>
+        <task id="36" name="Meeting" color="#00cc00" meeting="true" start="2015-03-16" duration="0" complete="0" expand="true"/>
         <task id="34" name="Report writing" color="#8cb6ce" meeting="false" start="2015-03-09" duration="6" complete="0" expand="true"/>
         <task id="14" name="Presentation" color="#ff0000" meeting="true" start="2015-03-20" duration="0" complete="0" expand="true"/>
         <task id="15" name="Report" color="#ff0000" meeting="true" start="2015-04-03" duration="0" complete="0" expand="true"/>
