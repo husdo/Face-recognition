@@ -69,7 +69,7 @@ The most efficient training set was approximately 10-15 images taken in differen
 
 \subsection{Preprocessing}
 \label{Implementation:preprocessing}
-It is known that Eigenfaces and Fisherfaces were sensible to rotation. To maximize the recognition, a preprocessing of the faces was made and consisted in getting a centered, straight head in a known image size. However the Haar detection can take up to 1 second, and the rotation and cropping on the initial colour image up to 0.3 seconds. (The colour image was kept in order to use the image on other methods not yet implemented in the project). The time of processing prevents doing efficient real time recognition. The recognition with normalisation of the images on a 3 person database jumped from 21\% to 89\% of faces recognised.
+It is known that Eigenfaces and Fisherfaces were sensible to rotation. To maximize the recognition, a preprocessing of the faces was made and consisted in getting a centered, straight head in a known image size. However the Haar detection can take up to 1 second, and the rotation and cropping on the initial colour image up to 0.3 seconds. (The colour image was kept in order to use the image on other methods not yet implemented in the project). The time of processing prevents doing efficient real time recognition. The recognition with normalisation of the images on a 3 person database had a 20\% jump of faces recognised.
 
 To improve our results, we also tried to equalize the histogram of the gray image before the analysis of it. As there was no improvement of recognition and as it took some processing time, we stopped the equalisation.
 
