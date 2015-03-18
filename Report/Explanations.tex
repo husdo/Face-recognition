@@ -7,14 +7,14 @@ We use a Haar features-based cascade to detect the face.
 	\caption{Haar features used in openCV (including 45° features)}
 	\label{fig:Haar features}
 \end{figure}
-The output will be the difference between the sum of the intensities on the whole picture and the intensities on the black part of the feature. The feature are scaled and move across the initial image. These are quickly calculated by using the corresponding intensity image.
+The output will be the difference between the sum of the intensities on the whole picture and the intensities on the black part of the feature. The features are scaled and move across the initial image. These are quickly calculated by using the corresponding intensity image.
 \begin{figure}[ht]
 	\centering		
 	\includegraphics[width = 0.2\textwidth]{rsrc/IntegralImage.jpg}
 	\caption{Integral image : sum of the intensities of the value of left and up pixels of the current pixel}
 	\label{fig:Integral image}
 \end{figure}
-We use indeed two intensity images : one adding the left and up pixels of the analyzed pixel and an other intensity image adding the pixels in the corner of the current pixel made by two 45° lines.
+We use two intensity images, one adding the left and top pixels of the analysed pixel and an other intensity image adding the pixels in the corner of the current pixel made by two 45° lines.
 The cascade is then trained. Adaboost is used for this purpose on positive images (a face, an eye, a nose, a mouth). The result is a sequences of criteria of recognition following a cascade checking of the object.
 \begin{figure}[ht]
 	\centering		
@@ -27,7 +27,7 @@ The cascade is then trained. Adaboost is used for this purpose on positive image
 
 \subsubsection{Local Binary Pattern Histogram}
 
-Computing of the new value of the central pixel, being the sum of powers of two combined with the value of neighbor taken clockwise.
+Computing of the new value of the central pixel, being the sum of powers of two combined with the value of the neighbours taken clockwise.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=2.5in]{rsrc/LBPH1.jpg}
@@ -35,7 +35,7 @@ Computing of the new value of the central pixel, being the sum of powers of two 
 \label{Local Structure}
 \end{figure}
 
-Addition of histograms from subimages.
+Addition of histograms from the subimages.
 
 \begin{figure}[ht]
 \centering
@@ -43,4 +43,22 @@ Addition of histograms from subimages.
 \caption{Adding histograms (source : http://what-when-how.com/face-recognition/)}
 \label{Adding histograms}
 \end{figure}
+
+\begin{figure}[ht]
+\centering		
+\includegraphics[width = 0.4\textwidth]{rsrc/faces.png}	\caption{Different occuring distractions \cite{Occlusion&noise}.}
+\label{fig:Distractions}
+\end{figure}
+
+%%\emph{Example of signifacance of patrial occlusion}
+%%\title{Signifacance of patrial occlusion}
+%%\subsection{\textbf{Signifacance of patrial occlusion}}
+%%\begin{itemize}
+%%	\item Eyes (occlusion of original image ~ 6\%)
+%%	\item Eyebrows (occlusion of original image ~ 6\%)
+%%	\item Mouth (occlusion of original image ~ 11\%)
+%%	\item Eyes and nose (occlusion of original image ~ 9\%)
+%%	\item Glasses (occlusion of original image ~ 15.5\%)
+%%\end{itemize}
+
 

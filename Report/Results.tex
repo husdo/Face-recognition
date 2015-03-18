@@ -1,4 +1,4 @@
-We validated our implementations with our database. It's contains around 15 training and 200 testing pictures about each team member. In the test set in contains one more person (Andris) to test the result for an unknown face.
+We validated our implementations with our database. It contains around 15 training and 200 testing pictures of each team member. The test set contains one more person (Andris) to test the result for an unknown face.
 
 The average successful classification ratio.
 \begin{itemize}
@@ -30,9 +30,9 @@ The results for the combined classifier:
 	\title{Combined classifier validation result}
 \end{table}
 
-The results shows that the combined classifier has 7\% better result than the fisher faces method. The reason is the usage of the boosting. We combined 3 independent method to achieve a better solution than any of it. An other important difference is that the Fisher and the Eigen face method did not use threshold for the decision. Because of that if an unknown face would be tried to classify the method would return one of the known label in any circumstances. The combined classifier result shows that the unknown person (Andris) 73\% classified as not recognizable face.
+The results show that the combined classifier has a 7\% better rate of recognition than the Fisherfaces method. The reason is the usage of the boosting. We combined 3 independent method to achieve a better solution than any of it. Another important difference is that the Fisher and the Eigenface method did not use thresholding for the decision. Because of that if an attempt was made to classify an unknown face, the method would return one of the known labels in any circumstances. The combined classifier result shows that the unknown person (Andris) 73\% classified as non-recognisable face.
 
-As we mentioned in the \ref{Implementation:preprocessing} chapter we applied preprocessing to the pictures before the training and testing. To validate the previous assumption that this method improve a lot on the algorithm, we tested the combined classifier for the same dataset without preprocessing.
+As we mentioned in the \ref{Implementation:preprocessing} chapter we applied preprocessing to the pictures before the training and testing. To validate the previous assumption that this method improves the algorithm a lot, we tested the combined classifier for the same dataset without preprocessing.
 
 \begin{table}[h]
 	\begin{tabular}{ll}
@@ -54,4 +54,4 @@ As we mentioned in the \ref{Implementation:preprocessing} chapter we applied pre
 	\end{tabular}
 \end{table}
 
- The table shows without preprocessing the recognition rate decreased 23\% while the unknown face (Andris) unsuccessful recognition rate decrease 20\%. We can say that the normalization process for the images witch has a 5-10\% margin around the face makes a serious improvement.
+ The table shows that without preprocessing the recognition rate decreased 23\% while the unknown face (Andris) had an unsuccessful recognition rate decrease by 20\%. We can say that the normalisation process for the images which have a 5-10\% margin around the face makes a serious improvement.

@@ -1,11 +1,11 @@
-\subsection{Normalization and Haar feature-based cascade classifier}
-Preprocessing of the image is needed in order to have a good recognition. We'll use for this purpose equalized gray images to a better detection of faces during the normalization. We use a Haar features-based cascade to detect the face.
+\subsection{Normalisation and Haar feature-based cascade classifier}
+Preprocessing of the image is needed in order to have a good recognition rate. For this purpose we will use equalized gray images to ensure a better detection of faces during the normalisation. We use a Haar features-based cascade to detect the face.
 
-However, Haar will only recognize not rotated face. If we do not recognize a face, the face will be rotated and the same Haar process will be used. Once a face is detected we'll use again Haar features to detect the eyes or the mouth and nose. The angle remaining to have the eyes or nose and mouth aligned is then used to have these features aligned. The face is then cropped to the dimensions of the face detected by Haar features and resize to a specified size, so that every picture has the same size.
+However, Haar will only recognise non-rotated faces. If we do not recognise a face, the face will be rotated and the same Haar process will be used. Once a face is detected we'll again use Haar features to detect the eyes ,mouth and nose. The angle remaining to have the eyes or nose and mouth aligned is then used to have these features aligned. The face is then cropped to the dimensions of the face detected by Haar features and resized to a specified size, so that every picture has the same size.
 
 \subsection{Eigenfaces method}
 
-The Eigenfaces method is based on a principal components analysis from a training set of images. To get those, each normalized image is translated into a vector. The principal components will be then determined : They have the highest eigenvalue in the diagonalized correlation matrix (made out of the image and the mean values of the training set). After selecting the principals components (first eigenvectors called eigenfaces in this case), each image can be then be approximated with those weighed eigenfaces :
+The Eigenfaces method is based on a principal components analysis from a training set of images. To get those, each normalised image is translated into a vector. The principal components, the highest eigenvalue in the diagonalized correlation matrix (made out of the image and the mean values of the training set), will then be determined. After selecting the principal components (first eigenvectors called eigenfaces in this case), each image can be then be approximated with those weighed eigenfaces :
 \begin{equation}
 x \approx  \hat{x} = \bar{x} + E_{x} * W \textrm{, where } 
 \end{equation}
@@ -20,11 +20,11 @@ $W$ is particular to each image and is calculated to minimize the distance betwe
 W = E_{x}^T (x-\bar{x}) 
 \end{equation}
 
-The face recognized will be then the one in the training having its weight matrix $W$ the closest to the weight matrix of the current face analyzed. 
+The face recognised will then be the one in the training set which has its weight matrix $W$ closest to the weight matrix of the current face analyzed. 
 
 \subsection{Fisherfaces method}
 
-The Fisherfaces method is an improved version of the Eigenfaces method that uses Linear Discriminant Analysis (LDA) rather than Principle Component Analysis (PCA) to find features that maximize the variance in the data. The problem with PCA is that it can consider variances in each picture, such as changing light sources as principle components and therefore not actually contain discriminating information about each face. To prevent this, Fisher's LDA method maximizes the ratio of between-class scatter 
+The Fisherfaces method is an improved version of the Eigenfaces method that uses Linear Discriminant Analysis (LDA) rather than Principle Component Analysis (PCA) to lower the dimensionality of the data and find features that maximize the variance in the data. The problem with PCA is that it can consider variances in each picture, such as changing light sources as principle components and therefore not actually contain discriminating information about each face. To prevent this, Fisher's LDA method maximizes the ratio of between-class scatter 
 \begin{equation}
 	\sum\limits_{i=1}^{c}N_{i}(\mu_{i}-\mu)(\mu_{i}-\mu)^T
 \end{equation}
@@ -33,28 +33,22 @@ and within-class scatter.
 	\sum\limits_{i=1}^{c}\sum\limits_{x_{j}\epsilon X_{i}}^{}(x_{j}-\mu_{i})(x_{j}-\mu_{i})^T
 \end{equation}
 Similar classes(faces) should therefore group together and dissimilar classes should be far away from each other.
-Fisherfaces should produce lower errors than the Eigenfaces method and also be better at recognising faces in varying lighting conditions and different facial expressions.\cite{Eigenfaces_vs_Fisherfaces}
+Fisherfaces should produce lower errors than the Eigenfaces method and also be better at recognising faces in varying lighting conditions and with different facial expressions.\cite{Eigenfaces_vs_Fisherfaces}
 
 \subsection{Local Binary Pattern Histogram}
 
-The local binary pattern histogram method uses the local feature of the face. First, the image is sliced into squares.
+The local binary pattern histogram method uses the local features of the face. First, the image is sliced into squares.
 To avoid problems of scale, The neighbors of a pixel analyzed will be the ones on a circle with a varying radius and this pixel as center.
 The intensity of the central pixel is then compared to the ones of its neighbors. (higher values become 1, lower ones become 0).
-We then compute the new value of the central pixel, being the sum of powers of two combined with the value of neighbor taken clockwise. The point is to spot particular patterns of neighbor such as edges, lines, corner, flat areas.
+We then compute the new value of the central pixel, being the sum of powers of two combined with the value of its neighbours taken clockwise. The point is to spot particular patterns of the neighbourhood such as edges, lines, corner, flat areas.
 
 
 The histograms are then added (and not merged) for each part of the image. The resulting vector is then compared to the vectors obtained during the training. A fixed number of the closest vectors to the resulting vector is chosen and the person assigned to the greater number of these vector will be associated with the initial image.
 
-
-\subsection{Advanced methods}
-
+\subsection{Neural Network}
 The previous methods use global representation and consider the image as a whole. They are called holistic methods. But today more advanced methods 
-have been developed like stated in \cite{literature_review} and \cite{FR_survey}.
-During the project we have worked on two of these methods.
-\subsubsection{Neural Network}
-As shown by M. J. Er \cite{RBF_NN} Neural Network can be used to recognize faces. This require a previous feature extraction to initialize the 
-network. Convolutional Neural Network (biologically-inspired Multilayer perceptron) are also popular for face recognition \cite{CNN}. We have 
+have been developed such as those stated in \cite{literature_review} and \cite{FR_survey}.
+As shown by M. J. Er \cite{RBF_NN} Neural Networks can be used to recognise faces. This requires a previous feature extraction to initialize the 
+network. Convolutional Neural Networks (biologically-inspired Multilayer perceptron) are also popular for face recognition \cite{CNN}. We have 
 therefore tried to create a Neural Network based on these methods but there is currently no specific libraries for face recognition using Neural 
-Network and we didn't manage to create our own Neural Network classifier within the deadline.
-
-\subsubsection{classifiers combination}
+Networks and we didn't manage to create our own Neural Network classifier within the deadline.
