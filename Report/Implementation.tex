@@ -82,6 +82,8 @@ To implement the methods we created three base class. The image handler(images.h
 	
 	\item The $Facial\_Recognizer$ is a base class. It has multiple virtual functions to make the interfaces universal. These functions are: train, load, save and predict. It has a validation part which tests the classifier with a set of images and saves the result of the validation into a cvs file.
 	
+	\item The $Eigenfaces$, $Fisherfaces$, $LBPH$ and $Combined\_Classifier$ methods all inherit from the $Facial\_Recognizer$ class.
+	
 	\item normalizer.h
 	The normaliser just reads the original image and gives back the normalised one. If the normalisation fails the original picture will be stored.
 	
