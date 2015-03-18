@@ -1,7 +1,7 @@
 \subsection{Normalisation and Haar feature-based cascade classifier}
 Preprocessing of the image is needed in order to have a good recognition rate. For this purpose we will use equalized gray images to ensure a better detection of faces during the normalisation. We use a Haar features-based cascade to detect the face.
 
-However, Haar will only recognise non-rotated faces. If we do not recognise a face at first, the face will be rotated and the same Haar process will be used until we recognize a face. Otherwise, we will say that no face was detected. Once a face is detected we'll again use Haar features to detect the eyes ,mouth and nose. The angle remaining to have the eyes or nose and mouth aligned is then used to have these features aligned. The face is then cropped to the dimensions of the face detected by Haar features and resized to a specified size, so that every picture has the same size.
+However, Haar will only recognise non-rotated faces. If we do not recognise a face at first, the face will be rotated and the same Haar process will be used until we recognize a face. Otherwise, we will say that no face was detected. Once a face is detected we will again use Haar features to detect the eyes, mouth and nose. The angle remaining to have the eyes or nose and mouth aligned is then used to have these features aligned. The face is then cropped to the dimensions of the face detected by Haar features and resized to a specified size, so that every picture has the same size.
 
 \subsection{Eigenfaces method}
 
