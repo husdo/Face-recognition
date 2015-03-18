@@ -87,6 +87,10 @@ To implement the methods we created three base class. The image handler(images.h
 	
 \end{itemize}
 
+\subsubsection{Neural Network}
+We have attempted to create a Neural Network based on the methods mentioned in the literature review but there is currently no specific libraries for face recognition using Neural 
+Networks and we didn't manage to create our own Neural Network classifier within the deadline.
+
 \subsubsection{Combined classifier}
 We recognised difference in classification rate for each classifier. But the methods misclassified for different pictures. Based on that, a new combined classifier was created. The hardest point was to rescale the confidence rate for each method. For equalisation, the confidence rates was converted to a percentage based on earlier tests. Then voting decision making is applied. If the best confidence is less than 60\% the classifier returns that the face is not recognizable.
 

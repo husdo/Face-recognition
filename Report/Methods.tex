@@ -5,7 +5,7 @@ However, Haar will only recognise non-rotated faces. If we do not recognise a fa
 
 \subsection{Eigenfaces method}
 
-The Eigenfaces method is based on a principal components analysis from a training set of images. To get those, each normalised image is translated into a vector. The principal components, the highest eigenvalue in the diagonalized correlation matrix (made out of the image and the mean values of the training set), will then be determined. After selecting the principal components (first eigenvectors called eigenfaces in this case), each image can be then be approximated with those weighed eigenfaces :
+The Eigenfaces method is based on a principal components analysis from a training set of images. To get those, each normalised image is translated into a vector. The principal components are associated with the highest eigenvalues in the diagonalized correlation matrix (constructed from the images and the mean values of the training set). After selecting the principal components (first eigenvectors called eigenfaces in this case), each image can be then be approximated with those weighted eigenfaces:
 \begin{equation}
 x \approx  \hat{x} = \bar{x} + E_{x} * W \textrm{, where } 
 \end{equation}
@@ -37,10 +37,10 @@ Fisherfaces should produce lower errors than the Eigenfaces method and also be b
 
 \subsection{Local Binary Pattern Histogram}
 
-The local binary pattern histogram method uses the local features of the face. First, the image is sliced into squares.
-To avoid problems of scale, The neighbors of a pixel analyzed will be the ones on a circle with a varying radius and this pixel as center.
-The intensity of the central pixel is then compared to the ones of its neighbors. (higher values become 1, lower ones become 0).
-We then compute the new value of the central pixel, being the sum of powers of two combined with the value of its neighbours taken clockwise. The point is to spot particular patterns of the neighbourhood such as edges, lines, corner, flat areas.
+The local binary pattern histogram method uses the local features of the face. First, the image is sliced into rectangles.
+The selected neighbours of a pixel will be on a circle around the analysed pixel. The radius of the circle can be changed in order to try to avoid scale problems.
+The intensity of the central pixel is then compared to the ones of its neighbours. (higher values become 1, lower ones become 0).
+We then compute the new value of the central pixel, being the sum of powers of two combined with the binary value of its neighbours taken clockwise. The point is to spot particular patterns of the neighbourhood such as edges, lines, corners and flat areas.
 
 
 The histograms are then added (and not merged) for each part of the image. The resulting vector is then compared to the vectors obtained during the training. A fixed number of the closest vectors to the resulting vector is chosen and the person assigned to the greater number of these vector will be associated with the initial image.
